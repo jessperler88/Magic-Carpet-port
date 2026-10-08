@@ -6,6 +6,7 @@
 // `p` a projectile the spell launches. The original tests "caster pointer above the pool base", i.e.
 // caster index != 0; things[0] is the scratch sentinel.
 #include "spells.h"
+#include "world_set.h"
 #include "mc_math.h"
 
 namespace {
@@ -701,15 +702,42 @@ void spell_thunderbolt_s54_update(Thing *t) { spell_cast_single(t, launch_thunde
 // spell_mana_magnet_s57_update_48c20
 void spell_mana_magnet_s57_update(Thing *t) { spell_cast_burst(t, launch_mana_magnet); }
 
-// spell_fire_wall_s60_update_48de0
-void spell_fire_wall_s60_update(Thing *t) { spell_cast_burst(t, launch_fire_wall); }
+// Hidden Worlds' Fire Wall launch (HIDDEN.EXE 0x58270): one homing shot aimed 0x2800 ahead, sound 0xf;
+// the statements in HIDDEN's order.
+void launch_fire_wall_hidden(Thing *t, Thing *c, const Pos *pos) {
+    Thing *p = thing_create(pos, 9, 0x10);
+    if (!p) return;
+    shot_add_caster_speed(p, c);
+    spell_projectile_origin(c, p);
+    shot_set_impact(p, 10, 0x35);
+    p->owner = c->owner;
+    shot_raise(p, c);
+    p->mana = t->mana;
+    p->damage = t->damage;
+    shot_take_aim(p, c);
+    shot_target_ahead(p, c, c->pitch, 0x2800);
+    shot_copy_angles(p, c);
+    sound_request(idx16(p), -1, 0xf);
+}
+
+// spell_fire_wall_s60_update_48de0. Hidden Worlds: a single launch on the first cast tick and mana
+// charged every tick (spell_cast_single), no burst loop.
+void spell_fire_wall_s60_update(Thing *t) {
+    if (world_hidden()) spell_cast_single(t, launch_fire_wall_hidden, true);
+    else                spell_cast_burst(t, launch_fire_wall);
+}
 
 // spell_reverse_speed_s63_update_48fa0
 void spell_reverse_speed_s63_update(Thing *t) { spell_cast_speed(t, -1); }
 
 // spell_update_shared_49140: the cast handler of spell 22; Table A also binds it to state 68, the
 // *phase 2* slot of that spell, so a level pickup of spell 22 can never be picked up.
-void spell_update_shared(Thing *t) { spell_cast_burst(t, launch_smart_bomb); }
+// The 1995 Table A (class 12 record 68 at CD 0x98790, same in HIDDEN) binds state 68 to the phase-2 pickup handler
+// (CD 0x56260 = spell_phase2_common), so there spell 22 can be picked up.
+void spell_update_shared(Thing *t) {
+    if (t->state == 0x44 && engine1995()) { spell_phase2_common(t); return; }
+    spell_cast_burst(t, launch_smart_bomb);
+}
 
 // spell_mini_fireball_update_492e0
 void spell_mini_fireball_update(Thing *t) { spell_cast_burst(t, launch_fireball); }

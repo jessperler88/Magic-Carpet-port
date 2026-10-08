@@ -48,6 +48,9 @@ void ui_draw_shutdown();
 // g_video_mode_flags and re-relocates every table (ui_sprite_lists_relocate_49de0). Call after
 // changing g_video_mode_flags.
 bool ui_draw_set_video_mode(const char *game_dir);
+// Port (world_set.h): reload the tables that come from a set-specific file (HUD sprites, the castle
+// building sprites) and the palette-derived colour cube after a data-set switch.
+bool ui_draw_reload_set_tables();
 // ui_sprite_lists_relocate_49de0: recompute the entry sizes of every loaded table for the current mode.
 void ui_sprite_lists_relocate();
 

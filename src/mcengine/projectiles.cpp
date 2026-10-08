@@ -3,6 +3,7 @@
 // docs/analysis/port_projectiles.md.
 #include "settings.h"
 #include "projectiles.h"
+#include "world_set.h"
 #include "level_features.h"   // castle_site_clear_at_pos_11be0
 #include "player.h"           // player_block, player_set_combat_music_timer_40b50
 #include "mc_math.h"
@@ -113,7 +114,7 @@ bool fly(Thing *t, Thing *&hit, Thing *&target) {
     hit = thing_find_collision(t);
     if (hit) {
         if ((hit->flags & 0x8000) && t->mana / 4 <= hit->mana && t->impact_cls == 10 &&
-            (t->impact_type == 1 || t->impact_type == 0x11)) {
+            (t->impact_type == 1 || t->impact_type == 0x11 || (t->impact_type == 0x35 && world_hidden()))) {   // HW: + 0x35
             reflect(t, hit, 0x2d);
             return false;
         }
@@ -163,6 +164,7 @@ void thing_turn_toward(Thing *a, Thing *b) {
 void projectile_record_hit_stats(Thing *t, Thing *hit, Thing *target) {
     switch (t->type) {
     case 0: case 1: case 3: case 7: case 8: case 9: case 0x13: break;
+    case 0x10: if (world_hidden()) break; return;           // Hidden Worlds (HIDDEN.EXE 0x52a00) counts Fire Wall shots
     default: return;
     }
     Thing *owner = thing_ref((int16_t)t->owner);
@@ -297,9 +299,17 @@ void projectile_homing_update(Thing *t) {
     thing_mark_delete(t);
 }
 
-// projectile_update_shared_44a40
+// projectile_update_shared_44a40. Hidden Worlds points the class-9 record 0x11 (the Fire Wall shot,
+// type 0x10) at a new handler (HIDDEN.EXE 0x54600): the same flight, then one explosion per tick at the
+// projectile (flags 0x10080: no area damage of its own), including the impact tick.
 void projectile_update_shared(Thing *t) {
+    const bool fire_wall_trail = t->state == 0x11 && world_hidden();
     projectile_fly_and_impact(t);
+    if (!fire_wall_trail || t->cls == 0) return;
+    Thing *e = thing_create(thing_pos(t), 10, 0);
+    if (!e) return;
+    e->flags |= 0x10080u;
+    e->owner = t->owner;
 }
 
 // projectile_type3_s3_update_44a50
@@ -674,7 +684,8 @@ int projectile_pick_target(Thing *t) {
         return 1;
     }
     case 0: case 3: case 4: case 0x10: case 0x12: case 0x13: {  // 0x46062
-        const unsigned cone = 0x71;
+        // Hidden Worlds (HIDDEN.EXE 0x54bb0): type 0x10 has its own copy of this case with cone 0x100
+        const unsigned cone = (t->type == 0x10 && world_hidden()) ? 0x100 : 0x71;
         const Thing *owner = thing_ref((int16_t)t->owner);
         for (uint32_t i = g_cfg->player_list; i != 0 && i < (uint32_t)thing_pool_slots(); i = thing_at(i)->next) {
             Thing *o = thing_at(i);

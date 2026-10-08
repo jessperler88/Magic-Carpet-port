@@ -5,6 +5,7 @@
 /extracted/
 # Ghidra database, decompiler output, string dumps, FID databases, logs
 /ghidra/project/
+/ghidra/project_hw/
 /ghidra/export/*
 !/ghidra/export/carpet_functions.csv
 /ghidra/export_prev/

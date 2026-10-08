@@ -10,6 +10,7 @@
 #include "terrain.h"
 #include "mc_globals.h"
 #include "mc_math.h"
+#include "world_set.h"
 #include "gen/terrain_tables.h"
 #include <cstring>
 
@@ -308,23 +309,52 @@ void terrain_mark_interior(int max_h, int max_range) {
 // terrain_mark_steep_31ad0(min_range): flags copied to g_map_type (scratch); non-water cells with a
 // cross range >= min_range become 6. Then a class-6 cell whose 8 neighbours mix classes becomes 1:
 // with a 3 present any 2/5/4 neighbour qualifies, without a 3 either a 2 or both 5 and 4.
+// Hidden Worlds (HIDDEN.EXE 0x33570, world_hidden()): steep cells become 1 instead of 6 (class 6 is
+// snow there, terrain_mark_snow) and the second pass, which then selects cells == 1 and writes 1,
+// changes nothing.
+static void steep_to_cliff_edge(unsigned i, uint8_t x, uint8_t y);
+
 void terrain_mark_steep(int min_range) {
+    const bool hidden = world_hidden();
     std::memcpy(g_map_type, g_map_flags, MC_MAP_CELLS);
     for (unsigned i = 0; i < MC_MAP_CELLS; ++i) {
         int range = cross_range((uint8_t)i, (uint8_t)(i >> 8));
-        if (g_map_flags[i] != 0 && range >= (int)(uint8_t)min_range) g_map_flags[i] = 6;
+        if (g_map_flags[i] != 0 && range >= (int)(uint8_t)min_range) g_map_flags[i] = hidden ? 1 : 6;
+    }
+    if (hidden) return;
+    for (unsigned i = 0; i < MC_MAP_CELLS; ++i) {
+        if (g_map_flags[i] != 6) continue;
+        steep_to_cliff_edge(i, (uint8_t)i, (uint8_t)(i >> 8));
+    }
+}
+
+// The second pass of terrain_mark_steep_31ad0 (and of Hidden Worlds' terrain_mark_snow) for one class-6
+// cell: it becomes 1 when its 8 neighbours mix classes.
+static void steep_to_cliff_edge(unsigned i, uint8_t x, uint8_t y) {
+    int c3 = 0, c2 = 0, c5 = 0, c4 = 0;
+    auto cnt = [&](unsigned nx, unsigned ny) { uint8_t f = F(nx, ny); c3 += f == 3; c2 += f == 2; c5 += f == 5; c4 += f == 4; };
+    cnt(x, y - 1); cnt(x + 1, y - 1); cnt(x + 1, y); cnt(x + 1, y + 1);
+    cnt(x, y + 1); cnt(x - 1, y + 1); cnt(x - 1, y); cnt(x - 1, y - 1);
+    bool set;
+    if (c3) set = c2 || c5 || c4;
+    else    set = c2 || (c5 && c4);
+    if (set) g_map_flags[i] = 1;
+}
+
+// Hidden Worlds only (HIDDEN.EXE 0x31c10, called by terrain_build right after terrain_mark_steep):
+// cells higher than snlin whose cross range is below snflt become class 6 (snow); then snow cells
+// whose neighbours mix classes become 1, with terrain_mark_steep's rule. No RNG. The copy into
+// g_map_type is dead (cleared two calls later) but kept as the original does it.
+void terrain_mark_snow(int snlin, int snflt) {
+    std::memcpy(g_map_type, g_map_flags, MC_MAP_CELLS);
+    for (unsigned i = 0; i < MC_MAP_CELLS; ++i) {
+        if (g_map_height[i] <= (uint8_t)snlin) continue;
+        int range = cross_range((uint8_t)i, (uint8_t)(i >> 8));
+        if (g_map_flags[i] != 0 && range < (int)(uint8_t)snflt) g_map_flags[i] = 6;
     }
     for (unsigned i = 0; i < MC_MAP_CELLS; ++i) {
         if (g_map_flags[i] != 6) continue;
-        uint8_t x = (uint8_t)i, y = (uint8_t)(i >> 8);
-        int c3 = 0, c2 = 0, c5 = 0, c4 = 0;
-        auto cnt = [&](unsigned nx, unsigned ny) { uint8_t f = F(nx, ny); c3 += f == 3; c2 += f == 2; c5 += f == 5; c4 += f == 4; };
-        cnt(x, y - 1); cnt(x + 1, y - 1); cnt(x + 1, y); cnt(x + 1, y + 1);
-        cnt(x, y + 1); cnt(x - 1, y + 1); cnt(x - 1, y); cnt(x - 1, y - 1);
-        bool set;
-        if (c3) set = c2 || c5 || c4;
-        else    set = c2 || (c5 && c4);
-        if (set) g_map_flags[i] = 1;
+        steep_to_cliff_edge(i, (uint8_t)i, (uint8_t)(i >> 8));
     }
 }
 
@@ -504,6 +534,7 @@ void terrain_build(const GenMap &gen) {
     terrain_insert_transitions();
     terrain_mark_interior((uint16_t)gen.bhlin, (uint16_t)gen.bhflt);
     terrain_mark_steep((uint16_t)gen.rkste);
+    if (world_hidden()) terrain_mark_snow((uint16_t)gen.snlin, (uint16_t)gen.snflt);   // Hidden Worlds
     terrain_flags_fill_holes();
     std::memset(g_map_type, 0, MC_MAP_CELLS);
     terrain_smooth_spikes();

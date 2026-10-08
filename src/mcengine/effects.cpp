@@ -8,6 +8,7 @@
 // done"; Thing.home.x / .y (+0x96 / +0x98) double as a signed x / y velocity for everything that
 // rolls (mana balls, lava blobs, type 0x2c).
 #include "effects.h"
+#include "world_set.h"
 #include "constructors.h"   // mana_ball_update_sprite
 #include "terrain_paint.h"
 #include "level_features.h"
@@ -378,7 +379,8 @@ void effect_lava_blob_update(Thing *t) {
 // effect_meteor_s17_update_24630 (state 0x11): the impact of a meteor / lava bomb. A shock wave of
 // explosions (type 0, no area damage of their own) on ring aux, damage / max_health dealt to
 // everything within 0xc0 * aux; aux runs 0, 2, 4, .. modulo 11.
-void effect_meteor_update(Thing *t) {
+// The ring modulus is the only difference to Hidden Worlds' Fire Wall impact (effect_fire_pillar_update).
+static void shock_ring_update(Thing *t, int modulus) {
     if (life_expired(t)) {
         thing_mark_delete(t);
         return;
@@ -406,8 +408,10 @@ void effect_meteor_update(Thing *t) {
             c->aux = 0;
         }
     }
-    t->aux = (int16_t)((int16_t)(t->aux + 2) % 0xb);
+    t->aux = (int16_t)((int16_t)(t->aux + 2) % modulus);
 }
+
+void effect_meteor_update(Thing *t) { shock_ring_update(t, 0xb); }
 
 // effect_type18_s18_update_24810 (state 0x12): the crater a volcano leaves, which keeps erupting.
 // aux is its clock: at 0 it registers as *the* erupting volcano (GameState+0x24; the previous one is
@@ -927,7 +931,8 @@ void effect_castle_raise_terrain_update(Thing *t) {
                 uint8_t f = g_map_flags[c];
                 if (f & 8) g_map_flags[c] = (uint8_t)((f | 0x80) & 0xf7);
             }
-        thing_ref(t->caster)->cast_ticks = 2;
+        // 1995 (CD 0x28cc4): step 5, so the castle then levels its ground (effect 0x29) first
+        thing_ref(t->caster)->cast_ticks = engine1995() ? 5 : 2;
         thing_mark_delete(t);
         return;
     }
@@ -1104,7 +1109,10 @@ void effect_hatch_update(Thing *t) {
 // fires (type 6, no smoke, no area damage of their own, sprite + 7) on the centre quad and ring 1,
 // each one 0x80 higher than the tick before; the first tick's fires last 14 ticks, the others 1.
 // damage / max_health is dealt to everything in a 0x200 x 0x800 box every tick.
+// Hidden Worlds (HIDDEN.EXE 0x29780): the handler is effect_meteor_update's body with the ring
+// modulus 7 (life 6 from effect_create_type53: rings 0, 2, 4, 6, 1, 3, 5).
 void effect_fire_pillar_update(Thing *t) {
+    if (world_hidden()) { shock_ring_update(t, 7); return; }
     bool dead = life_expired(t);
     if (!dead) {
         thing_set_extents(t, 0x200, 0x800);

@@ -3,6 +3,7 @@
 // level_finish_3d4e0, player_compute_level_stats_3ef10, video_toggle_resolution_33600 (game-state half).
 // Report: docs/analysis/port_game.md. The level load itself is sim_load_level (= engine_load_level).
 #include "game.h"
+#include "world_set.h"
 #include "sim.h"
 #include "player.h"
 #include "input.h"
@@ -214,7 +215,10 @@ void game_level_end() {
             if (r.status & 2) {
                 r.status = 2;
                 player_compute_level_stats();
-                g_cfg->level++;                             // campaign progress: the next level
+                // campaign progress: the next level (port: base level 50 continues with Hidden Worlds
+                // level 1 when it is installed, world_set.h)
+                if (g_cfg->flags & 0x10) g_cfg->level++;
+                else g_cfg->level = (uint16_t)world_campaign_next(g_cfg->level);
             } else {
                 r.status = 8;
             }

@@ -25,6 +25,12 @@
 // logic, sim_load_level(level), demo_open(<ref>, movie), demo_step per tick. Afterwards the level
 // generation itself is checked: a fresh sim_load_level(level) + one game_tick_sim() (idle local
 // input) against tick00001.gam, the original's state after the first tick of the generated level.
+//
+// 1995 references (tools/reference/run_level_hw.py, docs/analysis/port_reference_hw.md): HIDDEN.EXE /
+// the CD's CARPET.EXE dump 0x38d09-byte states (6 bytes after spells_present, zero in the dumps); the
+// first 0x38d03 bytes are compared, a 0x38d09-byte snapshot is played from a truncated scratch copy, and
+// index.json "port_level" (100 + DDLEVELS entry) is the level the port loads. Suite mode runs them only
+// in a directory without 1996 references (extracted/reference/hw_gen, cd95_gen).
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -93,15 +99,28 @@ struct SlotDiv {
     int link_tick = 0;         // first tick at which only the list links differ
 };
 
+static constexpr size_t kState1995Size = 0x38d09;   // GameState dump of the 1995 CARPET.EXE / HIDDEN.EXE
+static bool g_ref_1995 = false;                      // a dump of that size was loaded
+// The 1995 executables leave bytes of an older string behind the NUL of PlayerRec.name ("Zanzamar\0rah"):
+// per instance, outside the checksum; ignored for their references.
+static bool ignore_player_byte(const uint8_t *ref_rec, int k) {
+    const int name = (int)offsetof(PlayerRec, name);
+    if (!g_ref_1995 || k < name || k >= name + (int)sizeof(PlayerRec::name)) return false;
+    return std::memchr(ref_rec + name, 0, (size_t)(k - name)) != nullptr;
+}
+
 static bool load_ref(const std::string &dir, int tick, GameState *out) {
     char name[64];
     std::snprintf(name, sizeof name, "tick%05d.gam", tick);
     std::string path = dir + "/" + name;
     mc_blob b;
     if (!mc_read_file(path.c_str(), &b)) return false;
-    bool ok = b.len == sizeof(GameState);
+    // Hidden Worlds (tools/reference/run_level_hw.py): the 1995 executables dump 6 more bytes after
+    // spells_present (0x38d09); the common 0x38d03 bytes are compared.
+    bool ok = b.len == sizeof(GameState) || b.len == kState1995Size;
     if (ok) {
         std::memcpy(out, b.data, sizeof(GameState));
+        if (b.len == kState1995Size) g_ref_1995 = true;
         ok = thing_relink_snapshot(out);
     }
     mc_blob_free(&b);
@@ -160,7 +179,7 @@ static int compare_states_brief(const GameState &ref, const char *what) {
         const uint8_t *b = reinterpret_cast<const uint8_t *>(&g_state->players[p]);
         pl[p] = '=';
         for (int k = 0; k < (int)sizeof(PlayerRec); k++) {
-            if (a[k] == b[k]) continue;
+            if (a[k] == b[k] || ignore_player_byte(a, k)) continue;
             if (trace) std::printf("  gen player %d +%#x (P+%#x) %02x/%02x\n", p, k, k - 0x44f, a[k], b[k]);
             pl[p] = 'x';
         }
@@ -239,13 +258,24 @@ int main(int argc, char **argv) {
         int found = 0, failed = 0;
         // levelNN/ of run_level.py and (round 6) the scripted-player recordings of run_player.py: every
         // subdirectory whose index.json names a level, in name order.
-        std::vector<std::string> subs;
+        std::vector<std::string> subs, subs1995;
         std::error_code ec;
         for (const auto &e : std::filesystem::directory_iterator(ref_dir, ec)) {
             if (!e.is_directory()) continue;
             std::string sub = "/" + e.path().filename().string();
-            if (index_int(ref_dir + sub, "level", -1) >= 0) subs.push_back(sub);
+            if (index_int(ref_dir + sub, "level", -1) < 0) continue;
+            // References of the 1995 executables (run_level_hw.py: index.json state_size 0x38d09) run only
+            // in a directory that holds nothing else (extracted/reference/hw_gen, cd95_gen): next to the
+            // 1996 references (extracted/reference) they are not part of that gate.
+            if (index_int(ref_dir + sub, "state_size", (int)sizeof(GameState)) == (int)kState1995Size)
+                subs1995.push_back(sub);
+            else
+                subs.push_back(sub);
         }
+        if (subs.empty()) subs.swap(subs1995);
+        else if (!subs1995.empty())
+            std::printf("note: %zu reference(s) of the 1995 executables skipped (run them as their own suite or "
+                        "one by one)\n", subs1995.size());
         std::sort(subs.begin(), subs.end());
         for (const std::string &sub : subs) {
             found++;
@@ -279,6 +309,9 @@ int main(int argc, char **argv) {
     // Level mode: index.json of a run_level.py reference names the level and the recording.
     const int level = index_int(ref_dir, "level", -1);
     const int movie = level >= 0 ? index_int(ref_dir, "movie", 20000 + level) : 0;
+    // Hidden Worlds references (run_level_hw.py --exe hidden): "level" is the DDLEVELS entry k given to
+    // HIDDEN.EXE's -level, "port_level" the port's campaign index (100 + k, world_set.h) that loads it.
+    const int load_level = level >= 0 ? index_int(ref_dir, "port_level", level) : level;
     const int first_tick = level >= 0 ? index_int(ref_dir, "first_tick", 2) : 413;
     // gen_only (run_level.py --gen-only): only the level-generation check (tick00001.gam + the snapshot pair).
     const bool gen_only = level >= 0 && index_int(ref_dir, "gen_only", 0) != 0;
@@ -290,7 +323,9 @@ int main(int argc, char **argv) {
         return 0;
     }
     if (level >= 0)
-        std::printf("level mode: level %d, recording movie/mvi%05d.dat, first dump tick %d\n", level, movie, first_tick);
+        std::printf("level mode: level %d%s, recording movie/mvi%05d.dat, first dump tick %d\n", level,
+                    load_level != level ? (" (port level " + std::to_string(load_level) + ")").c_str() : "", movie,
+                    first_tick);
 
     // A projectile that hit nothing stores (NULL - &things[0]) / 0xa4 (signed, low 16 bits) in its
     // impact effect's target: depends on where the reference run's pool lay (first seen at tick 1196).
@@ -307,14 +342,44 @@ int main(int argc, char **argv) {
     std::filesystem::create_directories(std::filesystem::path(qs_dir) / "movie", qs_ec);
     std::filesystem::remove(std::filesystem::path(qs_dir) / "movie" / "gam10000.dat", qs_ec);
     demo_set_record_dir(qs_dir.c_str());
+    // A 1995 recording's snapshot gam<movie>.dat is 0x38d09 bytes, which the port's demo_load_state does not
+    // take: its 0x38d03-byte head (the 6 extra bytes were zero in every 1995 dump so far) goes into a scratch
+    // movie directory together with the recording and the terrain snapshot.
+    std::string movie_dir = ref_dir;
+    if (level >= 0 && !gen_only) {
+        char gname[64];
+        std::snprintf(gname, sizeof gname, "/movie/gam%05d.dat", movie);
+        mc_blob g{};
+        if (mc_read_file((ref_dir + gname).c_str(), &g) && g.len == kState1995Size) {
+            namespace fs = std::filesystem;
+            const fs::path tmp = fs::temp_directory_path() / "mc_reference_test_1995";
+            std::error_code ec;
+            fs::create_directories(tmp / "movie", ec);
+            for (const char *k : {"mvi", "map"}) {
+                char n[64];
+                std::snprintf(n, sizeof n, "%s%05d.dat", k, movie);
+                fs::copy_file(fs::path(ref_dir) / "movie" / n, tmp / "movie" / n, fs::copy_options::overwrite_existing, ec);
+            }
+            if (FILE *fp = std::fopen((tmp.string() + gname).c_str(), "wb")) {
+                std::fwrite(g.data, 1, sizeof(GameState), fp);
+                std::fclose(fp);
+            }
+            int extra = 0;
+            for (size_t i = sizeof(GameState); i < g.len; i++) extra |= g.data[i];
+            std::printf("1995 snapshot: playing from %s (6 extra bytes %s)\n", tmp.string().c_str(),
+                        extra ? "NON-ZERO" : "zero");
+            movie_dir = tmp.string();
+        }
+        mc_blob_free(&g);
+    }
     auto start_playback = [&]() -> int {
         g_cfg->flags = 0x100; g_cfg->paused = 0;
         sim_prepare_movie();
         // The original's play run: `-level L` generates the level, then the first tick loads the snapshot.
         level_reset_config_local();
         ref_force_pool();
-        if (!sim_load_level(level)) { std::printf("sim_load_level(%d) failed\n", level); return 2; }
-        if (!gen_only && !demo_open(ref_dir.c_str(), movie)) {
+        if (!sim_load_level(load_level)) { std::printf("sim_load_level(%d) failed\n", load_level); return 2; }
+        if (!gen_only && !demo_open(movie_dir.c_str(), movie)) {
             std::printf("%s/movie/mvi%05d.dat missing\n", ref_dir.c_str(), movie);
             return 2;
         }
@@ -513,7 +578,7 @@ int main(int argc, char **argv) {
             const uint8_t *a = reinterpret_cast<const uint8_t *>(&ref.players[p]);
             const uint8_t *b = reinterpret_cast<const uint8_t *>(&g_state->players[p]);
             int off = -1;
-            for (int k = 0; k < (int)sizeof(PlayerRec); k++) if (a[k] != b[k]) { off = k; break; }
+            for (int k = 0; k < (int)sizeof(PlayerRec); k++) if (a[k] != b[k] && !ignore_player_byte(a, k)) { off = k; break; }
             pl[pn++] = off < 0 ? '=' : 'x';
             if (off >= 0 && !first_player_tick[p]) { first_player_tick[p] = tick; first_player_off[p] = off; }
         }
@@ -585,7 +650,7 @@ int main(int argc, char **argv) {
             g_cfg->flags = 0x100;                    // the record run: -roll with flags |= 0x100
             sim_prepare_movie();
             level_reset_config_local();
-            if (sim_load_level(level)) {
+            if (sim_load_level(load_level)) {
                 game_tick_sim();
                 gen_diff = compare_states_brief(ref, "level generation + tick 1");
                 // The recording's map file is the terrain at tick 2 (one tick later; terrain rarely changes

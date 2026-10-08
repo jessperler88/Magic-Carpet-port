@@ -5,6 +5,7 @@
 #include "creatures2.h"
 #include "constructors.h"     // crab_update_mana_sprite_36ac0
 #include "mc_math.h"
+#include "world_set.h"
 
 namespace {
 
@@ -237,6 +238,7 @@ void creature_kraken_s37_update(Thing *t) {
 // than the sight radius -> 37, else sound 0x25 and a burst of 5 shots (castle_size), one per tick.
 void creature_kraken_s38_update(Thing *t) {
     const int base = 0x24;
+    if (engine1995()) t->speed_cur = 0x1e;                         // 1995 (CD 0x1c501): speed 30 on entry
     switch (creature_apply_damage(t)) {
     case 2:
         thing_set_state(t, base + 4);
@@ -285,6 +287,7 @@ void creature_kraken_s38_update(Thing *t) {
 // creature_kraken_s39_update_1b390
 void creature_kraken_s39_update(Thing *t) {
     creature_follow_leader(t, 0x24);
+    if (engine1995()) t->speed_cur = 0x1e;                         // 1995 (CD 0x1c893)
     if (t->state == 0x26) creature_sound(t, 0x25);
 }
 

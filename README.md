@@ -14,6 +14,8 @@ and a translation of it to modern C++17 that runs natively on Windows x64 with S
   step / fast-forward, free and orbit cameras, headless runs with JSON dumps, desync tools.
 - The whole game works: front end, the 50-level campaign, sound effects, General MIDI or emulated OPL2 FM
   music, the intro / level movies, network play over TCP.
+- **Hidden Worlds**: the 25 levels of the *Magic Carpet Plus* expansion (snow worlds included) continue the
+  campaign after level 50, played exactly as the original `HIDDEN.EXE` plays them (see below).
 
 A sister project, **magic-carpet-conquest**, builds a new PvP RTS / RPG mode on top of this port
 (`docs/ROADMAP_PHASE4.md`). This repository stays the plain decompilation + port.
@@ -28,6 +30,23 @@ repository holds only original code, analysis and documentation. The game is sol
 folder - by default `MagicCarpet/magic/` next to `src/` (ignored by git), or anywhere via `-DMC_GAME_DIR=<dir>`.
 
 This is an unofficial fan project, not affiliated with or endorsed by Electronic Arts.
+
+### Hidden Worlds (optional)
+
+The GOG *Magic Carpet Plus* CD image also holds the Hidden Worlds expansion (`HIDDEN.EXE`, its own textures with
+snow, palette, sky, sprites and `ddlevels.dat`). Copy those files from your CD next to the game once:
+
+```
+python tools/port/install_hidden_worlds.py "C:/Games/MagicCarpet"     # reads the GOG CARPET.CD/game.gog image
+```
+
+(writes `<game>/hidden/`; a different source: `install_hidden_worlds.py <game> <image or extracted CARPET folder>`,
+or point `MC_HIDDEN_DIR` at an extracted CARPET folder). With the files present, winning base level 50 continues
+with Hidden Worlds level 1 ("Goyaan") and the outro plays after level 25; `mcport <game> play 100` .. `play 124`
+starts a Hidden Worlds level directly. Hidden Worlds levels run the expansion's changes (snow terrain pass, the
+reworked Fire Wall, ...) and the 1995 engine behaviour `HIDDEN.EXE` was built with (AI, castles); both are
+verified tick by tick against `HIDDEN.EXE` (`docs/analysis/hidden_worlds_re.md`, `port_hidden_engine1995.md`,
+`port_reference_hw.md`). Base levels are unaffected.
 
 ## Building (Windows)
 
@@ -57,11 +76,11 @@ its data or anything extracted from it.
 
 | Path | What |
 |---|---|
-| `src/` | The port: `mcdata` (C data layer), `mcengine` (the translated game, C++17, no SDL), `mcport` (SDL2 platform, the executable), `tests/` (59 ctest tests). |
+| `src/` | The port: `mcdata` (C data layer), `mcengine` (the translated game, C++17, no SDL), `mcport` (SDL2 platform, the executable), `tests/` (60 ctest tests). |
 | `tools/mctools/` | Python toolkit: RNC decoder, LE parser, level / sprite / tmaps / palette decoders, data extractor. |
 | `tools/port/` | Table generators run by the build (`gen_exe_tables.py`, `gen_dispatch.py`), OPL check, PPM to PNG. |
 | `tools/analysis/` | Helpers for the Ghidra export and the name files (see its README). |
-| `tools/reference/` | The reference harness: patches a *copy* of carpet.exe to dump its state per tick in DOSBox, and the diff / desync tools. |
+| `tools/reference/` | The reference harness: patches a *copy* of carpet.exe (or HIDDEN.EXE: `patch_hidden.py`, `run_level_hw.py`) to dump its state per tick in DOSBox, and the diff / desync tools. |
 | `ghidra/` | Ghidra scripts and the curated function / label / type names (`names/`); `export/carpet_functions.csv` is the function inventory. The Ghidra database and the decompiler output are not in the repository (rebuild them from your exe with the scripts). |
 | `docs/` | `ROADMAP.md` (plan + status), `ENGINE.md` (how carpet.exe works), `FORMATS.md` (data formats), `port/PORTING.md` (translation conventions), `analysis/` (per-subsystem reports), `ROADMAP_PHASE4.md` (the Conquest plan). |
 | `MagicCarpet/`, `extracted/`, `build*/` | Local only (git-ignored): your game copy, decoded data and reference dumps, build trees. |
@@ -126,7 +145,13 @@ extension and a custom Watcom calling-convention spec (`x86watcom.cspec`),
 Python 3.13 (`propack`, `pillow`, `pyghidra`), vcpkg with `sdl2:x64-windows`,
 Visual Studio 18 Build Tools, CMake 4.3.
 
-## Where things stand (2026-10-08, after port round 10 = Phase 4 round 1: debug suite + mode skeleton)
+## Where things stand (2026-10-08, Hidden Worlds)
+
+- The Hidden Worlds expansion is part of the campaign (campaign index 100 + k = `ddlevels.dat` entry k, data set 1 via
+  `mcengine/world_set.h`). All 25 levels generate byte-identically to `HIDDEN.EXE`, and idle-player playbacks of six
+  of them match it over 5000 ticks each; 60 ctest tests, base references identical.
+
+## Before that (2026-10-08, after port round 10 = Phase 4 round 1: debug suite + mode skeleton)
 
 - Round 10 (`docs/port/BRIEFING_round10.md`, reports `docs/analysis/port_{mode,console,inspect,timectl,desync}.md`),
   59 ctest tests, references identical:

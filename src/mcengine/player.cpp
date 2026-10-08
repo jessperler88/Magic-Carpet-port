@@ -8,6 +8,7 @@
 #include "gen/player_tables.h"
 #include "palette_fx.h"
 #include "net.h"
+#include "world_set.h"
 #include "tick_profile.h"
 #include <cstdio>
 #include <cstring>
@@ -603,6 +604,12 @@ start:
 // player_apply_controls_40e70
 void player_apply_controls(Thing *t) {
     PlayerBlock *P = player_block(t);
+    if (engine1995() && P->input_bits == 0x30) {
+        // 1995 (CD 0x46848): exactly "fire left + fire right" and nothing else (also what the 1995
+        // debug key 0x26 queues) sets the own castle's health to -1 and applies no controls.
+        if (P->castle != 0) thing_at(thing_wrap(P->castle))->health = -1;
+        return;
+    }
     P->accelerating = 0;
     int dir = 0;
     if ((P->input_bits & 1) && (int)P->target_speed < k_speed_max) dir = 1;
@@ -1100,7 +1107,10 @@ void player_commands_process() {
         case 0x13: { // chat: send. "RATTY" opens the cheat gate instead of being shown.
             PlayerMsg *m = &local_rec()->messages[p];
             auto is = [&](int i, char c) { return m->text[i] == c || m->text[i] == (char)(c + 0x20); };
-            if (is(0, 'R') && is(1, 'A') && is(2, 'T') && is(3, 'T') && is(4, 'Y')) {
+            // 1995 (CD 0x3d187): the word is "QUICK"
+            const bool gate = engine1995() ? (is(0, 'Q') && is(1, 'U') && is(2, 'I') && is(3, 'C') && is(4, 'K'))
+                                           : (is(0, 'R') && is(1, 'A') && is(2, 'T') && is(3, 'T') && is(4, 'Y'));
+            if (gate) {
                 m->ticks = 0;
                 m->arg = 0;
                 if (p == g_state->local_player) g_cfg->flags |= 0x8000;

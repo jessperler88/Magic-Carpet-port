@@ -10,6 +10,7 @@
 #include "ai_wizard.h"
 #include "player.h"
 #include "level_features.h"
+#include "world_set.h"
 #include "gen/ai_wizard_tables.h"
 #include <cstring>
 
@@ -45,7 +46,7 @@ inline void set_target(Thing *t, const Thing *target) {
 // The hover tail shared by the mode handlers: stop and move z toward target_z + 0x200 by the
 // descriptor's z step.
 void hover_toward(Thing *t, int target_z) {
-    player_block(t)->target_speed = 0;
+    if (!engine1995()) player_block(t)->target_speed = 0;      // 1995 (CD 0x1388a etc.): the speed is left alone
     int d = (int16_t)t->z - (target_z + 0x200);
     const MoveDesc *desc = mc_move_desc(t->desc);
     t->z = (int16_t)((int16_t)t->z + (int16_t)desc->z_step * isign(d));
@@ -181,7 +182,9 @@ int ai_can_afford_spell(Thing *t, int spell) {
 // ai_has_any_attack_spell_154e0
 int ai_has_any_attack_spell(const Thing *t) {
     return (ai_get_spell_thing(t, 0) || ai_get_spell_thing(t, 0xf) || ai_get_spell_thing(t, 8) ||
-            ai_get_spell_thing(t, 0x11) || ai_get_spell_thing(t, 7)) ? 1 : 0;
+            ai_get_spell_thing(t, 0x11) ||
+            (engine1995() && ai_get_spell_thing(t, 0x14)) ||           // 1995 (CD 0x16961): Fire Wall too
+            ai_get_spell_thing(t, 7)) ? 1 : 0;
 }
 
 // ai_spell_ready_14640(thing, spell): jump table 0x145f4 for spells 0..0x11, generic test above.
@@ -189,7 +192,10 @@ int ai_spell_ready(Thing *t, int spell) {
     spell &= 0xff;
     PlayerBlock *P = player_block(t);
     Thing *s;
-    switch (spell) {
+    // 1995 (CD 0x15a00, jump table 0x159ac for 0..0x14): Fire Wall (0x14) is tested as an aimed
+    // spell like 3 / 7 / 8 / 0x11; 1996 sends it to the generic test.
+    int kind = (spell == 0x14 && engine1995()) ? 3 : spell;
+    switch (kind) {
     case 2:                                                         // 0x1465f: speed-up, no cooldown test
         s = ai_get_spell_thing(t, spell);
         if (!s) return 0;
@@ -248,11 +254,17 @@ int ai_cast_spell(Thing *t, int spell) {
     spell &= 0xff;
     if (!ai_spell_ready(t, spell)) return 0;
     t->flags &= ~0x100u;                                            // left-hand cast flag
-    if (spell > 0x11) return 0;
+    // 1995 (CD 0x155f0, jump table 0x15590 for 0..0x14): 0x12 / 0x13 return 0 and Fire Wall (0x14)
+    // is an aimed single cast; speed-up (2) is refused while it runs (CD 0x158c7).
+    const bool e95 = engine1995();
+    if (spell > (e95 ? 0x14 : 0x11)) return 0;
+    if (e95 && (spell == 0x12 || spell == 0x13)) return 0;
     PlayerBlock *P = player_block(t);
     Thing *s = ai_get_spell_thing(t, spell);
     if (!s) return 0;
-    switch (spell) {
+    if (e95 && spell == 2 && s->cast_ticks != 0) return 0;
+    int kind = (e95 && spell == 0x14) ? 3 : spell;
+    switch (kind) {
     case 0: case 0xf: {                                             // 0x14287: fireball / lightning burst
         if (P->ai_burst < 0) return 0;
         if (t->mana < s->mana_total) return 0;
@@ -267,7 +279,9 @@ int ai_cast_spell(Thing *t, int spell) {
     case 3: case 7: case 8: case 0xb: case 0xd: case 0x11:          // 0x14398: aimed single casts
         if (t->mana < s->mana_total) return 0;
         if ((uint16_t)angle_diff(t->yaw, t->target_yaw) >= 0xe3) return 0;
-        P->spell_cooldown[spell] = g_ai_spell_cooldown_reload[spell];
+        // The 1995 reload table (CD 0x90034) differs from 1996's (0x938c4) only in entry 0x14
+        // (Fire Wall): 4 instead of 1. Only the 1995 code casts 0x14.
+        P->spell_cooldown[spell] = (e95 && spell == 0x14) ? 4 : g_ai_spell_cooldown_reload[spell];
         t->pitch = (uint16_t)pos_pitch_to(thing_pos(t), thing_pos(thing_ref(t->target)));
         s->cast_ticks = s->duration;
         return 1;
@@ -371,6 +385,7 @@ int ai_choose_attack_spell(Thing *t) {
         if (ai_rand() % 255 < P->ai_accuracy) return lightning_rung(t);
     }
     if (attack_spell_rung(t, 7, &out)) return out;
+    if (engine1995() && attack_spell_rung(t, 0x14, &out)) return out;   // 1995 (CD 0x1623b): Fire Wall
     if (attack_spell_rung(t, 0, &out)) return out;
     return lightning_rung(t);
 }
@@ -383,6 +398,7 @@ int ai_choose_castle_attack_spell(Thing *t) {
     if (attack_spell_rung(t, 0x11, &out)) return out;
     if (attack_spell_rung(t, 8, &out)) return out;
     if (attack_spell_rung(t, 7, &out)) return out;
+    if (engine1995() && attack_spell_rung(t, 0x14, &out)) return out;   // 1995 (CD 0x1646d): Fire Wall
     if (attack_spell_rung(t, 0, &out)) return out;
     return lightning_rung(t);
 }
@@ -399,6 +415,18 @@ int ai_approach_target(Thing *t, const Thing *target, int near_dist, int far_dis
         P->target_speed = 0;
         P->accelerating = 1;
         return 1;
+    }
+    if (engine1995()) {
+        // 1995 (CD 0x15470): while speed-up runs nothing is set (the spell's speed stays); beyond
+        // `far` it is cast when ready; otherwise cruise.
+        if (ai_spell_active(t, 2)) return 0;
+        if (d > far_dist && ai_spell_ready(t, 2)) {
+            ai_cast_spell(t, 2);
+            return 0;
+        }
+        P->target_speed = t->speed_base;
+        P->accelerating = 1;
+        return 0;
     }
     if (d > far_dist && ai_spell_ready(t, 2)) {
         if (!ai_spell_active(t, 2)) ai_cast_spell(t, 2);
@@ -462,7 +490,8 @@ void ai_record_threat_from_projectiles() {
         if (!target) continue;
         proj->flags |= 0x2000;
         int shooter_no = player_block(shooter)->player_no;
-        bool heavy = (proj->type >= 3 && proj->type <= 4) || proj->type == 0xb;
+        bool heavy = (proj->type >= 3 && proj->type <= 4) || proj->type == 0xb ||
+                     (proj->type == 0x10 && engine1995());          // 1995 (CD 0x165f5 / 0x16704): Fire Wall too
         bool seed = proj->type == 0xa;                              // castle seed: no threat added (0x1519f / 0x152aa jbe)
         if (target->cls == 3) {
             PlayerBlock *O = player_block(thing_ref(target->owner));
@@ -514,7 +543,9 @@ void ai_set_dodge_steer(Thing *t, const Thing * /*proj*/) {
 // meteor -> rebound else shield; shield-piercing types 4 / 9 -> shield.
 void ai_counter_projectile(Thing *t, const Thing *proj) {
     if (pos_dist_sq_xy(thing_pos(t), thing_pos(proj)) >= 0x100000) return;
-    switch (proj->type) {
+    int type = proj->type;
+    if (type == 0x10 && engine1995()) type = 0;                     // 1995 (CD 0x168c7): the Fire Wall projectile too
+    switch (type) {
     case 0: case 3:
         if (ai_spell_ready(t, 0xe)) { ai_cast_spell(t, 0xe); break; }
         if (ai_spell_ready(t, 4)) ai_cast_spell(t, 4);
@@ -608,6 +639,18 @@ int ai_goal_repair_castle(Thing *t) {
 // ai_goal_upgrade_castle_12df0
 int ai_goal_upgrade_castle(Thing *t) {
     Thing *castle = thing_or_null(player_block(t)->castle);
+    if (engine1995()) {
+        // 1995 (CD 0x14120): castle spell owned, not running, off cooldown, footprint clear,
+        // mana_total enough, castle in state 4. No castle-duration and no aim test.
+        if (!castle) return 0;
+        Thing *s = ai_get_spell_thing(t, 0x10);
+        if (!s || s->cast_ticks != 0 || player_block(t)->spell_cooldown[0x10] != 0) return 0;
+        if ((uint8_t)castle_footprint_clear(castle) == 0) return 0;
+        if (t->mana_total < s->mana_total) return 0;
+        if (castle->state != 4) return 0;
+        set_target(t, castle);
+        return 1;
+    }
     if (!castle || castle->state != 4 || castle->duration != 0) return 0;
     if (!ai_castle_spell_ready(t)) return 0;
     set_target(t, castle);
@@ -810,7 +853,7 @@ int ai_mode1_upgrade_castle(Thing *t) {
 // ai_mode3_fly_to_castle_site_12560: fly to Thing.home and found the castle.
 int ai_mode3_fly_to_castle_site(Thing *t) {
     t->target_yaw = (uint16_t)pos_angle_to(thing_pos(t), &t->home);
-    if (!ai_approach_target(t, nullptr, 0x800, 0x1000)) return 1;
+    if (!ai_approach_target(t, nullptr, 0x800, engine1995() ? 0xc00 : 0x1000)) return 1;   // 1995: CD 0x1390a
     if (ai_cast_spell(t, 0x10)) return 0;
     hover_toward(t, t->home.z);
     return 1;
@@ -825,7 +868,22 @@ int ai_mode4_approach_target(Thing *t) {
 }
 
 // ai_mode12_idle_12680: cast speed-up when ready, wait while it runs, else cruise.
+// The 1995 version (CD 0x13a10, also the no-castle tail of mode 11 at CD 0x13b45): nothing while
+// speed-up runs, else cast it when ready, else cruise; always returns 0.
+static int ai_idle_1995(Thing *t) {
+    if (ai_spell_active(t, 2)) return 0;
+    if (ai_spell_ready(t, 2)) {
+        ai_cast_spell(t, 2);
+        return 0;
+    }
+    PlayerBlock *P = player_block(t);
+    P->target_speed = t->speed_base;
+    P->accelerating = 1;
+    return 0;
+}
+
 int ai_mode12_idle(Thing *t) {
+    if (engine1995()) return ai_idle_1995(t);
     if (ai_spell_ready(t, 2)) {
         ai_cast_spell(t, 2);
         return 1;
@@ -852,6 +910,7 @@ int ai_mode11_return_home(Thing *t) {
         return ai_approach_target(t, castle, 0x100, 0x800) ? 0 : 1;
     }
     if (ai_spell_ready(t, 0xc)) ai_cast_spell(t, 0xc);
+    if (engine1995()) return ai_idle_1995(t);
     if (ai_spell_ready(t, 2)) {
         ai_cast_spell(t, 2);
         return 1;
@@ -873,7 +932,7 @@ int ai_mode6_collect_mana(Thing *t) {
     if (ai_cast_spell(t, 3)) {
         int a = pos_angle_to(thing_pos(t), thing_pos(target));
         if ((uint16_t)angle_diff(t->yaw, a & 0xffff) < 0x1c) target->mana_owner = t->owner;
-        return 0;
+        if (!engine1995()) return 0;                                // 1995 (CD 0x13c57): hover after the cast too
     }
     hover_toward(t, target->z);
     return 1;
@@ -898,7 +957,8 @@ int ai_mode8_attack_wizard(Thing *t) {
     Thing *target = thing_ref(t->target);
     if (!ai_target_valid(t, target)) return 0;
     t->target_yaw = (uint16_t)pos_angle_to(thing_pos(t), thing_pos(target));
-    if (!ai_approach_target(t, target, 0xd00, 0x1200)) return 1;
+    const bool e95 = engine1995();                                  // 1995 (CD 0x13e27): 0xc00 / 0x1000
+    if (!ai_approach_target(t, target, e95 ? 0xc00 : 0xd00, e95 ? 0x1000 : 0x1200)) return 1;
     PlayerBlock *P = player_block(t);
     if (P->ai_burst < 0) return 1;                                  // recovering: no hover (0x12b15 jl 0x12bc6)
     int spell = ai_choose_attack_spell(t);

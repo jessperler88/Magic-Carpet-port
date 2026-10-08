@@ -118,6 +118,15 @@ void ui_draw_shutdown() {
     }
 }
 
+bool ui_draw_reload_set_tables() {
+    const char *dir = s_game_dir.c_str();
+    load_table(g_ui_building, dir, "data/building");
+    const bool ok = load_hud_table(dir);
+    ui_sprite_lists_relocate();
+    ui_colour_cube_build(g_palette6);
+    return ok;
+}
+
 bool ui_draw_set_video_mode(const char *game_dir) {
     if (game_dir) s_game_dir = game_dir;
     bool ok = true;

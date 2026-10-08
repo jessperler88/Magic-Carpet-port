@@ -12,6 +12,7 @@
 // dummy player block there; player_spawn_3f360 sets the real one).
 #include "settings.h"
 #include "constructors.h"
+#include "world_set.h"
 #include "mc_math.h"
 #include "gen/constructors_tables.h"
 #include <cstring>
@@ -200,7 +201,8 @@ Thing *scenery_create_tree(const Pos *pos) {
     p.y = (uint16_t)((int16_t)p.y + (int32_t)(rng_next(t) & 0x3f) - 0x20);
     thing_link_cell(t, &p);
     thing_restore_health(t);
-    thing_set_sprite(t, (rng_next(t) & 1) ? 0x54 : 0x53);   // thing_set_sprite_small_352d0
+    // thing_set_sprite_small_352d0; Hidden Worlds (HIDDEN.EXE 0x37f80): always 0x53, no RNG draw
+    thing_set_sprite(t, world_hidden() ? 0x53 : ((rng_next(t) & 1) ? 0x54 : 0x53));
     return t;
 }
 
@@ -907,7 +909,11 @@ Thing *projectile_create_type15(const Pos *pos) {
     return t;
 }
 // projectile_create_type16_38510 (type 0x10 -> state 0x11)
-Thing *projectile_create_type16(const Pos *pos) { return projectile_create(pos, 0x10, 0x11, 0x180, 0x2000, 0x96ab0, 0x2a); }
+// Hidden Worlds' Fire Wall shot (HIDDEN.EXE 0x3a5f0): the homing MoveDesc 0x96a50 (index 2) and sprite 0x4c.
+Thing *projectile_create_type16(const Pos *pos) {
+    if (world_hidden()) return projectile_create(pos, 0x10, 0x11, 0x180, 0x2000, 0x96a50, 0x4c);
+    return projectile_create(pos, 0x10, 0x11, 0x180, 0x2000, 0x96ab0, 0x2a);
+}
 // projectile_create_type17_38590 (type 0x11 -> state 0x12)
 Thing *projectile_create_type17(const Pos *pos) {
     return projectile_double_extents(projectile_create(pos, 0x11, 0x12, 0x180, 0x1000, 0x96a50, 0xd1));
@@ -1147,7 +1153,24 @@ Thing *effect_create_area(const Pos *pos, int type, int state, int life, int aux
 // effect_create_earthquake_38e80 (type 0xf)
 Thing *effect_create_earthquake(const Pos *pos) { return effect_create_area(pos, 0xf, 0xf, 0x80, 0, false); }
 // effect_create_type53_39b80 (type 0x35 -> state 0x3a)
-Thing *effect_create_type53(const Pos *pos) { return effect_create_area(pos, 0x35, 0x3a, 0x80, 0, true); }
+// Hidden Worlds (HIDDEN.EXE 0x3bc60): the Fire Wall impact = effect_create_meteor_38f10 with life 6
+// (no yaw draw, no flag 1, no extents; projectile_fly_and_impact sets the damage afterwards).
+Thing *effect_create_type53(const Pos *pos) {
+    if (world_hidden()) {
+        Thing *t = thing_alloc();
+        if (!t) return nullptr;
+        t->state = 0x3a;
+        t->cls = 10;
+        t->type = 0x35;
+        set_pos_raw(t, pos);
+        t->max_health = 6;
+        t->damage = 3000;
+        t->flags &= ~8u;
+        thing_restore_health(t);
+        return t;
+    }
+    return effect_create_area(pos, 0x35, 0x3a, 0x80, 0, true);
+}
 // effect_create_type54_39c10 (type 0x36 -> state 0x3b)
 Thing *effect_create_type54(const Pos *pos) { return effect_create_area(pos, 0x36, 0x3b, 0x80, 0, true); }
 // effect_create_type55_39ca0 (type 0x37 -> state 0x3c)
@@ -1462,8 +1485,10 @@ constexpr SpellParams kSpells[24] = {
     {0x3a6f0, 0x16, 0x42, 0x124f8, 0x65, 1, 0, 0x30d40, 0x1b58},    // spell_create_smart_bomb_3a6f0
     {0x3a720, 0x17, 0x45, 0x258,   3,    0, 0, 0xc350,  0x32},      // spell_create_mini_fireball_3a720
 };
+// Hidden Worlds' Fire Wall (HIDDEN.EXE 0x3c730): 26 ticks, cost 0xea60, damage 0x1388.
+constexpr SpellParams kFireWallHidden = {0x3a690, 0x14, 0x3c, 0x1388, 0x1a, 1, 0, 0xea60, 0x1388};
 template <int N> Thing *spell_create_stub(const Pos *pos) {
-    const SpellParams &s = kSpells[N];
+    const SpellParams &s = (N == 20 && world_hidden()) ? kFireWallHidden : kSpells[N];
     return spell_create_common(pos, s.type, s.state, s.total_mana, s.levels, s.flags, s.unk3e, s.cost, s.damage);
 }
 

@@ -13,6 +13,7 @@
 #include "player.h"
 #include "demo.h"
 #include "mode.h"
+#include "world_set.h"
 #include "mcfile.h"
 #include "rnc.h"
 #include <cstdio>
@@ -23,9 +24,20 @@ static std::string s_game_dir;
 
 const char *sim_game_dir() { return s_game_dir.c_str(); }
 
+// port: the simulation's data from set-specific files after a data-set switch (world_set.h): the
+// sprite extents sprite_table_init_sizes_4bd10 completes from tmaps (from the exe table again) and the
+// castle footprints (building.*).
+static void sim_world_set_changed(int /*set*/) {
+    std::memcpy(g_sprite_desc, g_sprite_desc_data, sizeof g_sprite_desc);
+    sprite_table_init_sizes(s_game_dir.c_str());
+    level_features_load_data(s_game_dir.c_str());
+}
+
 bool sim_init(const char *game_dir) {
     s_game_dir = game_dir;
     mc_globals_init();
+    world_set_init(game_dir, nullptr);                  // port: base data set; Hidden Worlds dir = <game>/hidden
+    g_hook_world_set_sim = sim_world_set_changed;
     if (!sprite_table_init_sizes(game_dir)) { std::fprintf(stderr, "sim: data/tmaps.dat missing in %s\n", game_dir); return false; }
     if (!level_features_load_data(game_dir)) { std::fprintf(stderr, "sim: data/building.* or search.dat missing\n"); return false; }
     text_load(game_dir, g_cfg->language & 3);           // the on-screen notices (missing file: empty strings)
@@ -107,8 +119,11 @@ bool sim_load_level_data(const LevelData &data, int index) {
 bool sim_load_level(int index) {
     if (g_hook_level_source) {
         static LevelData s_src;
-        if (g_hook_level_source(index, &s_src)) return sim_load_level_data(s_src, index);
+        if (g_hook_level_source(index, &s_src)) { world_set_select(0); return sim_load_level_data(s_src, index); }
     }
+    // port: Hidden Worlds campaign levels (world_set.h) load DDLEVELS with the set-1 data files.
+    if (!world_set_select(world_set_for_level(index))) return false;
+    const int file_index = world_level_file_index(index);
     char path[1024];
     mc_blob tab, dat;
     mc_path_join(path, sizeof path, s_game_dir.c_str(), "levels/levels.tab");
@@ -117,10 +132,10 @@ bool sim_load_level(int index) {
     if (!mc_read_file(path, &dat)) { mc_blob_free(&tab); return false; }
     bool ok = false;
     size_t n = tab.len / 4;
-    if (index >= 0 && (size_t)index + 1 < n) {
+    if (file_index >= 0 && (size_t)file_index + 1 < n) {
         uint32_t a, b;
-        std::memcpy(&a, tab.data + index * 4, 4);
-        std::memcpy(&b, tab.data + (index + 1) * 4, 4);
+        std::memcpy(&a, tab.data + file_index * 4, 4);
+        std::memcpy(&b, tab.data + (file_index + 1) * 4, 4);
         if (b <= a) b = (uint32_t)dat.len;
         if (a < dat.len && b <= dat.len) {
             level_reset_state();

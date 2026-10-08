@@ -11,6 +11,7 @@
 #include "player.h"
 #include "level_features.h"
 #include "mc_math.h"
+#include "world_set.h"
 #include <cstring>
 
 // The original reaches the owner's player block as things[(i16)castle.owner].player (`movsx` of
@@ -123,6 +124,18 @@ void castle_spill_mana(Thing *t) {
         t->mana -= ball->mana;
         excess -= ball->mana;
         if (excess < per) per = excess;
+    }
+    if (!engine1995()) return;
+    // 1995 (CD 0x4735e..0x473ca): four effects 0x36 (state 0x3b) around the castle, each at a random
+    // yaw and distance 0x1900, owned by the castle's owner.
+    for (int k = 0; k < 4; k++) {
+        g_pos_scratch = *thing_pos(t);
+        Thing *e = thing_create(&g_pos_scratch, 10, 0x36);
+        if (!e) continue;
+        e->owner = t->owner;
+        t->rng = mc_lcg(t->rng);
+        math_rotate_offset(&g_pos_scratch, (int)(t->rng & 0x7ff), 0, 0x1900);
+        thing_move_to(e, &g_pos_scratch);
     }
 }
 

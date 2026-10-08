@@ -60,7 +60,33 @@ long mc_load_rnc_into(const char *path, uint8_t *dest, size_t cap) {
     return n;
 }
 
+/* Data-set redirect (mc_set_data_redirect): NULL-terminated from/to pairs, matched case-insensitively
+ * with either slash. */
+static char s_redirect_dir[1024];
+static const char *const *s_redirect_pairs = NULL;
+
+void mc_set_data_redirect(const char *dir, const char *const *pairs) {
+    if (!dir || !pairs) { s_redirect_dir[0] = 0; s_redirect_pairs = NULL; return; }
+    snprintf(s_redirect_dir, sizeof s_redirect_dir, "%s", dir);
+    s_redirect_pairs = pairs;
+}
+
+static int rel_equal(const char *a, const char *b) {
+    for (; *a && *b; a++, b++) {
+        char x = *a == '\\' ? '/' : *a, y = *b == '\\' ? '/' : *b;
+        if (x >= 'A' && x <= 'Z') x = (char)(x - 'A' + 'a');
+        if (y >= 'A' && y <= 'Z') y = (char)(y - 'A' + 'a');
+        if (x != y) return 0;
+    }
+    return *a == *b;
+}
+
 void mc_path_join(char *buf, size_t cap, const char *game_dir, const char *rel) {
+    if (s_redirect_pairs) {
+        for (const char *const *p = s_redirect_pairs; p[0] && p[1]; p += 2) {
+            if (rel_equal(rel, p[0])) { game_dir = s_redirect_dir; rel = p[1]; break; }
+        }
+    }
     snprintf(buf, cap, "%s/%s", game_dir, rel);
     for (char *c = buf; *c; c++) if (*c == '\\') *c = '/';
 }

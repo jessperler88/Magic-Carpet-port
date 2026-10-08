@@ -7,6 +7,7 @@
 // add more.
 #pragma once
 #include <cstdint>
+#include "world_set.h"
 
 enum GameStatus {
     GAME_RUNNING = 0,
@@ -76,7 +77,8 @@ void level_finish();
 // the save game stores). New campaign = fe_menu_new_or_resume_game_57480's "yes" branch.
 void game_campaign_new();
 int  game_campaign_level();                 // Config.level: the next level to play
-inline bool game_campaign_complete() { return game_campaign_level() == 50; }   // the front end shows the outro (state 10)
+// The front end shows the outro (state 10): Config.level == 50, or (port) past Hidden Worlds level 25.
+inline bool game_campaign_complete() { return world_campaign_complete(game_campaign_level()); }
 // Status of the last level loop (what game_level_tick returned when it ended), GAME_RUNNING while in
 // a level or before the first one.
 GameStatus game_last_result();

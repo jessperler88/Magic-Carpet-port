@@ -81,6 +81,7 @@
 #include "console.h"
 #include "debug_overlay.h"
 #include "inspect_tool.h"
+#include "world_set.h"
 #include <SDL.h>
 #include <cstdarg>
 #include <cstdio>
@@ -763,6 +764,15 @@ int main(int argc, char **argv) {
         if (const char *e = SDL_getenv("MC_MOVIE_DIR")) fli_set_movie_dir(e);
         else if (std::filesystem::is_directory(md, ec)) fli_set_movie_dir(md.lexically_normal().string().c_str());
         if (fli_movie_dir()[0]) mclog(MCLOG_INFO, "movies: %s", fli_movie_dir());
+        // Hidden Worlds (world_set.h): MC_HIDDEN_DIR, else <game>/hidden (tools/port/install_hidden_worlds.py),
+        // else the CD's CARPET folder extracted to <game>/../../extracted/gog_cd/CARPET.
+        if (!SDL_getenv("MC_HIDDEN_DIR")) {
+            std::filesystem::path hd = std::filesystem::path(s_game) / "hidden";
+            std::filesystem::path cd = std::filesystem::path(s_game) / ".." / ".." / "extracted" / "gog_cd" / "CARPET";
+            if (!std::filesystem::is_directory(hd, ec) && std::filesystem::is_directory(cd / "LEVELS", ec))
+                world_set_init(s_game.c_str(), cd.lexically_normal().string().c_str());
+        }
+        if (world_set_hidden_available()) mclog(MCLOG_INFO, "hidden worlds: %s (campaign continues after level 50; play 100..124)", world_set_hidden_dir());
     }
     void (*game_input)() = g_hook_player_local_input;
     g_hook_player_local_input = nullptr;      // only a played level reads the devices through the game

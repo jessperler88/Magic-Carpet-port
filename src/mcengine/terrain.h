@@ -19,7 +19,8 @@ void terrain_classify_flat(int threshold);                                 // 30
 void terrain_mark_lowland(int max_h, int max_range);                       // 31650
 void terrain_insert_transitions();                                         // 30c50
 void terrain_mark_interior(int max_h, int max_range);                      // 31800
-void terrain_mark_steep(int min_range);                                    // 31ad0
+void terrain_mark_steep(int min_range);                                    // 31ad0 (Hidden Worlds: 0x33570)
+void terrain_mark_snow(int snlin, int snflt);                              // Hidden Worlds only: HIDDEN.EXE 0x31c10
 void terrain_flags_fill_holes();                                           // 308f0
 void terrain_smooth_spikes();                                              // 30500
 void terrain_fix_shore_quads();                                            // 30810

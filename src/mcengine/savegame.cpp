@@ -2,6 +2,7 @@
 // See savegame.h for the record layout.
 #define _CRT_SECURE_NO_WARNINGS
 #include "savegame.h"
+#include "world_set.h"
 #include "frontend.h"
 #include "mc_globals.h"
 #include "demo.h"
@@ -14,6 +15,7 @@
 #include "settings.h"
 #include "projectiles.h"
 #include "mode.h"
+#include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
@@ -410,6 +412,13 @@ bool savestate_load_file(const char *path) {
     if (e && (!pool || pool_n != 4 + e * (sizeof(Thing) + 8) || get32(pool) != h.thing_slots)) {
         s_state_error = "pool chunk missing or of the wrong size";
         return false;
+    }
+
+    // port: a Hidden Worlds level (world_set.h) needs its data set before anything is restored.
+    {
+        uint16_t lvl;
+        std::memcpy(&lvl, conf + offsetof(Config, level), 2);
+        if (!world_set_select(world_set_for_level(lvl))) { s_state_error = "Hidden Worlds data not installed"; return false; }
     }
 
     // GameState in the port's form, except the first dword and the option bytes the user set

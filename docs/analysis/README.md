@@ -94,6 +94,8 @@ Their corrections are merged into `docs/ENGINE.md` under "Port round 4 correctio
 | `port_fli.md` | FLI players, cue scripts, subtitles, palette fades and effects. |
 | `port_game.md` | game_main's loop shape, status bits, pacing, campaign flow. |
 | `port_reference2.md` | Per-tick references of eight campaign levels and level generation of all 69. |
+| `port_reference_hw.md` | The same harness for the 1995 CD executables (HIDDEN.EXE, CARPET.EXE): Hidden Worlds dumps, 1995-vs-1996 control. |
+| `port_hidden_engine1995.md` | The 1995-engine differences (AI, castle, creatures, controls) behind `engine1995()`; Hidden playbacks and the 1995 base control match over 5000 ticks. |
 | `port_render_reference.md` | Pixel comparison of every drawn frame of movie 0. |
 | `names_round5.md` | Naming debt: 226 renames (dispatch-table handlers), ENGINE.md merge of the round-4 corrections. |
 

@@ -40,6 +40,7 @@
 #include "mcfile.h"
 #include "gen/frontend_tables.h"
 #include "net.h"
+#include "world_set.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -1693,7 +1694,7 @@ static void fe_screen_level_result() {           // fe_screen_level_result_55b00
         music_stop();
         sound_stop_all();
     finish:
-        s_state = g_cfg->level == 0x32 ? 10 : 2;
+        s_state = world_campaign_complete(g_cfg->level) ? 10 : 2;   // Config.level == 0x32 (port: or past Hidden Worlds 25)
         s_lr.phase = 0;
         s_busy = false;
     }
@@ -2053,6 +2054,10 @@ void fe_set_save_dir(const char *save_dir, const char *dos_game_dir) {
 }
 
 const char *fe_level_name(int index) {
+    if (world_is_hidden_level(index)) {                 // port: Hidden Worlds campaign (world_set.h)
+        const char *n = world_hidden_level_name(index);
+        return n ? n : "";
+    }
     if (index < 0 || index >= 71) return "";
     const uint32_t a = fe_level_name_ptrs[index];
     if (a < 0x90b08 || a >= 0x90b08 + sizeof fe_level_name_text) return "";

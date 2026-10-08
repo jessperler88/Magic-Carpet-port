@@ -13,9 +13,24 @@
 #include "demo.h"
 #include "hud.h"
 #include "ui_draw.h"
+#include "world_set.h"
 #include <cstdio>
 
 const char *engine_game_dir() { return sim_game_dir(); }
+
+// port: the renderer / HUD side of a data-set switch (world_set_select, Hidden Worlds): everything
+// engine_init loaded from a set-specific file, including the shade / blend tables (HIDDEN.EXE loads
+// data/dtables.dat, built from its palette, instead of data/tables.dat).
+static void engine_world_set_changed(int /*set*/) {
+    const char *dir = sim_game_dir();
+    if (!tables_load_palette(dir))  std::fprintf(stderr, "engine: palette missing for the data set\n");
+    if (!tables_load_textures(dir)) std::fprintf(stderr, "engine: texture atlas missing for the data set\n");
+    if (!tables_load_sky(dir))      std::fprintf(stderr, "engine: sky missing for the data set\n");
+    tables_load_or_generate(dir);               // after palette + atlas: a missing file is regenerated from them
+    sprites_shutdown();
+    if (!sprites_init(dir))         std::fprintf(stderr, "engine: tmaps missing for the data set\n");
+    ui_draw_reload_set_tables();
+}
 
 bool engine_init(const char *game_dir) {
     if (!sim_init(game_dir)) return false;
@@ -28,6 +43,7 @@ bool engine_init(const char *game_dir) {
     render_things_install();
     ui_draw_init(game_dir);                     // fonts, HUD sprites, pointers (missing files: HUD stays blank)
     g_hook_frame_state = hud_tick_state;
+    g_hook_world_set_changed = engine_world_set_changed;
     g_hook_demo_textures_reload = texture_load_needed;
     g_hook_demo_textures_mark = texture_mark_needed;      // texture_mark_needed_4c130 when a recording starts
     return true;

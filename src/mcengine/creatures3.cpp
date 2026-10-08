@@ -3,6 +3,7 @@
 // disassembly of carpet.exe; the shared bodies are in creature_common.cpp (creatures.h, base = type * 6).
 #include "creatures3.h"
 #include "mc_math.h"
+#include "world_set.h"
 #include "gen/creatures3_tables.h"
 
 namespace {
@@ -148,7 +149,9 @@ void creature_genie_s67_update(Thing *t) {
     if (h < -1) t->health = -1;
     if (t->health > t->max_health) t->health = t->max_health;
     if (t->timer_a != 0 && (t->max_health >> 2) < t->health) {
-        Thing *enemy = nearest_enemy_in_fov(t, [](const Thing *) { return true; });
+        // 1995 (CD 0x1e1ab): only wizards (player types 0 / 1) are candidates
+        const bool e95 = engine1995();
+        Thing *enemy = nearest_enemy_in_fov(t, [e95](const Thing *p) { return !e95 || p->type == 0 || p->type == 1; });
         if (enemy) {
             t->target = thing_index(enemy);
             genie_appear_at_target(t);
@@ -165,6 +168,7 @@ void creature_genie_s67_update(Thing *t) {
     int best_score = 0;
     for (uint32_t i = g_cfg->player_list; i != 0; i = thing_at(i)->next) {
         Thing *p = thing_at(i);
+        if (engine1995() && p->type != 0 && p->type != 1) continue;   // 1995 (CD 0x1e311): wizards only
         int score = (p->mana != 0 && !(p->flags & 0x20)) ? 1 : 0;
         if (score != 0 && score > best_score) {
             best = p;

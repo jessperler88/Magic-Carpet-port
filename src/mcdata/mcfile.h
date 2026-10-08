@@ -28,6 +28,12 @@ long mc_load_rnc_into(const char *path, uint8_t *dest, size_t cap);
 /* Join game_dir + relative path (forward or back slashes) into buf. */
 void mc_path_join(char *buf, size_t cap, const char *game_dir, const char *rel);
 
+/* Data-set redirect: while set, mc_path_join turns a relative path equal to one of the `pairs`
+ * "from" entries (case-insensitive, either slash) into dir/<to>, whatever game_dir it was given.
+ * `pairs` = { from0, to0, from1, to1, ..., NULL } must stay valid; dir NULL clears the redirect.
+ * Used for the Hidden Worlds data set (mcengine/world_set.h). */
+void mc_set_data_redirect(const char *dir, const char *const *pairs);
+
 /* Sprite .tab entry: u32 offset, u8 width, u8 height. */
 typedef struct { uint32_t offset; uint8_t width, height; } mc_tab_entry;
 /* Parse a (decompressed) .tab blob. Returns entry count; *entries points into

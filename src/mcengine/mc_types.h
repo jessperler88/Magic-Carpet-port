@@ -39,7 +39,7 @@ struct GenMap {
     int32_t gnarl;   // 0x10 -> fractal arg 3
     int32_t river;   // 0x14 -> terrain_carve_rivers count
     int32_t sourc;   // 0x18 -> terrain_carve_rivers min height
-    int32_t snlin;   // 0x1c (not used by terrain_build_303f0)
+    int32_t snlin;   // 0x1c not used by terrain_build_303f0; Hidden Worlds: terrain_mark_snow height
     int32_t snflt;   // 0x20 -> terrain_classify_flat threshold
     int32_t bhlin;   // 0x24 -> terrain_mark_lowland / mark_interior arg 1
     int32_t bhflt;   // 0x28 -> terrain_mark_lowland / mark_interior arg 2

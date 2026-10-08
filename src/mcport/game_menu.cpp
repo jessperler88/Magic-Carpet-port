@@ -3,6 +3,7 @@
 #include "savegame.h"
 #include "settings.h"
 #include "ui_draw.h"
+#include "world_set.h"
 #include <SDL_scancode.h>
 #include <algorithm>
 #include <cstdio>
@@ -196,7 +197,10 @@ std::vector<GameMenu::Row> GameMenu::rows() const {
                 if (localtime_r(&t, &tmv))
 #endif
                     std::strftime(when, sizeof when, "%Y-%m-%d %H:%M", &tmv);
-                std::snprintf(value, sizeof value, "level %d  tick %u  %s", si.level + 1, si.tick, when);
+                if (world_is_hidden_level(si.level))
+                    std::snprintf(value, sizeof value, "hidden %d  tick %u  %s", si.level - HW_LEVEL_BASE + 1, si.tick, when);
+                else
+                    std::snprintf(value, sizeof value, "level %d  tick %u  %s", si.level + 1, si.tick, when);
             }
             std::string v = value;
             if (page_ == PAGE_SAVE && confirm_slot_ == slot) v = "Enter again to overwrite";
