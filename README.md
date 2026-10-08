@@ -43,6 +43,8 @@ cmake --build --preset release                                    # or debug
 cd ..\build && ctest -C Release                                   # tests (the reference ones skip without dumps)
 ```
 
+**How to play: [`docs/CONTROLS.md`](docs/CONTROLS.md)** (keyboard, mouse, controller, debug suite).
+
 (`msvc-x64-vs2022` is the same preset for Visual Studio 2022.) Analysis tools: `pip install -r requirements.txt`
 (`propack`, `pillow`, `numpy`; `capstone` / `unicorn` for disassembly; `pyghidra` only for the Ghidra workflow).
 
