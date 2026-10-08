@@ -1,0 +1,3 @@
+# AI wizard tables extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_ai_spell_cooldown_reload  u16  0x938c4  24   # DAT_000938c4: ticks P.spell_cooldown[spell] is set to when ai_cast_spell_14240 casts the spell (index = spell id)

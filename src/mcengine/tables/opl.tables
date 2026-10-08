@@ -1,0 +1,6 @@
+# Tables of the internal OPL2 MIDI driver (HMI device 0xa002, snd_opl_* 0x68619..0x6a0e6 + 0x704cd..0x7075e)
+# extracted from carpet.exe (see tools/port/gen_exe_tables.py). Used by src/mcport/opl_driver.cpp.
+# name  ctype  addr  count  # comment
+g_opl_slot_ops        u8   0xa402d  18   # DAT_000a402d/402e: per voice v the operator offsets [v*2] = modulator, [v*2+1] = carrier
+g_opl_vel_level       u8   0xa42dc  64   # DAT_000a42dc: (scaled velocity >> 1) -> 0x40 - level factor (snd_opl_note_on_689da, snd_opl_set_channel_volume_704cd)
+g_opl_note_freq       u32  0xa42f0  140  # DAT_000a42f0[note]: (block << 10) | F-number per MIDI note; [12..107] = DAT_000a4320 (8 octaves from C), [114] = DAT_000a44b8, [115..] = DAT_000a44bc (octave helpers of snd_opl_calc_bent_freq_686db); [0..11] overlap the tail of the velocity table (as in the original)

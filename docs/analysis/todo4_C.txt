@@ -1,0 +1,15 @@
+# Round 4 (C): resolve UNCERTAIN names in 0x40000-0x4c000. address | current name | current comment
+0x00040b50 | player_set_under_attack_timer_40b50 | UNCERTAIN: (thing): if thing->player: P+0x2e = 100 (zeroed in player init 3f360); called when the player takes a hit (player_apply_hits_40b70, 3 sites) and when projectile_pick_target_45f00 selects a class 3 type 0 (human) player
+0x00042000 | castle_set_counter30_42000 | UNCERTAIN: (thing): i16 +0x30 = 2; counterpart of castle_begin_build_stage_41f00 which sets +0x30 = 4 when entering state 5; no callers
+0x00042010 | castle_collapse_level_42010 | was castle_mana_tick (UNCERTAIN) - CORRECTED: called from castle state 6 (destroyed): if level>0: 10% of +0x88 mana spilled as mana balls (castle_spill_mana) sound; spawn collapse effect via effect_type51_s53_update_27930 with scratch record at state+0x747b..0x74af; level -1; extents + castle_set_level_stats + castle_spell_reset_charge; level 0 -> owner P+0x32 = 0 and delete
+0x00043db0 | scenery_stone_update_43db0 | UNCERTAIN: class 2 state 3 Standing stone (not read)
+0x00043de0 | scenery_dolmen_update_43de0 | UNCERTAIN: class 2 state 6 (not read)
+0x00043e60 | scenery_badstone_update_43e60 | UNCERTAIN: class 2 state 9 (not read)
+0x00046960 | creature_sound_timer_46960 | UNCERTAIN: countdown +0x3a (propagated along +0x36 chain); when 0: if dist to listener < 0x2400000 set +0x30=sqrt(dist) and reload 0x10
+0x00047760 | spell_shield_update_47760 | UNCERTAIN: class 12 state 12 = spell 4 phase 0 (not read)
+0x00047840 | spell_earthquake_update_47840 | UNCERTAIN: state 18 = spell 6 (not read)
+0x000479f0 | spell_meteor_update_479f0 | UNCERTAIN: state 21 = spell 7 (not read)
+0x00047d40 | spell_crater_update_47d40 | UNCERTAIN: state 27 = spell 9 (not read)
+0x00048490 | spell_rebound_update_48490 | UNCERTAIN: state 42 = spell 14 (not read)
+0x00048510 | spell_lightning_update_48510 | UNCERTAIN: state 45 = spell 15 (not read)
+0x000492e0 | spell_mini_fireball_update_492e0 | UNCERTAIN: state 69 = spell 23 (not read)

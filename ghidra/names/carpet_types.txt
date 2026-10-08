@@ -1,0 +1,464 @@
+# Struct and global types for carpet.exe (applied by ApplyTypes.java). Evidence: docs/ENGINE.md.
+# Offsets hex. Field types: u8 u16 u32 i8 i16 i32 char, struct names, '*' pointer, '[n]' array.
+
+struct TableRec 0xe                     # class/model dispatch record (14 bytes)
+  0x0 parent u32                        # always 0x943cc
+  0x4 index u16                         # state (Table A) or model (Table B)
+  0x6 handler u32                       # code pointer
+  0xa enabled u32
+
+struct ClassEntry 0x12                  # 18-byte class table record, base 0x943da + class*0x12
+  0x0 table_a TableRec*                 # update handlers by state (+0x46)
+  0x4 table_b TableRec*                 # constructors by model (+0x41)
+  0x8 parent u32
+  0xc ordinal u16
+  0xe zero u32
+
+struct SpriteDesc 0xe                   # 14-byte sprite descriptor, table at 0x97678 (285 entries)
+  0x0 base_sprite u16                   # index into the sprite cache (0x211 sprites)
+  0x2 unk2 u16
+  0x4 unk4 u16
+  0x6 half_xy i16                       # -> thing +0x50/+0x52
+  0x8 half_z i16                        # -> thing +0x54 (world size)
+  0xa shade_group u8                    # indexes DAT_00093f48 / DAT_00093f4e pixel mode; non-zero = no shadow
+  0xb unkb u8
+  0xc draw_type u8                      # -> thing +0x59 via DAT_00094344
+  0xd unkd u8
+
+struct DamageSlot 0x6                   # pending damage by type (6 slots at thing +0x5a)
+  0x0 amount i32
+  0x4 attacker u16                      # thing index
+
+struct MoveDesc 0x20                    # movement/AI descriptor shared by creatures and projectiles (thing +0x9c), table at 0x96a10
+  0x00 id u16
+  0x02 turn_min u16                     # min turn rate (ai_wizard_move_13b10)
+  0x04 unk4 u16
+  0x06 turn_max u16
+  0x08 unk8 u16
+  0x0a clear_lo i16                     # ground clearance (creature_check_terrain_102b0 flag 2)
+  0x0c clear_hi i16
+  0x0e z_step i16
+  0x10 unk10 u16
+  0x12 unk12 u16
+  0x14 terrain_mask u32                 # allowed cell types (terrain_type_mask_at_10480 bit)
+  0x18 unk18 u16
+  0x1a think_period u16                 # "every N ticks" divisor in the creature handlers
+  0x1c sight_radius u16
+  0x1e fov u16
+
+struct Thing 0xa4
+  0x00 next Thing*                      # next in per-tick class list (list heads in Config +0x8e1e..)
+  0x04 rng u32                          # per-thing LCG seed x*0x24a1+0x24df
+  0x08 max_health i32
+  0x0c health i32                       # effects: lifetime; <0 dead
+  0x10 flags u32                        # 2 init 4 in cell map 8 collidable 0x20 dead 0x400 delete 0x20000 recyclable
+  0x14 cell_next u16                    # next thing index in same cell
+  0x16 cell_prev u16
+  0x18 owner u16                        # owner thing index (self when independent)
+  0x1a aux i16                          # z velocity / timer / castle level / spell aim
+  0x1c prop_flags u16                   # bit0 damageable, bit1 castle/wizard; also accepted damage type mask
+  0x1e yaw u16                          # 0..0x7ff
+  0x20 pitch u16
+  0x22 target_yaw u16
+  0x24 target_pitch u16
+  0x26 killer u16
+  0x28 last_attacker u16
+  0x2a caster u16
+  0x2c damage u16
+  0x2e z_vel i16
+  0x30 cast_ticks i16
+  0x32 duration i16
+  0x34 parent u16                       # leader / segment head
+  0x36 child u16                        # next segment
+  0x38 speed u16
+  0x3a timer_a u8
+  0x3b timer_b u8
+  0x3c spell_flags u8
+  0x3d burst u8
+  0x3e unk3e u8
+  0x3f tick u8                          # ++ after each handler call
+  0x40 cls u8                           # 2 scenery 3 player 5 creature 7 weather 9 projectile 10 effect 11 switch 12 spell
+  0x41 type u8                          # level-file Model; Table B index
+  0x42 filter_cls u8                    # collision filter (0xff any)
+  0x43 filter_type u8
+  0x44 unk44 u8                         # 10 at alloc
+  0x45 unk45 u8
+  0x46 state u8                         # Table A index
+  0x47 castle_size u8
+  0x48 x u16                            # world units, cell = x>>8
+  0x4a y u16
+  0x4c z i16
+  0x4e ext_z0 i16                       # bbox half extents
+  0x50 ext_x i16
+  0x52 ext_y i16
+  0x54 ext_h i16
+  0x56 sprite u16                       # SpriteDesc index
+  0x58 frame u8
+  0x59 draw_type u8
+  0x5a damage_slots DamageSlot[6]       # +0x5a..+0x7d pending damage by type
+  0x7e speed_cur i16
+  0x80 speed_base i16
+  0x82 turn_rate u16
+  0x84 mana_cost i32
+  0x88 mana_total i32
+  0x8c mana i32
+  0x90 mana_owner u16
+  0x92 target u16
+  0x94 unk94 u16
+  0x96 home_x u16                       # home / origin / destination position (castle, projectile launch, teleport target)
+  0x98 home_y u16
+  0x9a home_z i16
+  0x9c desc MoveDesc*                   # movement/AI descriptor (DAT_00096a10 default)
+  0xa0 player u8*                       # owner player record (DAT_000b6e90 dummy)
+
+struct ThingInit 0x12                   # level THING_INIT record (9 x u16)
+  0x0 cls u16
+  0x2 model u16
+  0x4 x u16
+  0x6 y u16
+  0x8 dis_id u16
+  0xa swi_sz u16
+  0xc swi_id u16
+  0xe parent u16
+  0x10 child u16
+
+struct CmdPacket 0xa                    # per-player command packet, 8 at state +0x7413
+  0x0 cmd u8
+  0x1 arg u8
+  0x3 steer_x i8
+  0x4 steer_y i8
+  0x5 bits u8
+
+struct PlayerMsg 0x44                   # HUD message slot per sending player (PlayerRec +0x1c, 8 of them)
+  0x00 text char[0x40]
+  0x40 ticks u16                        # display countdown (100 notice, 32000 chat line being typed)
+  0x42 arg u16
+
+struct PosLogEntry 0xe                  # camera log entry: written by player_log_position_3e080, read by render_frame_1fab0 (round 6)
+  0x0 x u16
+  0x2 y u16
+  0x4 z i16                             # Thing z (the renderer adds 0x80)
+  0x6 yaw u16
+  0x8 pitch i16                         # P.pitch_acc / 2 + knock-back shake
+  0xa roll i16                          # P.yaw_rate (banks into the turn)
+  0xc zoom i16                          # PlayerRec+0x248 (0x80)
+
+struct PlayerRec 0x801                  # 8 records at state +0x340b (code addresses fields as state + p*0x801 + 0x340b + off)
+  0x000 win_timer u16                   # ticks above the win percentage (won at the 17th, 0x10)
+  0x002 status u16                      # 2 won (needs Space), 8 leave the tick loop, 4 lost: with 8 and without 2 = restart in place (round 6: port_game.md)
+  0x004 quit u8                         # nonzero ends the whole program loop (1 quit, 2 CD check failed)
+  0x005 flags u8                        # bit8 debug overlay (word)
+  0x006 active u8
+  0x007 index u16                       # own player number
+  0x009 is_computer u8                  # 1 = AI wizard
+  0x00a thing u16                       # player's Thing index
+  0x00e view_entry u16                  # log[] entry the renderer takes the camera from (0x1f)
+  0x010 log_count u16                   # entries in log[] (0x20); the position is written to [log_count - 1]
+  0x012 tick u32                        # level tick counter of the player
+  0x018 cheat u32                       # 0xae89e = 1,000,000 health / mana
+  0x01c messages PlayerMsg[8]
+  0x23c log_template PosLogEntry        # copied into every log[] entry at level start; zoom (0x248) = 0x80
+  0x24a log PosLogEntry[32]             # camera log (round 6: typed; only [log_count - 1] is ever written)
+  0x40a name char[0x40]
+  0x44a input_mode u8                   # 0 flight 2 spell select 3 text entry
+  0x44b unk44b u8                       # cleared for every player every tick
+  0x44f p u8[0x3b2]                     # "P" sub-block (Thing+0xa0 points here); P+0x37c = spell_found[24] = GameState+0x3bd6 for player 0
+
+struct StartPos 0x6                     # GameState+0x23d9 per player
+  0x0 x u16
+  0x2 y u16
+  0x4 z i16
+
+struct GameState 0x38d03
+  0x0004 rng u32
+  0x0008 local_player i16
+  0x000a player_count i16
+  0x0024 volcano_thing u16              # the erupting volcano (effect 0x12), 0 = none
+  0x0026 volcano_smoke u16              # its smoke column (effect 0x13)
+  0x0028 free_top i32
+  0x002c texture_needed u8[0x211]
+  0x0240 level_music_track i32          # music track 1..3 picked at each (re)start of the level (game_main_32a00)
+  0x0244 flag244 u8                     # cleared by level_load_file_3d160
+  0x0245 title_flag_a u32               # loading screen shown: set by title_screen_show_32db0, cleared at fade stage 0
+  0x0249 title_flag_b u32
+  0x024d title_flag_c u32
+  0x0251 free_list Thing*[1000]
+  0x11f1 active_top i32
+  0x11f5 active_list Thing*[1000]
+  0x2195 opt_second_surface u8
+  0x2196 opt_shadows u8
+  0x2197 opt_textured_sky u8
+  0x2198 view_size u8                   # 0x28 = full
+  0x2199 opt_hud_a u8
+  0x219a opt_hud_b u8
+  0x219b mode_3d u8                     # 0 off 1 anaglyph 2 SIRDS
+  0x219c opt_motion_blur u8
+  0x219d opt_smooth u8
+  0x219e opt_interlaced u8
+  0x21a0 texture_block_size u16
+  0x21ad opt_allowed u8[11]
+  0x23d9 start_pos StartPos[8]          # per-player start position
+  0x340b players PlayerRec[8]
+  0x7413 commands CmdPacket[8]
+  0x7463 things Thing[1000]             # slot 0 unused; index i at +0x7463 + i*0xa4
+  0x2f503 level_header i32[12]          # the level file is loaded verbatim here (0x979c bytes): GEN_MAP header, THING_INIT at +0x442, footer at +0x9790
+  0x2f945 level_things ThingInit[1999]   # the spawn loops stop at +0x385d3
+  0x385d3 level_player_block u8[1728]    # 8 x 0xd8 bytes of per-player level data (castle position at +4)
+  0x38c93 win_percent u16
+  0x38c9f creature_count u32             # creatures in the level file (switch_activate_356e0)
+  0x38ca3 spells_present u32[24]         # class-12 records per spell
+
+struct Config 0x8e7e
+  0x0000 flags u16                      # 2 record demo 4 play demo 8 skip game 0x10 network 0x20 recording blocked 0x100 front end skipped (custom / -roll); 0x4000 / 0x8000 cleared per level (round 6)
+  0x0002 paused u8                      # bit0
+  0x0004 tick u32                       # frame counter (cadence tests like (cfg+4 & 7) == 0; LRU stamps)
+  0x0008 pentium u8
+  0x0009 demo_file u32                  # movie file handle
+  0x000d movie u16
+  0x000f roll u16
+  0x0011 level u16
+  0x0013 saved_level u16
+  0x0016 spell_slot u8
+  0x0017 fade_stage u8
+  0x0018 debug_bits u8
+  0x0019 password u32
+  0x001d save_str_a char[0x20]
+  0x003d save_str_b char[0x20]
+  0x005e tick_bits u8[15]               # [k-1] = (local player's tick / k) & 1 (round 5: was level_mana)
+  0x0075 session char[0x20]
+  0x0095 disk_activity u8               # set to 5 on every sprite demand load (name is a guess)
+  0x0096 substeps u8                    # 0..2 -> 1/4/16 thing updates per tick
+  0x0097 language u8
+  0x0098 palette_effect u8
+  0x0099 frame_time u32                 # timer ticks per frame (debug overlay) (round 6: u32)
+  0x009d net_time u32                   # network exchange time (round 6)
+  0x00a1 credits_state u8[7]            # credits scroller of render_frame_1fab0: +0 state (3 wait, 2 reset, 1 scroll), +1 wait frames (200)
+  0x00a8 pool u8*
+  0x00ac pool_size u32
+  0x00bc total_mana u32
+  0x00ce pit_reload u32                 # 0x2726 (119 Hz)
+  0x00d2 pit_accum u32                  # chains BIOS int 8 when >= 0x10000
+  0x8e1e creature_lists Thing*[20]      # per creature type
+  0x8e6e player_list Thing*
+  0x8e72 mana_ball_list Thing*
+  0x8e76 wizard_list Thing*
+  0x8e7a projectile_list Thing*
+
+struct VertexRec 0x2c                   # landscape renderer vertex grid, 40 x 21 at DAT_000adf68
+  0x00 x_cam i32
+  0x04 h_rel i32                        # height - cam_z
+  0x08 h_mirror i32
+  0x0c z_cam i32
+  0x10 sx i32
+  0x14 sy i32
+  0x18 sx_mirror i32
+  0x1c sy_mirror i32
+  0x20 shade i32
+  0x24 first_thing u16
+  0x26 flags u8                         # bit0 diagonal, bit1 culled, bit2 far side, bits3-6 offscreen, bit7 translucent
+  0x27 flags2 u8
+  0x29 texture u8
+  0x2a uv_sel u8
+  0x2b tex_prop u8
+
+struct QuadStep 0xa                     # per view-quadrant step table, 4 at DAT_00093b20
+  0x0 start_dx i8
+  0x1 start_dy i8
+  0x2 tex_dx i8
+  0x3 tex_dy i8
+  0x4 thing_dx i8
+  0x5 thing_dy i8
+  0x6 row_dx i8
+  0x7 row_dy i8
+  0x8 col_dx i8
+  0x9 col_dy i8
+
+struct SpanRec 0x14                     # rasteriser per-scanline edge record at 0x9b608 (+0 x_left 16.16, +4 x_right 16.16; fillers read the high words)
+  0x00 x_left_frac u16
+  0x02 x_left i16
+  0x04 x_right_frac u16
+  0x06 x_right u16                      # exclusive end (not a count)
+  0x08 u i32                            # 16.16
+  0x0c v i32
+  0x10 shade i32
+
+struct FontDesc 0xa                     # DAT_0009e508 sfont0 / 0x9e510 / 0x9e518
+  0x0 glyphs u8*                        # 6-byte {u32 offset, u8 w, u8 h} per glyph, ASCII-0x20
+  0x4 flags u16
+  0x6 colour1 u8
+  0x7 colour2 u8
+
+global 0xadf6c g_state GameState*       # game-state block (0x38d03 bytes)
+global 0xadf74 g_cfg Config*            # config / flags block (0x8e7e bytes)
+global 0xadf68 g_work VertexRec*        # 64 KB work buffer: vertex grid, then sprite column table +0x9060, clip triples +0xb360, roll list +0xe7e0
+global 0xadf70 g_frame2 u8*             # second full-screen buffer (right eye / previous frame)
+global 0x943da g_class_table ClassEntry[13]   # indexed by class (entry 0 unused: base is 0x943da, class 1 at +0x12)
+global 0x97678 g_sprite_desc SpriteDesc[285]
+global 0x93b20 g_quad_steps QuadStep[4]
+global 0x93b48 g_uv_table i32[256]      # 32 UV sets x 8 dwords (16.16)
+global 0x93930 g_tex_prop_shadow u8[164]      # non-zero: texture casts no shadow (-> vertex +0x2b)
+global 0x939d4 g_tex_prop_flat u8[164]        # flat-shaded textures (fill mode 7)
+global 0x93a78 g_tex_prop_water u8[164]       # water / translucent textures (fill mode 0x1a)
+global 0x983ec g_trig_table i32[2816]   # 16.16 sine with -256/+2560 wings: sin(a) = g_trig_table[a+256]
+label 0x987ec g_sin_table               # sin(a) = *(int*)(0x987ec + a*4), a in 0..0x7ff
+label 0x98fec g_cos_table               # cos(a) = sin(a + 0x200)
+global 0x9b608 g_span_table SpanRec[480]
+global 0x9e508 g_font0 FontDesc
+global 0x9e510 g_font1 FontDesc
+global 0x9e518 g_font2 FontDesc
+global 0xb99b0 g_shade_table u8[8448]   # [level<<8 | colour], 33 levels (start of tables.dat image)
+global 0xbd9b0 g_blend_table u8[65536]  # [a<<8 | b]
+global 0xcdcb0 g_circle_profile u16[256]      # sqrt(1-x^2) 8.8 (radar row widths)
+global 0xcdfb0 g_map_type u8[65536]     # terrain texture / type per cell, index = y<<8 | x
+global 0xddfb0 g_map_height u8[65536]   # world height = byte * 0x20
+global 0xedfb0 g_map_light u8[65536]
+global 0xfdfb0 g_map_flags u8[65536]    # bit3 animated water, bits2-4 rotation, bit7 castle footprint
+global 0x10dfb0 g_cell_things u16[65536]      # first Thing index per cell (also fractal scratch)
+global 0x12ee20 g_key_down u8[128]      # by scancode
+global 0x12eab4 g_tick u32              # incremented by timer_tick_isr_34120 (HMI timer event, 120 Hz) when sound or music is available, else by the int 8 handler (119.06 Hz)
+label 0x9e309 g_fill_mode               # rasteriser fill mode 0..26
+label 0x9e308 g_fill_colour
+label 0x9b5f8 g_texture_ptr
+
+global 0x96a10 g_move_desc MoveDesc[30]
+global 0xb58b0 g_corner_tex_table u8[4802]   # 2401 x {texture, rotation}: compact corner-class table built by terrain_assign_textures_30eb0
+global 0x93fc8 g_corner_class_tuples i8[592]  # 0x94 x 4 corner classes per texture (terrain_assign_textures_30eb0)
+global 0x9b3ec g_atan_table u16[258]    # slope -> angle (0..0x100), used by the aim code
+
+# ---- Round 6 (2026-10-07, docs/analysis/names_round6.md): Phase-1 leftover tables, resource lists, labels ----
+
+struct SpiralCell 0x4                   # one cell of search.dat's ring tables (spiral_search_init_101b0)
+  0x0 dx i8
+  0x1 dy i8
+  0x2 ring u8
+  0x3 pad u8
+
+struct RingRec 0x6                      # DAT_000ade28[ring]: the cells of one ring (6-byte records, not 12)
+  0x0 cells SpiralCell*                 # into the *SearchD buffer (DAT_000adf60)
+  0x4 count u16
+
+struct SpiralIter 0x18                  # spiral_search_begin_10080 / _next_10120 / _end_10100 cursor; slot h at 0xac160 + h*0x18 (1..99)
+  0x00 start i32                        # first ring
+  0x04 end i32                          # last ring
+  0x08 ring i32                         # current ring; -1 = slot free
+  0x0c idx i32                          # cell index within the ring
+  0x10 rec RingRec*
+  0x14 cell SpiralCell*
+
+struct TmapDirEntry 0xa                 # data/tmaps.tab record (DAT_000b84f4 points at the loaded table)
+  0x0 unpacked_size u32
+  0x4 offset u32                        # of the RNC chunk in tmaps.dat
+  0x8 group u16                         # index of the group's first sprite
+
+struct ResourceRec 0x2c                 # file / allocation list record (file_load_resource_list_5ae80); a record with dest 0 ends a list
+  0x00 name char[0x1c]                  # file path, or "*Name" = allocate size bytes
+  0x1c dest u32*                        # global that receives the buffer pointer
+  0x20 end u32*                         # global that receives the end pointer (.tab files), or 0
+  0x24 size u32                         # allocation size for '*' records
+  0x28 flags u32
+
+struct TabReloc 0xc                     # 0x9744c: span-sprite .tab relocation list (ui_sprite_lists_relocate_49de0), 0-terminated
+  0x0 tab u32*
+  0x4 tab_end u32*
+  0x8 dat u32*
+
+global 0xade28 g_spiral_rings RingRec[32]       # ring tables built from data/search.dat by spiral_search_init_101b0
+global 0xac160 g_spiral_iters SpiralIter[100]   # slot 0 unused
+global 0xb84f4 g_tmaps_dir TmapDirEntry*        # loaded data/tmaps.tab (530 records incl. the sentinel)
+global 0xb7cb0 g_sprite_group_stamp u32[529]    # Config.tick of the group's last use (LRU), indexed by group id
+global 0xb8d3c g_sprite_ptr u8**[529]           # per sprite: pointer to the pool handle of the loaded chunk, 0 = not loaded
+global 0xb9580 g_sprite_locked u8[529]          # 0xff = resident
+global 0xb9791 g_sprite_group_priority u8[529]  # load priority set by the level's models
+global 0x97490 g_level_names char*[101]         # 0 empty, 1..50 campaign ("1. Al Jahan".."50. Volcania"), 51..70 multiplayer maps, 71..100 "0"
+global 0x96df0 g_reslist_data ResourceRec[14]   # *SearchD, building, font0/1, tmaps.tab, *PalData, *PalMem, pointers, palette.dat (data_load_all_334c0, video_alloc_buffers_33480)
+global 0x97058 g_reslist_etext ResourceRec[2]   # language text lists (0x56db2..)
+global 0x970b0 g_reslist_ftext ResourceRec[2]   # also loaded by game_main_32a00 when the front end is skipped
+global 0x97108 g_reslist_gtext ResourceRec[2]
+global 0x97160 g_reslist_itext ResourceRec[2]
+global 0x971b8 g_reslist_block16 ResourceRec[2] # mem_init_pools_59500: texture atlas by memory class
+global 0x97210 g_reslist_block32 ResourceRec[3] # block32.dat + sky.dat
+global 0x97294 g_reslist_screen_lo ResourceRec[5]   # 320x200: *WScreen (0x11580), *BScreen, data/mspr0-0 (chosen at 0x33480)
+global 0x97370 g_reslist_screen_hi ResourceRec[5]   # 640x480: *WScreen (0x4b000), *BScreen, data/hspr0-0
+global 0x9744c g_tab_reloc_list TabReloc[5]     # pointers, font0, font1, mspr/hspr, building; dword 0 at 0x97488 ends it
+global 0x9fa0e g_hmi_event_len u8[16]           # HMI MIDI event length by status high nibble (8x 3, 9x 3, Ax 2, Bx 3, Cx 2, Dx 2, Ex 3, Fx -> next table)
+global 0x9fa1e g_hmi_event_len_fx u8[16]        # Fx by low nibble: F0 0, F1 1, F2 2, F3 1, F8..FF 2 (FF 2F / FF 51 handled apart)
+global 0x9e65c g_music_track_map u32[32]        # track -> device map passed to snd_midi_init_song: 0xff for tracks 0..15, 0 for 16..31
+
+# resource destinations (the globals the lists above fill)
+label 0xadf60 g_search_dat_adf60                # *SearchD: 32x32 ring image, then the ring cell pool
+label 0xadf78 g_search_dat_end_adf78
+label 0xadf98 g_building_dat_adf98
+label 0xadfb0 g_building_tab_adfb0              # castle size table / footprint maps (68 entries)
+label 0xadfa4 g_building_tab_end_adfa4
+label 0xadee8 g_font0_dat_adee8
+label 0xadf28 g_font0_tab_adf28
+label 0xadf08 g_font0_tab_end_adf08
+label 0xadeec g_font1_dat_adeec
+label 0xadf2c g_font1_tab_adf2c
+label 0xadf0c g_font1_tab_end_adf0c
+label 0xadf8c g_pal_data_adf8c                  # *PalData (0x400): FLI COLOR256 chunk body
+label 0xadf7c g_pal_mem_adf7c                   # *PalMem (0x400)
+label 0xadfb8 g_pointers_dat_adfb8              # mouse pointer sprites
+label 0xadfc0 g_pointers_tab_adfc0
+label 0xadfac g_pointers_tab_end_adfac
+label 0xadf90 g_palette_adf90                   # data/palette.dat, the game palette (6-bit)
+label 0xadf80 g_text_dat_adf80                  # language text (e/f/g/itext.dat)
+label 0xadf5c g_texture_atlas_adf5c             # block16.dat / block32.dat
+label 0xadf48 g_sky_adf48                       # data/sky.dat (0 = not loaded)
+label 0xadfb4 g_hud_spr_dat_adfb4               # mspr0-0.dat / hspr0-0.dat
+label 0xadf94 g_hud_spr_tab_adf94
+label 0xadf9c g_hud_spr_tab_end_adf9c
+label 0x12ed74 g_back_buffer_12ed74             # *WScreen
+
+# FLI player (port_fli.md)
+label 0x9e44c g_fli_apply_palette_9e44c         # fli_play_508f0 arg 2
+label 0x12eabe g_fli_abort_on_key_12eabe        # fli_play_508f0 arg 1
+label 0x9e44e g_fli_abort_on_input_change_9e44e # abort on any input change (input_changed_34090)
+label 0x12eabc g_fli_aborted_12eabc
+label 0x12eac0 g_fli_frame_12eac0               # frame counter (cue scripts match it)
+label 0x12eaa0 g_fli_header_12eaa0              # 12-byte Bullfrog FLIC header (+8 w 0x12eaa8, +0xa h 0x12eaaa)
+label 0x12e680 g_fli_frame_header_12e680        # 16-byte frame chunk header
+label 0x12e798 g_fli_palette_12e798
+label 0x12e698 g_fli_chunk_name_12e698          # debug chunk-name string
+label 0x9e450 g_fli_file_pos_9e450
+label 0x938f4 g_cue_index_938f4
+label 0x9e704 g_fli_frame_delay_9e704           # ticks per frame, initial 5, set only by cue op A
+label 0x12eaba g_cue_loop_track_12eaba          # Z loop track + 1
+label 0x938fc g_fli_subtitles_enabled_938fc
+label 0x938fd g_fli_subtitle_strip_938fd        # strip active / blit shifted by 0x1a40
+label 0x9390a g_fli_subtitle_init_9390a
+label 0x9390c g_fli_subtitle_text_9390c
+label 0xadfd0 g_subtitle_font_adfd0             # colour1 at 0xadfd6
+label 0xb2e04 g_subtitle_strip_b2e04
+label 0xb2e0c g_subtitle_strip_len_b2e0c
+label 0x9e708 g_fli_path_9e708                  # sprintf'd path of the file to play
+label 0x12ea9c g_fli_frame_callback_12ea9c
+label 0x12eab0 g_fli_mem_ptr_12eab0             # memory-stream read pointer
+label 0x9e444 g_fli_dest_9e444
+label 0x9e468 g_fli_skip_zero_9e468             # memory decoders skip value-0 pixels (main-menu init sets it)
+
+# front end, game flow, sound flags (port_frontend.md, port_game.md, port_audio.md)
+label 0x9e504 g_fe_leave_9e504
+label 0x12ebdc g_fe_reload_12ebdc
+label 0x9e500 g_fe_game_in_progress_9e500       # 1 in the data, never set again: "resume" = the very first start
+label 0x12ed30 g_fe_session_12ed30
+label 0x12ed31 g_fe_lobby_players_12ed31
+label 0x9e3c8 g_fe_network_9e3c8
+label 0x9e583 g_fe_input_flags_9e583
+label 0x12ed33 g_fe_input_page_12ed33
+label 0x12ed2e g_fe_state_12ed2e
+label 0x12ed2d g_fe_slot_mode_12ed2d            # 1 load, 2 save
+label 0x12ed35 g_fe_flags_12ed35                # bit1 = intro already seen (c:\carpet.cd\intro.pld exists)
+label 0x12ed34 g_fe_attract_phase_12ed34
+label 0x12ed36 g_fe_attract_flags_12ed36
+label 0x12ed18 g_fe_demo_saved_level_12ed18
+label 0x12ebc0 g_fe_demo_saved_spells_12ebc0
+label 0x12edae g_video_mode_12edae              # 1 = 320x200, 8 = 640x480
+label 0x9e320 g_sound_available_9e320
+label 0x9e321 g_sound_on_9e321
+label 0x9e30c g_music_available_9e30c
+label 0x9e30d g_music_on_9e30d
+label 0x9e312 g_music_track_9e312
+label 0x9e316 g_music_track_count_9e316
+label 0x12e06e g_music_device_12e06e            # bank suffix: 0 OPL2 (-0), 1 MT-32 (-1), 2 GM / AWE32 (-2)
+label 0x9e328 g_sound_quality_9e328

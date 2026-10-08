@@ -1,0 +1,2 @@
+# round 5: far timer callback of music_update_1f800 (ends in retf), sits in the gap after creature_s114_s119_nop_1f6b0
+0x0001f6d0

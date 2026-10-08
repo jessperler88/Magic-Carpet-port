@@ -1,0 +1,12 @@
+# Core math / renderer tables extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_trig_table_data   i32  0x987ec  2560   # sin(a)*65536, a in 0..0x9ff (cos(a) = sin(a+0x200)); verified == round(sin*65536)
+g_atan_table_data   u16  0x9b3ec  258    # floor(atan(i/256) * 2048/2pi), i = 0..257 (entry 257 is 0)
+g_isqrt_seed_data   u16  0x4cdb0  32     # sqrt(2^n) seeds for math_isqrt_4cd7a, indexed by bsr(x)
+g_quad_steps_data   i8   0x93b20  40     # 4 x QuadStep (10 bytes): per view-quadrant cell/texture/thing/row/column steps
+g_uv_table_data     i32  0x93b48  256    # 32 UV sets x 8 dwords (16.16); non-zero entries are rescaled to (B<<16)-1 at load
+g_tex_prop_shadow   u8   0x93930  164    # non-zero: texture casts no shadow (-> vertex +0x2b)
+g_tex_prop_flat     u8   0x939d4  164    # flat-shaded textures (fill mode 7)
+g_tex_prop_water    u8   0x93a78  164    # water / translucent textures (fill mode 0x1a)
+g_sprite_desc_data  u8   0x97678  3990   # 285 x SpriteDesc (14 bytes)
+g_move_desc_data    u8   0x96a10  960    # 30 x MoveDesc (32 bytes)

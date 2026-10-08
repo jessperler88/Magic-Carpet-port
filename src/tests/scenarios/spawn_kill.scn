@@ -1,0 +1,35 @@
+# Spawn creatures, kill them, count them (round 10 debug commands; docs/analysis/port_console.md).
+name spawn and kill
+level 1
+
+# level 1 has townies but no dragons / wyverns / bees
+1 assert_count dragon == 0
+1 assert_count wyvern == 0
+1 assert_count bee == 0
+
+# untimed lines run at the cursor; `wait N` moves it on
+spawn dragon 40 40 x2          # two dragons around cell 40,40 (each is a head + 16 body segments)
+spawn wyvern 60 60 x3
+wait 2
+assert_count dragon == 2       # segments count with their head
+assert_count creature wyvern == 3
+find wyvern
+
+kill wyvern                    # every wyvern
+wait 1
+assert_count wyvern == 0
+
+kill #26                       # one Thing by slot (a townie at the level start)
+wait 1
+assert_dead #26
+
+spawn bee x4                   # 4 cells in front of the wizard
+wait 1
+assert_count bee == 4
+count creature
+
+kill creatures                 # every creature (never the own wizard)
+wait 1
+assert_count creature == 0
+assert_count dragon == 0
+assert_alive me

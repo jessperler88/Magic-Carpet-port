@@ -1,0 +1,35 @@
+# Debug commands in a Conquest mode run (seed 1, 3 computer wizards).
+name rts debug commands
+rts seed 1 bots 3
+stop 300
+
+2 players
+2 assert_alive me
+2 assert_alive p1
+2 assert_alive p3
+
+god on
+spawn dragon                   # 4 cells in front of the wizard
+teleport 128 128
+wait 2
+assert_god me on
+assert_count dragon == 1
+assert_pos me 128 128 1
+
+kill wizard 1                  # a computer wizard
+wait 2
+assert_dead p1
+
+teleport 30 40 @2              # another player's wizard
+give mana -500 @2
+wait 2
+assert_pos p2 30 40 3
+assert_mana p2 < 1000
+
+damage 50000                   # god: nothing happens
+wait 3
+assert_alive me
+assert_health me == max
+280 assert_alive me              # god keeps the wizard alive whatever the bots and the dragon do
+290 god off
+292 assert_god me off

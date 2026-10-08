@@ -1,0 +1,2 @@
+# rasteriser mode-25 tail: a bogus function had been created mid-instruction at 0x785fa; clear (force) and re-disassemble from the flow
+0x000785f7,0x00078898

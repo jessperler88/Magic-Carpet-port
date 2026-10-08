@@ -1,0 +1,99 @@
+# Region D: 0x4c000-0x5e000. Unnamed functions >= 32 bytes: 86 (13907 bytes)
+# address,size,callers,callees
+0x0004c0a0,77,1,1
+0x0004c0f0,58,1,1
+0x0004c280,322,1,3
+0x0004c3d0,43,2,0
+0x0004c3fb,33,0,0
+0x0004c41c,59,0,0
+0x0004c460,229,0,1
+0x0004c6ee,85,0,0
+0x0004c750,49,0,0
+0x0004c790,85,1,1
+0x0004c7f0,138,1,3
+0x0004c9be,49,0,1
+0x0004ca66,59,0,0
+0x0004cab0,37,0,0
+0x0004cb50,53,1,1
+0x0004cb88,171,1,0
+0x0004cd39,65,0,0
+0x0004cdb0,58,0,0
+0x0004cdf0,35,1,0
+0x0004ce13,62,0,0
+0x0004ce51,50,0,0
+0x0004cef0,119,0,0
+0x0004d096,71,0,0
+0x0004d2b0,638,1,9
+0x0004d550,803,1,11
+0x0004d880,103,1,4
+0x0004d8f0,288,1,9
+0x0004e0f0,38,1,1
+0x0004e120,437,1,2
+0x0004e400,163,1,1
+0x0004ebb0,86,1,1
+0x0004ec4c,38,0,1
+0x0004ecf0,87,1,1
+0x0004ed70,48,1,0
+0x0004f61e,76,0,0
+0x0004f6c1,32,0,0
+0x0004fba0,125,1,2
+0x0004fc20,127,1,2
+0x0004fca0,117,1,2
+0x0004fd20,127,1,2
+0x00050220,36,2,1
+0x00050250,106,4,2
+0x000502c0,39,1,1
+0x000502f0,116,1,2
+0x00050370,88,1,3
+0x000504f0,47,5,0
+0x000509f0,154,1,1
+0x00050a90,322,1,1
+0x00050be0,286,1,2
+0x00050d00,224,1,2
+0x00051eac,36,0,0
+0x00052980,74,1,0
+0x000529d0,158,3,1
+0x00055920,155,2,8
+0x00055a60,156,1,8
+0x00057580,149,0,6
+0x000578a0,141,0,5
+0x00057930,141,0,5
+0x000579c0,44,0,0
+0x00058820,85,1,1
+0x00058880,40,1,1
+0x00058f30,40,1,0
+0x0005940c,218,1,0
+0x00059d8d,58,1,1
+0x0005a370,359,2,9
+0x0005ad03,251,1,0
+0x0005adfe,128,1,0
+0x0005af62,55,2,1
+0x0005aff8,34,1,1
+0x0005b824,41,0,1
+0x0005c40b,195,0,7
+0x0005c4ce,69,0,1
+0x0005c56d,39,1,1
+0x0005c594,117,0,1
+0x0005c609,215,1,1
+0x0005c6e0,167,1,1
+0x0005c787,140,1,1
+0x0005c813,82,0,0
+0x0005c924,102,1,0
+0x0005ca58,102,1,0
+0x0005cac0,136,9,1
+0x0005cb50,81,1,1
+0x0005cd60,312,1,2
+0x0005d235,372,0,3
+0x0005d558,35,0,0
+0x0005d69b,2622,0,0
+
+# Existing names in this range marked uncertain (9): re-read and confirm or correct
+0x0004f360,net_player_sync_4f360,UNCERTAIN: Network: DAT_0009e3c8 active
+0x00050080,altdev_read_50080,UNCERTAIN: Reads alternate pointing device (DAT_0009e43c/43d) via 4fd20 into DAT_0012e62c..30 (x;y;z) - head tracker / VR peripheral
+0x00050120,altdev_command_50120,UNCERTAIN: Real-mode int with AX=0x6008 and data from DAT_0012e5f4 (alt device)
+0x00050180,vga_set_palette_altdac_50180,UNCERTAIN: Writes 768 bytes to ports DAT_0012e624/DAT_0012e61c (index 7;6;9;10) - secondary display device palette (VR headset?) when DAT_0009e43c
+0x000503d0,stereo_page_flip_503d0,UNCERTAIN: Ports 302h/303h page flip and blit
+0x000588f0,ui_clip_rect_width_588f0,UNCERTAIN: Returns clip rect extent used for centring
+0x00059a60,mem_free_split_59a60,UNCERTAIN: Free with split then merge
+0x0005ac80,cpu_detect_5ac80,UNCERTAIN: Calls 5ace8 and sets cfg+8 = (DAT_0009e59c == 5) (Pentium flag used for detail defaults)
+0x0005be68,video_mode_extra_5be68,UNCERTAIN: Extra int 10h calls for DAT_0012edae==8 / ==2 modes (AX=7/8 with 0x1400/0xf00)

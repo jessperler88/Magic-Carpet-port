@@ -1,0 +1,6 @@
+propack
+pillow
+numpy
+pyghidra
+capstone
+unicorn

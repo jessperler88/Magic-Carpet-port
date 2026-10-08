@@ -1,0 +1,5 @@
+# Sprite cache / Thing renderer tables extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_sprite_dir_remap_13   u8   0x93f54  16    # DAT_00093f54: draw type 0x13, facing direction 0..15 -> sprite offset (5 views; directions 8..15 are drawn mirrored)
+g_sprite_dir_remap_14   u8   0x93f64  16    # DAT_00093f64: draw type 0x14, facing direction 0..15 -> sprite offset (3 views; directions 8..15 are drawn mirrored)
+g_sprite_model_table    i16  0x9649e  681   # DAT_0009649e: 40 x {i16 class, i16 model, i16 sprite_desc[15]} (list ends at the first negative word and may run into the next record), then the -1 terminator key

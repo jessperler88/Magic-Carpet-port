@@ -1,0 +1,125 @@
+# 2026-10-06: code left undefined between functions that starts like a function (gap scan, tools/analysis); created with RepairFunctions.java
+0x00010b34   # 81 bytes, sub eax, 0xadf6c
+0x00010be0   # 80 bytes, push ebx
+0x000115be   # 204 bytes, inc esi
+0x00011cef   # 241 bytes, mov ax, word ptr [edi]
+0x000135e0   # 32 bytes, mov edx, dword ptr [esp + 4]
+0x00015434   # 44 bytes, cwde 
+0x00017a40   # 64 bytes, sar dword ptr [ebx + 1], 0
+0x0001884f   # 33 bytes, push eax
+0x0001ddb2   # 222 bytes, push ebx
+0x0001e2f1   # 263 bytes, push ebx
+0x0001e41e   # 108 bytes, xor edx, edx
+0x0001e4ad   # 67 bytes, push ebp
+0x0001e75b   # 265 bytes, push ebx
+0x0001ea52   # 14 bytes, mov edx, dword ptr [esp + 8]
+0x00023050   # 68 bytes, push ebx
+0x00025c2c   # 500 bytes, cmp byte ptr [ebx + 0x3a], 0
+0x000280ad   # 35 bytes, test eax, eax
+0x0002855c   # 36 bytes, test dword ptr [edx], eax
+0x0002e508   # 152 bytes, dec ebp
+0x000342e0   # 1344 bytes, push ebx
+0x00036200   # 208 bytes, call 0x35560
+0x000385e0   # 31 bytes, mov dword ptr [ebx + 0x9c], 0x96a50
+0x0003c150   # 129 bytes, sub esp, 0x40
+0x0003d5e0   # 16 bytes, xor al, al
+0x000414a3   # 19 bytes, mov byte ptr [esi + 0x46], 5
+0x000414e0   # 32 bytes, and al, 0x15
+0x00042344   # 44 bytes, or ah, byte ptr [esp + eax]
+0x00042950   # 16 bytes, xor eax, eax
+0x00049664   # 188 bytes, push edi
+0x00049ca0   # 48 bytes, dec byte ptr [0x943c8]
+0x00049d80   # 66 bytes, push ebx
+0x00049f70   # 128 bytes, sub esp, 4
+0x0004b500   # 64 bytes, mov edx, dword ptr [esp + 4]
+0x0004d0dd   # 355 bytes, push ebp
+0x0004fda0   # 32 bytes, inc byte ptr [eax + eax]
+0x00054850   # 176 bytes, push ebx
+0x00056670   # 192 bytes, push ebx
+0x00056924   # 28 bytes, mov cl, 0x6d
+0x00057350   # 80 bytes, push ebx
+0x000573c1   # 63 bytes, inc eax
+0x0005b01a   # 16 bytes, call 0x5aff2
+0x0005bdd4   # 148 bytes, push ebx
+0x0005bff8   # 72 bytes, push ebx
+0x0005cf2f   # 17 bytes, push ebx
+0x0005cf79   # 34 bytes, push ebx
+0x0005d5a9   # 242 bytes, push ebx
+0x0005e518   # 34 bytes, push ebx
+0x0005f02b   # 34 bytes, push ebx
+0x0006010c   # 688 bytes, push ebx
+0x00061730   # 21 bytes, push ebx
+0x00061e53   # 21 bytes, push ebx
+0x00062893   # 17 bytes, push ebx
+0x000628fc   # 34 bytes, push ebx
+0x000629ba   # 198 bytes, push ebx
+0x00062ebf   # 152 bytes, push ebx
+0x000630ff   # 106 bytes, push ebx
+0x00063225   # 50 bytes, push ebx
+0x000632b8   # 17 bytes, push ebx
+0x000632ec   # 34 bytes, push ebx
+0x00063344   # 268 bytes, push ebx
+0x000635cc   # 17 bytes, push ebx
+0x00063947   # 1089 bytes, push ebx
+0x00063e70   # 262 bytes, push ebx
+0x00064ce8   # 80 bytes, push ebx
+0x00064e5a   # 34 bytes, push ebx
+0x00065511   # 887 bytes, push ebx
+0x0006608b   # 15 bytes, push 0xd
+0x000660bd   # 19 bytes, push eax
+0x00066173   # 32 bytes, push ebx
+0x00066472   # 108 bytes, push ebx
+0x00066876   # 1388 bytes, push ebx
+0x00066e15   # 20 bytes, push ebx
+0x00066f71   # 71 bytes, push es
+0x000670dc   # 56 bytes, push ebp
+0x0006730a   # 199 bytes, push esi
+0x000673f2   # 1770 bytes, push esi
+0x00067f5c   # 34 bytes, push ebx
+0x000681d9   # 374 bytes, push ebx
+0x00068370   # 681 bytes, push esi
+0x00068871   # 34 bytes, push ebx
+0x000689b8   # 34 bytes, push ebx
+0x00068ea8   # 34 bytes, push ebx
+0x000690fa   # 34 bytes, push ebx
+0x000692f7   # 34 bytes, push ebx
+0x000693df   # 34 bytes, push ebx
+0x0006975a   # 34 bytes, push ebx
+0x000697bf   # 34 bytes, push ebx
+0x00069827   # 281 bytes, push ebx
+0x000699bf   # 34 bytes, push ebx
+0x00069a55   # 34 bytes, push ebx
+0x00069b0f   # 34 bytes, push ebx
+0x00069bd1   # 34 bytes, push ebx
+0x00069c51   # 34 bytes, push ebx
+0x00069d3f   # 34 bytes, push ebx
+0x00069f48   # 34 bytes, push ebx
+0x00069f89   # 19 bytes, push ebx
+0x0006ae9e   # 26 bytes, push ebx
+0x0006bbfc   # 14 bytes, mov edx, dword ptr [esp + 4]
+0x0006cee2   # 17 bytes, push ebx
+0x0006cf88   # 34 bytes, push ebx
+0x0006d3f0   # 336 bytes, push ebx
+0x0006d59d   # 897 bytes, pushal 
+0x0006f911   # 117 bytes, push esi
+0x000704b6   # 23 bytes, mov eax, 0xa4eb8
+0x00070675   # 34 bytes, push ebx
+0x0007073c   # 34 bytes, push ebx
+0x00070846   # 26 bytes, push ebx
+0x0007091a   # 40 bytes, push ebx
+0x00070bf6   # 282 bytes, push ebx
+0x000712e6   # 11 bytes, push -1
+0x000714c5   # 35 bytes, mov eax, dword ptr [esp + 4]
+0x0007150b   # 35 bytes, cmp byte ptr [0xa46ae], 9
+0x00071a7d   # 210 bytes, mov edx, dword ptr [esp + 4]
+0x00072217   # 204 bytes, push ebp
+0x000785fa   # 2011 bytes, and al, 0x24
+0x00078e23   # 1059 bytes, push ebp
+0x00079888   # 261 bytes, push ebp
+0x00079ba7   # 161 bytes, push ebp
+0x00079da0   # 36 bytes, mov word ptr [0xa45ba], 0
+0x0007a864   # 190 bytes, push ebx
+0x0007aa27   # 343 bytes, push ebx
+0x0007acac   # 148 bytes, push ebp
+0x0007b331   # 215 bytes, push ebp
+0x0007b6bc   # 163 bytes, push ebx

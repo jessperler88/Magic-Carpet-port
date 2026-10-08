@@ -1,0 +1,65 @@
+# Port round 6 (task C): scripted local player, level 1 (vultures, worms, dragons; no other wizard).
+# The quick save (command 10: demo_save_state_3c2c0(10000) -> movie/gam10000.dat) and the quick load
+# (command 0xb: demo_load_state_3c200(10000)) in the middle of a fight: the port's save writes the
+# original's pointer layout, the original's load reads it back (and the port's load the original's own).
+# After the load the level clock runs from the saved tick again; reference_test compares the last pass
+# of every tick. Format: src/tests/reference_player_test.cpp.
+level 1
+movie 30001
+stop 1000
+
+10 cheat 1
+12 cheat 2
+20 left 16
+20-60 face 31360 20000
+60 cast left
+100-2900 face_class 5 -1 2048
+120 left 0
+121 right 15
+140-150 cast left
+200 cast right
+260-270 cast left
+300 cast right
+# quick save, fight on, then the quick load sets everything back to tick 400
+400 cmd 10
+420-430 cast left
+500 cast right
+560-570 cast left
+600 left 7
+620 cast left
+700 left 8
+720 cast left
+800 cmd 0xb
+# (ticks 401..800 are played again from here on, with other input)
+820 left 9
+840 cast left
+900 left 0
+920-930 cast left
+1000 cast right
+1100 left 22
+1120 cast left
+1200 cheat 2
+1220 left 18
+1240 cast left
+1300 left 20
+1320 cast left
+1400 left 0
+1420-1430 cast left
+1500 cast right
+1600-1610 cast left
+1700 cast right
+1800 cmd 10
+1820 left 6
+1840 cast left
+1900 cmd 0xb
+1920 left 17
+1940 cast left
+2000 left 0
+2020-2030 cast left
+2100 cast right
+2200-2210 cast left
+2300 cast right
+2400-2410 cast left
+2500 cast right
+2600-2610 cast left
+2700 cast right

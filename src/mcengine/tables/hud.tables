@@ -1,0 +1,6 @@
+# HUD tables extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_hud_player_colours  u8   0x97630  16    # DAT_00097630: per player {colour A, colour B} (status bars, radar blips, player list); [p*2 + Config.tick_bits[k]] blinks between them
+g_hud_book_order      u8   0x97660  24    # DAT_00097660: spell id per spell-book cell (same table as g_spell_slot_order / g_input_book_order)
+g_hud_credit_ptrs     u32  0x9861c  112   # DAT_0009861c: credit line pointers (render_frame_1fab0 credits roll in movie mode); "!" ends a page, "#" the list; subtract 0x92228 for g_hud_credit_text
+g_hud_credit_text     u8   0x92228  0x750 # the credit strings the pointers address (0x92228..0x92976)

@@ -1,0 +1,3 @@
+# Terrain generator tables extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_corner_class_tuples  i8  0x93fc8  592  # 0x94 x 4 corner-class tuples (c0..c3) indexed by texture id, read by terrain_assign_textures_30eb0; a negative byte marks an unused id

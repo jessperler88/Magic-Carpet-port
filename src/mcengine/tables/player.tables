@@ -1,0 +1,6 @@
+# Player tables extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_player_flight_consts  i32  0x94380  13   # flight tuning dwords 0x94380..0x943b0: [1] 0x94384 accel step, [2] 0x94388 min target speed, [3] 0x9438c max target speed (= Thing.speed_base of a flyer), [4] 0x94390 knock-back decay, [9] 0x943a4 strafe accel, [10] 0x943a8 strafe min, [11] 0x943ac strafe max, [12] 0x943b0 strafe decay
+g_player_name_ptrs      u32  0x97640  8    # PTR_s_Zanzamar_00097640: default player names (pointers into the string pool below)
+g_player_name_pool      u8   0x90e70  84   # the eight NUL-terminated names the pointers refer to (0x90e70..0x90ec3)
+g_spell_slot_order      u8   0x97660  24   # DAT_00097660: spell ids in spell-book order (players_init_records_3bc10 fills the slots in this order)

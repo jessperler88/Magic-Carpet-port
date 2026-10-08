@@ -1,0 +1,55 @@
+address,name,comment
+# Labels for code inside functions (applied with: ApplyNames.java <this file> labels).
+# Triangle rasteriser poly_fill_triangle_722e3: the sorter picks one of 4 vertex-order cases, each case
+# has 4 edge-setup routines chosen by fill mode (DAT_0009e309, 0..26) through a 27-entry table; the
+# edge setup fills the per-scanline table at 0x9b608 (20-byte records: +2 x_left i16, +6 count u16,
+# +8 u 16.16, +0xc v 16.16, +0x10 shade 16.16) then jumps through the 27-entry table at 0x73eab to the
+# span filler for the mode. SHADE = 0xb99b0 [level<<8|colour], BLEND = 0xbd9b0 [a<<8|b], TEX = DAT_0009b5f8,
+# constant colour / shade level = DAT_0009e308. All share the epilogue at 0x73f74 (add esp 0x68; popal; ret).
+0x00072459,poly_edge_table_case1_72459,27 dwords: fill mode -> edge setup (case 1 vertex order)
+0x000724c5,poly_edge_case1_texshade_724c5,edge setup with u v and shade gradients (modes 5 6 20 21 24 25 26)
+0x00072744,poly_edge_case1_tex_72744,edge setup with u v gradients (modes 2 3 7-13 18 19 22 23)
+0x00072963,poly_edge_case1_shade_72963,edge setup with shade gradient only (modes 1 4 16 17)
+0x00072b26,poly_edge_case1_flat_72b26,edge setup without gradients (modes 0 14 15)
+0x00072d39,poly_edge_table_case2_72d39,27 dwords: fill mode -> edge setup (case 2)
+0x00072da5,poly_edge_case2_texshade_72da5,
+0x00073051,poly_edge_case2_tex_73051,
+0x0007328e,poly_edge_case2_shade_7328e,
+0x00073460,poly_edge_case2_flat_73460,
+0x0007363a,poly_edge_table_case3_7363a,27 dwords: fill mode -> edge setup (case 3)
+0x000736a6,poly_edge_case3_texshade_736a6,
+0x000737cf,poly_edge_case3_tex_737cf,
+0x000738d2,poly_edge_case3_shade_738d2,
+0x00073999,poly_edge_case3_flat_73999,
+0x00073ab9,poly_edge_table_case4_73ab9,27 dwords: fill mode -> edge setup (case 4)
+0x00073b25,poly_edge_case4_texshade_73b25,
+0x00073c51,poly_edge_case4_tex_73c51,
+0x00073d4c,poly_edge_case4_shade_73d4c,
+0x00073e16,poly_edge_case4_flat_73e16,
+0x00073eab,poly_span_table_73eab,27 dwords: fill mode -> span filler
+0x00073f74,poly_fill_exit_73f74,shared epilogue
+0x00073f17,span_m00_flat_73f17,mode 0: rep stosb constant colour DAT_0009e308
+0x00073f79,span_m01_colour_ramp_73f79,mode 1: colour index = shade gradient (16.16 step; palette ramp gouraud)
+0x00074135,span_m02_textured_74135,mode 2: affine texture (u v 16.16; texel = TEX[v<<8|u])
+0x000743d1,span_m03_textured_keyed_743d1,mode 3: affine texture; texel 0 = transparent
+0x000746b1,span_m04_flat_shaded_746b1,mode 4: SHADE[shade_gradient<<8 | colour]
+0x00074915,span_m05_textured_gouraud_74915,mode 5: SHADE[shade_gradient<<8 | texel]
+0x00074cb0,span_m06_textured_gouraud_keyed_74cb0,mode 6: as 5 with texel 0 transparent (inferred from size/pairing)
+0x0007508b,span_m07_textured_flatlit_7508b,modes 7 and 11: SHADE[colour<<8 | texel] (constant light level)
+0x00075391,span_m08_textured_flatlit_keyed_75391,mode 8: as 7 with texel 0 transparent
+0x000756d7,span_m09_shadow_756d7,modes 9 10: dest = SHADE[texel<<8 | dest] where texel != 0 (texture is a light/shadow map over the destination)
+0x00075a4a,span_m12_textured_tint_75a4a,mode 12: BLEND[texel<<8 | colour]
+0x00075d4f,span_m13_textured_tint_swapped_75d4f,mode 13: BLEND[colour<<8 | texel]
+0x00076055,span_m14_flat_translucent_76055,mode 14: BLEND[colour<<8 | dest]
+0x000761ea,span_m15_flat_translucent_swapped_761ea,mode 15: BLEND[dest<<8 | colour]
+0x0007637e,span_m16_shaded_translucent_7637e,mode 16: BLEND[SHADE[g<<8|colour]<<8 | dest]
+0x00076637,span_m17_shaded_translucent_swapped_76637,mode 17: BLEND[dest<<8 | SHADE[g<<8|colour]]
+0x000768f0,span_m18_textured_translucent_768f0,mode 18: BLEND[texel<<8 | dest]
+0x00076c1f,span_m19_textured_translucent_swapped_76c1f,mode 19: BLEND[dest<<8 | texel]
+0x00076f4e,span_m20_gouraud_translucent_76f4e,mode 20: BLEND[SHADE[g<<8|texel]<<8 | dest]
+0x000773c7,span_m21_gouraud_translucent_swapped_773c7,mode 21: BLEND[dest<<8 | SHADE[g<<8|texel]]
+0x00077840,span_m22_textured_translucent_keyed_77840,mode 22: as 18 with texel 0 transparent
+0x00077bb3,span_m23_textured_translucent_keyed_swapped_77bb3,mode 23: as 19 with texel 0 transparent
+0x00077f26,span_m24_gouraud_translucent_keyed_77f26,mode 24: as 20 with texel 0 transparent
+0x000783df,span_m25_gouraud_translucent_keyed_swapped_783df,mode 25: as 21 with texel 0 transparent
+0x00078898,span_m26_water_78898,mode 26 (0x1a water): SHADE[g<<8|texel] then BLEND with dest only while a per-pixel counter is below threshold (jae at 78971) - shaded texture with depth-limited translucency

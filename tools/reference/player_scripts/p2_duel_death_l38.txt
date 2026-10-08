@@ -1,0 +1,120 @@
+# Port round 6 (task C): scripted local player, level 38 (the movie-0 level, 3 AI wizards).
+# Castle, then attacks on the nearest AI wizard (fireball, lightning, rubber band, steal mana, reverse
+# speed, rebound, shield, invisible, heal while damaged), getting killed, respawning at the castle
+# (command 0xf), and a second round. Format: src/tests/reference_player_test.cpp.
+level 38
+movie 30038
+stop 6000
+
+10 cheat 1
+100-6000 respawn
+1500-1520 rebuild
+3000-3020 rebuild
+4500-4520 rebuild
+12 cheat 2
+20 left 16
+20-60 face 640 20000
+60 cast left
+# chase the nearest AI wizard (class 3 type 1) and stay ~12 cells away
+100-1400 face_class 3 1 3072
+100 left 0
+102 right 15
+# (no shots before the flyer has passed its own castle)
+340 left 11
+370 cast left
+400 left 13
+430 cast left
+460 left 21
+490 cast left
+500 cheat 2
+520 left 14
+550 cast left
+580 left 4
+610 cast left
+640 left 0
+660-670 cast left
+700 cast right
+740-750 cast left
+800 cast right
+840 left 12
+870 cast left
+900 left 0
+920-930 cast left
+960 cast right
+1000 cheat 2
+1020-1030 cast left
+1060 cast right
+1100 left 1
+1110-1400 cast left
+# re-arm after deaths (the dying flyer drops its spells)
+1205 cheat 1
+1207 cheat 2
+1805 cheat 1
+1807 cheat 2
+2405 cheat 1
+2407 cheat 2
+3005 cheat 1
+3007 cheat 2
+3605 cheat 1
+3607 cheat 2
+4205 cheat 1
+4207 cheat 2
+4805 cheat 1
+4807 cheat 2
+5405 cheat 1
+5407 cheat 2
+# hover near the wizards until something kills the flyer; respawn requests are only sent while dead
+1400-3000 face_class 3 1 1024
+1400 left 0
+1450-1460 cast left
+1500 cast right
+1600-1610 cast left
+1700 cast right
+1800-1810 cast left
+1900 cast right
+2000 cheat 2
+2050-2060 cast left
+2200 cast right
+2300-2310 cast left
+2400 cast right
+2600-2610 cast left
+2800 cast right
+3000 cheat 2
+# second round: possession of mana balls, heal, more fighting, the AI wizard's castle as target
+3000-3600 face_class 10 39
+3010 right 3
+3020 cast right
+3080 cast right
+3140 cast right
+3200 cast right
+3260 cast right
+3320 cast right
+3380 cast right
+3440 cast right
+3600-4600 face_class 3 2 2048
+3600 left 0
+3620-3630 cast left
+3700-3710 cast left
+3800-3810 cast left
+3900 left 7
+3920 cast left
+4000 left 8
+4020 cast left
+4100 left 22
+4120 cast left
+4200 cheat 2
+4220 left 18
+4240 cast left
+4300 left 20
+4320 cast left
+4400 left 1
+4410-4500 cast left
+4600-6000 face_class 3 1 1024
+4600 left 0
+4650-4660 cast left
+4800-4810 cast left
+5000-5010 cast left
+5200-5210 cast left
+5400-5410 cast left
+5600-5610 cast left
+5800-5810 cast left

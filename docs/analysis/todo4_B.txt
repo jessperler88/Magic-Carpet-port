@@ -1,0 +1,12 @@
+# Round 4 (B): resolve UNCERTAIN names in 0x1f6b0-0x40000. address | current name | current comment
+0x00023c20 | effect_fire_update_23c20 | UNCERTAIN: class 10 state 6 Fire; calls thing_area_damage_11160
+0x000241f0 | effect_black_smoke_update_241f0 | UNCERTAIN: class 10 state 14 (not read)
+0x00024d70 | terrain_ring_find_height_ne8_24d70 | UNCERTAIN: Real function (jump table 0x24d54 sits in front of it). Ring scan around packed cell (esp+0x14): for radius r..0x1d walks the 4 sides of each square ring and returns the first packed cell whose heightmap byte (0xDDFB0, cmp [ebx+0xddfb0],8) != 8, else the start cell. The start radius local is apparently uninitialised. 0 callers in export.
+0x000284d0 | dbg_vga_dac0_blue_284d0 | UNCERTAIN: asm, entry is one 00 byte early - real start 0x284d0: push ebx; xor ch,ch; mov bl,0x3f; xor cl,cl; out 0x3c8,0; out 0x3c9 r=0 g=0 b=0x3f; pop ebx; ret -> palette entry 0 = pure blue (debug flash of the border/background colour); no callers
+0x0002e5a0 | render_cell_things_mirrored_2e5a0 | UNCERTAIN: Same as 2c600 for the second-surface pass (state+0x2195): projects with z = -cam_z - thing_z (mirrored)
+0x000329c0 | level_skip_number_329c0 | UNCERTAIN: cfg+0x11 (level number): if it is 8, 0x11, 0x1c, 0x21 or 0x27 increment it (those level numbers are skipped). Caller game_main_32a00.
+0x00036200 | thing_alloc_heal_36200 | UNCERTAIN: thing_alloc_35560 (args passed through) then thing_restore_health_35080 on the new thing; always returns 0; unused constructor stub between scenery_create_2d_dome_36190 and creature_create_dragon_362d0
+0x0003bbd0 | player_cheat_check_3bbd0 | UNCERTAIN: Every 8th frame (cfg+4 & 7 == 0) when (cfg+0x18 & 3) == 1: FUN_10010(); if it returns 0 set the local player's record byte +0x340f (state+0x340f + p*0x801) = 2. Callers player_commands_process_3a8b0 and chat_message_show_3bb50 (after the RATTY/chronicle command).
+0x0003d5f0 | terrain_cell_flag_check_3d5f0 | UNCERTAIN: (cell) 1 unless DAT_fdfb0[cell] low 3 bits are 2 3 or 5 (neighbour test used by terrain_modify_cell and terrain_set_cell_height when lowering to 0)
+0x0003e080 | player_log_position_3e080 | UNCERTAIN: Appends thing x
+0x0003e710 | pos_pitch_from_dz_3e710 | UNCERTAIN: (z0, z1, dist): math_atan2_4cc33(z1 - z0, dist) -> 0..0x7ff; sibling of pos_pitch_to_3e6e0; no callers

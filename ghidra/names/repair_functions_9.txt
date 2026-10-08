@@ -1,0 +1,5 @@
+# round 6: the sosMIDI song timer callback (far, retf; pushed at 0x5ead3) and the empty HMI lock markers around it / hmi_midi_slot_is_free
+0x00066898
+0x00066887
+0x00066dc0
+0x00066dd1

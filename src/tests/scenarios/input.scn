@@ -1,0 +1,13 @@
+# The local player's input verbs of reference_player_test (world units) next to debug commands.
+name input verbs
+level 1
+stop 160
+
+2-120 fly 0x8c80 0x8980        # towards cell 140,137 (18 cells east of the start); slows down within 6 cells
+40 assert_pos me 127 134 2     # on the way
+120 assert_pos me 140 137 6
+120 where me
+121 teleport 122 137           # and back home with a debug command
+123 assert_pos me 122 137 1
+150-160 steer 60 0             # turn on the spot
+160 assert_pos me 122 137 1

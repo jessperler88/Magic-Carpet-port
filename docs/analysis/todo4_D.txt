@@ -1,0 +1,14 @@
+# Round 4 (D): resolve UNCERTAIN names in 0x4c000-0x80000. address | current name | current comment
+0x000503d0 | stereo_page_flip_503d0 | UNCERTAIN: Ports 302h/303h page flip and blit
+0x0005ac80 | cpu_detect_5ac80 | UNCERTAIN: Calls 5ace8 and sets cfg+8 = (DAT_0009e59c == 5) (Pentium flag used for detail defaults)
+0x0005c594 | fli_file_chunk_dispatch_5c594 | UNCERTAIN: Sets DAT_0009e73a = 0; the rest (switch on chunk type calling 5c609/5c6e0/5c787) was dropped by the decompiler as unreachable - verify in asm
+0x000631ca | crt_getenv_631ca | UNCERTAIN: Decompiles to return 0 (getenv stub?)
+0x000660bd | crt_call_hook_a46b9_660bd | UNCERTAIN: pushes EAX and calls the statically initialised function pointer DAT_000a46b9 (only reference in the image is this call; never written by code); sits between crt_set_doserrno_660b6 and crt_memset_660d0, probably an exit/signal hook stub
+0x00066f71 | hmi_drv_call_ax_stub_66f71 | UNCERTAIN: orphan 10-byte asm between dpmi_alloc_locked_dos_mem_66f24 and the fn8 get-info caller at 0x66f7b: push es; ax = [ebp+0xc]; call [ebp+8]; pop es; ret - uses the caller's frame (no prologue), no callers; unused driver-call helper
+0x0006a5f1 | crt_prtf_fixed_point_6a5f1 | UNCERTAIN: Prints integer with decimal point (Watcom fixed-point %f replacement)
+0x0006ee78 | snd_gus_cc_scaled_a_6ee78 | UNCERTAIN: Channel byte +1 (DAT_000a53ef) = ((val*45)/100)*2, i.e. 0..90*2 scaling; one of the modulation-depth style controllers (exact CC not recovered)
+0x0006eea1 | snd_gus_cc_scaled_b_6eea1 | UNCERTAIN: Channel byte +2 (DAT_000a53f0) = ((val*45)/100)*2; sibling of 6ee78
+0x0006f801 | snd_gus_setup_regs_a_6f801 | UNCERTAIN: If arg >= 8 returns 1; else 3 byte pokes + 4 word pokes to the GUS (voice/DMA setup for index 0..7); no callers
+0x0006f895 | snd_gus_setup_regs_b_6f895 | UNCERTAIN: If arg >= 8 returns 1; else 0x1c consecutive byte pokes (register block init for index 0..7); no callers
+0x000704b6 | snd_opl_get_state_ptr_704b6 | UNCERTAIN: returns &DAT_000a4eb8 (OPL driver block); no callers in export
+0x00070697 | snd_opl_alloc_voice_70697 | UNCERTAIN: OPL voice allocation

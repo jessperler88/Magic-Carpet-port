@@ -1,0 +1,2 @@
+# bogus function created by the gap repair inside the rasteriser's span fillers
+0x000785fa

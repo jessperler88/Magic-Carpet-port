@@ -1,0 +1,22 @@
+# Give mana: to the wizard (capped by its total), as a mana ball (cheat 2), all spells.
+name give mana
+level 1
+
+1 assert_mana me == max
+give mana -700                 # take mana away from the wizard ...
+wait 1
+assert_mana me < 1000
+assert_mana me >= 300
+give mana 100000               # ... and give it back: capped at mana_total
+wait 1
+assert_mana me == max
+
+assert_count mana_ball == 6      # level 1 starts with six mana balls
+give mana 5000 ball            # cheat 2's mana ball, owned by the wizard
+wait 1
+assert_count effect mana_ball == 7
+
+assert_count spell == 1        # one spell lies in the level
+give spells                    # cheat 1: one spell Thing per spell id the wizard lacks
+wait 1
+assert_count spell >= 24

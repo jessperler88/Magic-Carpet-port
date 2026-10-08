@@ -1,0 +1,6 @@
+# Local-input tables extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_input_scancode_ascii  u8  0x9e5e8  128   # DAT_0009e5e8: set-1 scancode -> character of the in-game text entry (player_local_input_16660 mode 3); upper-case letters, [1] Esc is 0x27 (a "27" typed as hex), [0x0e] = 8 backspace
+g_input_book_order      u8  0x97660  24    # DAT_00097660: spell id per spell-book cell (4 columns x 6 rows); the same table player.tables calls g_spell_slot_order
+g_input_mouse_start     i16 0x9e5d8  4     # DAT_0009e5d8..5de at program start: click x / y, mouse x / y = 320, 200
+g_input_dblclick_window i16 0x9e5e0  1     # DAT_0009e5e0: double-click window loaded into DAT_0012ee06 by mouse_event_callback_5b86c (0x19)

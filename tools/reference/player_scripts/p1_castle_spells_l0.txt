@@ -1,0 +1,145 @@
+# Port round 6 (task C): scripted local player, level 0 (no other wizard; townies, traders, builder).
+# Castle build + two upgrades, every spell id (16 = castle; 1 = heal is attempted at full health here,
+# it really heals in p2), mana collection (possession of mana balls, the castle's balloon), the book /
+# quick-select / toggle commands. Format: src/tests/reference_player_test.cpp.
+level 0
+movie 30000
+stop 4000
+
+# all spells (cheat 1) and mana (cheat 2: a 100000 mana ball owned by the player, mana = mana_total)
+10 cheat 1
+12 cheat 2
+# castle 16 cells ahead (yaw 0), then upgrade it twice (the castle projectile flies to the own castle)
+20 left 16
+40 cast left
+200 cheat 2
+300 cast left
+500 cheat 2
+600 cast left
+
+# the book and the hand commands as the input code sends them
+650 book
+660 cmd 0x15 3          # book slot 3 -> left hand, closes the book
+670 book
+680 close
+690 cmd 0x17 2 5        # assign book slot 5 to quick-select key 2 (pad2 = slot)
+700 cmd 0x18 2          # key 2 -> left hand
+710 cmd 0x19 2          # key 2 -> right hand
+720 cmd 4 0x10          # M: PlayerRec.flags ^= 0x10 (map)
+730 cmd 4 0x10
+740 cmd 4 0x20          # F
+750 cmd 4 0x20
+760 cmd 8 16            # zoom
+770 cmd 8 -16
+780 cmd 7 1             # camera log entry
+790 cmd 0x10            # chat: begin, two keys, backspace, send
+795 cmd 0x11 0x41
+800 cmd 0x11 0x42
+805 cmd 0x11 8
+810 cmd 0x13
+
+# hunt: fireball at the nearest creature, possession at the nearest mana ball
+820 left 0
+821 right 3
+830-1100 face_class 5 -1
+840 cast left
+880 cast left
+920 cast left
+960 cast left
+1000 cast left
+1040 cast left
+1080 cast left
+1100-1400 face_class 10 39
+1110 cast right
+1150 cast right
+1190 cast right
+1230 cast right
+1270 cast right
+1310 cast right
+1350 cast right
+1390 cast right
+1400 cheat 2
+
+# every other spell once, aimed at the nearest creature (the speed spells move the flyer around)
+1420 left 1
+1450 cast left
+1480 left 2
+1510 cast left
+1540 left 4
+1570 cast left
+1600 left 5
+1630 cast left
+1660 left 6
+1662-1700 face_class 5 -1
+1690 cast left
+1720 left 7
+1722-1760 face_class 5 -1
+1750 cast left
+1760 cheat 2
+1780 left 8
+1782-1820 face_class 5 -1
+1810 cast left
+1840 left 9
+1842-1880 face_class 5 -1
+1870 cast left
+1900 left 10
+1902-1940 face_class 5 -1
+1930 cast left
+1960 left 11
+1962-2000 face_class 5 -1
+1990 cast left
+2000 cheat 2
+2020 left 12
+2050 cast left
+2080 left 13
+2082-2120 face_class 5 -1
+2110 cast left
+2140 left 14
+2170 cast left
+2200 left 15
+2202-2240 face_class 5 -1
+2230 cast left
+2240 cheat 2
+2260 left 17
+2262-2300 face_class 5 -1
+2290 cast left
+2320 left 18
+2322-2360 face_class 5 -1
+2350 cast left
+2380 left 19
+2382-2420 face_class 5 -1
+2410 cast left
+2440 left 20
+2442-2480 face_class 5 -1
+2470 cast left
+2480 cheat 2
+2500 left 21
+2530 cast left
+2560 left 22
+2562-2600 face_class 5 -1
+2590 cast left
+2620 left 23
+2622-2660 face_class 5 -1
+2650-2660 cast left
+2700 cheat 2
+# a third upgrade and more possession while the balloons fly
+2720 left 16
+2740 cast left
+2760-3200 face_class 10 39
+2780 cast right
+2840 cast right
+2900 cast right
+2960 cast right
+3020 cast right
+3080 cast right
+3140 cast right
+3190 left 0
+3200-3600 face_class 5 -1
+3220-3260 cast left
+3300-3340 cast left
+3400-3440 cast left
+3600-4000 face_class 10 39
+3620 cast right
+3700 cast right
+3780 cast right
+3860 cast right

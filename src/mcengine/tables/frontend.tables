@@ -1,0 +1,16 @@
+# Front end (round 5, task B): data tables of frontend_menu_loop_52070 and its screens.
+fe_menu_items          u16 0x5167c 39     # 13 x {u32 handler, u16 kind}: item id -> handler (0 = none) / slot kind 1..6
+fe_slot_rects          i32 0x51d3c 24     # fe_draw_save_slot_names_54850: 6 x {x, y, w, h} clip rects of the slot names
+fe_lobby_slot_pos      i16 0x51d1c 16     # fe_multiplayer_draw_slots_55210: 8 x {x, y} (320x200 pixels)
+fe_device_pages        i16 0x51e0e 28     # fe_config_draw_52ab0: 7 x {x, y, gcspr entry, device flags}
+fe_language_flags      i16 0x51e46 8      # fe_screen_language_56940: 4 x {x, y} of the highlighted flag
+fe_scan_ascii          u8  0x51e55 57     # ui_text_edit_field_58290: set-1 scancode -> character
+fe_scan_ascii_shift    u8  0x51e8e 57     # ... with Shift
+fe_scan_filter         u8  0x51d9b 57     # ... allowed keys when DAT_0012ed35 & 0x20 (call-name field)
+fe_scan_filter_shift   u8  0x51dd4 57     # ... with Shift
+fe_level_name_ptrs     u32 0x97490 71     # level names (entry 0 empty, 1..50 campaign, 51..70 multiplayer maps)
+fe_level_name_text     u8  0x90b08 0x366  # the strings the pointers above point into (0x90b08..0x90e6e)
+fe_slot_name_defaults  u8  0x9e469 126    # "Game One".."Game Six", 6 x 21 bytes (DAT_0009e4e8 points here)
+fe_lobby_slots_init    u8  0x9e520 24     # DAT_0009e520: 8 x {joined, ready, anim} at program start
+fe_sound_card_ptrs     u32 0x51bbc 50     # fe_config_option_table_52bf0: {name, id} pairs, digital (0x51bbc) and music (0x51c1c) cards
+fe_sound_card_text     u8  0x92ed0 0x210  # the strings of the table above (0x92ed0..0x930e0)

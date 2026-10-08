@@ -1,0 +1,606 @@
+
+class 0 (?): rec@0943da tableA=000000 tableB=000000 parent=0943cc idx=1 extra=00000000
+
+class 1 (?): rec@0943ec tableA=0944e0 tableB=09450c parent=0943cc idx=2 extra=00000000
+  table A @0944e0: 2 records
+    m  0 idx=  0 handler=000000 en=0 null       
+    m  1 idx=  0 handler=000000 en=0 null       
+  table B @09450c: 11 records
+    m  0 idx=  0 handler=000000 en=0 null       
+    m  1 idx=  1 handler=035d20 en=1 NOFUNC     
+    m  2 idx=  2 handler=035d40 en=1 NOFUNC     
+    m  3 idx=  3 handler=035d60 en=1 NOFUNC     
+    m  4 idx=  4 handler=035d80 en=1 NOFUNC     
+    m  5 idx=  5 handler=035da0 en=1 NOFUNC     
+    m  6 idx=  6 handler=035dc0 en=1 NOFUNC     
+    m  7 idx=  7 handler=035de0 en=1 NOFUNC     
+    m  8 idx=  8 handler=035e00 en=1 NOFUNC     
+    m  9 idx=  9 handler=035e20 en=1 NOFUNC     
+    m 10 idx= 10 handler=035e40 en=1 NOFUNC     
+
+class 2 (Scenery): rec@0943fe tableA=094714 tableB=094820 parent=0943cc idx=3 extra=00000000
+  table A @094714: 18 records
+    m  0 idx=  0 handler=043ba0 en=1 size=24    Tree
+    m  1 idx=  1 handler=043cd0 en=1 NOFUNC     Standing stone
+    m  2 idx=  2 handler=043d60 en=1 NOFUNC     Dolmen
+    m  3 idx=  3 handler=043db0 en=1 size=33    Bad stone
+    m  4 idx=  4 handler=043dd0 en=1 NOFUNC     2D dome
+    m  5 idx=  5 handler=043dd0 en=1 NOFUNC     2D dome
+    m  6 idx=  6 handler=043de0 en=1 size=113   
+    m  7 idx=  7 handler=043e50 en=1 NOFUNC     
+    m  8 idx=  8 handler=043e50 en=1 NOFUNC     
+    m  9 idx=  9 handler=043e60 en=1 size=33    
+    m 10 idx= 10 handler=043e80 en=1 NOFUNC     
+    m 11 idx= 11 handler=043e80 en=1 NOFUNC     
+    m 12 idx= 12 handler=043e80 en=1 NOFUNC     
+    m 13 idx= 13 handler=043e80 en=1 NOFUNC     
+    m 14 idx= 14 handler=043e80 en=1 NOFUNC     
+    m 15 idx= 15 handler=043e80 en=1 NOFUNC     
+    m 16 idx= 16 handler=043e80 en=1 NOFUNC     
+    m 17 idx= 17 handler=043e80 en=1 NOFUNC     
+  table B @094820: 6 records
+    m  0 idx=  0 handler=035e60 en=1 NOFUNC     Tree
+    m  1 idx=  1 handler=035f90 en=1 NOFUNC     Standing stone
+    m  2 idx=  2 handler=036010 en=1 NOFUNC     Dolmen
+    m  3 idx=  3 handler=0360a0 en=1 NOFUNC     Bad stone
+    m  4 idx=  4 handler=036120 en=1 NOFUNC     2D dome
+    m  5 idx=  5 handler=036190 en=1 NOFUNC     2D dome
+
+class 3 (Player): rec@094410 tableA=0945b4 tableB=09465c parent=0943cc idx=4 extra=00000000
+  table A @0945b4: 11 records
+    m  0 idx=  0 handler=0402c0 en=1 NOFUNC     
+    m  1 idx=  1 handler=011de0 en=1 NOFUNC     
+    m  2 idx=  2 handler=0405f0 en=1 size=929   
+    m  3 idx=  3 handler=040ab0 en=1 NOFUNC     
+    m  4 idx=  4 handler=0413a0 en=1 NOFUNC     Flyer1
+    m  5 idx=  5 handler=041500 en=1 NOFUNC     Flyer2
+    m  6 idx=  6 handler=0416d0 en=1 size=59    Flyer3
+    m  7 idx=  7 handler=042520 en=1 NOFUNC     Flyer4
+    m  8 idx=  8 handler=042520 en=1 NOFUNC     Flyer5
+    m  9 idx=  9 handler=042530 en=1 size=99    Flyer6/7
+    m 10 idx= 10 handler=042760 en=1 NOFUNC     Flyer8
+  table B @09465c: 12 records
+    m  0 idx=  0 handler=035ac0 en=1 NOFUNC     
+    m  1 idx=  1 handler=035b40 en=1 NOFUNC     
+    m  2 idx=  2 handler=035bc0 en=1 NOFUNC     
+    m  3 idx=  3 handler=035ca0 en=1 NOFUNC     
+    m  4 idx=  4 handler=0359c0 en=1 NOFUNC     Flyer1
+    m  5 idx=  5 handler=0359e0 en=1 NOFUNC     Flyer2
+    m  6 idx=  6 handler=035a00 en=1 NOFUNC     Flyer3
+    m  7 idx=  7 handler=035a20 en=1 NOFUNC     Flyer4
+    m  8 idx=  8 handler=035a40 en=1 NOFUNC     Flyer5
+    m  9 idx=  9 handler=035a60 en=1 NOFUNC     Flyer6/7
+    m 10 idx= 10 handler=035a80 en=1 NOFUNC     Flyer8
+    m 11 idx= 11 handler=035aa0 en=1 NOFUNC     Flyer6/7
+
+class 4 (?): rec@094422 tableA=094884 tableB=094894 parent=0943cc idx=5 extra=00000000
+  table A @094884: 0 records
+  table B @094894: 0 records
+
+class 5 (Creature): rec@094434 tableA=0948a4 tableB=094f50 parent=0943cc idx=6 extra=00000000
+  table A @0948a4: 121 records
+    m  0 idx=  0 handler=019b70 en=1 NOFUNC     Dragon
+    m  1 idx=  1 handler=019b80 en=1 size=31    Vulture
+    m  2 idx=  2 handler=019ba0 en=1 size=73    Bee
+    m  3 idx=  3 handler=019bf0 en=1 size=31    Worm
+    m  4 idx=  4 handler=019c10 en=1 size=16    Archer
+    m  5 idx=  5 handler=019c20 en=1 size=16    Crab
+    m  6 idx=  6 handler=019c70 en=1 size=157   Kraken
+    m  7 idx=  7 handler=019d10 en=1 size=195   Troll
+    m  8 idx=  8 handler=019de0 en=1 size=68    Griffon
+    m  9 idx=  9 handler=019e30 en=1 size=16    Skeleton
+    m 10 idx= 10 handler=019e40 en=1 size=16    Emu
+    m 11 idx= 11 handler=019e50 en=1 size=16    Genie
+    m 12 idx= 12 handler=019e60 en=1 size=32    Builder
+    m 13 idx= 13 handler=019e80 en=1 size=74    Townie
+    m 14 idx= 14 handler=019ed0 en=1 size=252   Trader
+    m 15 idx= 15 handler=019fd0 en=1 NOFUNC     
+    m 16 idx= 16 handler=019ff0 en=1 size=16    Wyvern
+    m 17 idx= 17 handler=01a000 en=1 size=16    
+    m 18 idx= 18 handler=01a010 en=1 size=16    
+    m 19 idx= 19 handler=01a020 en=1 size=16    
+    m 20 idx= 20 handler=01a030 en=1 size=68    
+    m 21 idx= 21 handler=01a080 en=1 size=16    
+    m 22 idx= 22 handler=01a090 en=1 size=16    
+    m 23 idx= 23 handler=01a0a0 en=1 size=16    
+    m 24 idx= 24 handler=01a0b0 en=1 size=35    
+    m 25 idx= 25 handler=01a0e0 en=1 size=1356  
+    m 26 idx= 26 handler=01a630 en=1 NOFUNC     
+    m 27 idx= 27 handler=01a6f0 en=1 size=35    
+    m 28 idx= 28 handler=01a720 en=1 size=33    
+    m 29 idx= 29 handler=01a750 en=1 size=16    
+    m 30 idx= 30 handler=01a820 en=1 NOFUNC     
+    m 31 idx= 31 handler=01a830 en=1 size=1003  
+    m 32 idx= 32 handler=01ac20 en=1 NOFUNC     
+    m 33 idx= 33 handler=01ac80 en=1 size=584   
+    m 34 idx= 34 handler=01aed0 en=1 NOFUNC     
+    m 35 idx= 35 handler=01aee0 en=1 size=16    
+    m 36 idx= 36 handler=01afa0 en=1 NOFUNC     
+    m 37 idx= 37 handler=01afb0 en=1 size=66    
+    m 38 idx= 38 handler=01b000 en=1 NOFUNC     
+    m 39 idx= 39 handler=01b390 en=1 NOFUNC     
+    m 40 idx= 40 handler=01b3e0 en=1 NOFUNC     
+    m 41 idx= 41 handler=01b3f0 en=1 size=16    
+    m 42 idx= 42 handler=01b400 en=1 size=16    
+    m 43 idx= 43 handler=01b410 en=1 size=96    
+    m 44 idx= 44 handler=01b470 en=1 size=45    
+    m 45 idx= 45 handler=01b510 en=1 size=32    
+    m 46 idx= 46 handler=01b530 en=1 size=16    
+    m 47 idx= 47 handler=01b540 en=1 size=16    
+    m 48 idx= 48 handler=01b550 en=1 size=16    
+    m 49 idx= 49 handler=01b560 en=1 size=982   
+    m 50 idx= 50 handler=01b940 en=1 NOFUNC     
+    m 51 idx= 51 handler=01ba60 en=1 size=16    
+    m 52 idx= 52 handler=01ba70 en=1 size=128   
+    m 53 idx= 53 handler=01baf0 en=1 size=16    
+    m 54 idx= 54 handler=01bb00 en=1 size=97    
+    m 55 idx= 55 handler=01bb70 en=1 NOFUNC     
+    m 56 idx= 56 handler=01c570 en=1 size=542   
+    m 57 idx= 57 handler=01c790 en=1 NOFUNC     
+    m 58 idx= 58 handler=01c7c0 en=1 size=16    
+    m 59 idx= 59 handler=01c7d0 en=1 size=16    
+    m 60 idx= 60 handler=01c8e0 en=1 NOFUNC     
+    m 61 idx= 61 handler=01c8f0 en=1 size=16    
+    m 62 idx= 62 handler=01c900 en=1 size=21    
+    m 63 idx= 63 handler=01c920 en=1 NOFUNC     
+    m 64 idx= 64 handler=01c930 en=1 size=16    
+    m 65 idx= 65 handler=01c940 en=1 size=16    
+    m 66 idx= 66 handler=01c950 en=1 size=411   
+    m 67 idx= 67 handler=01caf0 en=1 NOFUNC     
+    m 68 idx= 68 handler=01ce80 en=1 NOFUNC     
+    m 69 idx= 69 handler=01d1f0 en=1 size=16    
+    m 70 idx= 70 handler=01d200 en=1 size=16    
+    m 71 idx= 71 handler=01d210 en=1 size=16    
+    m 72 idx= 72 handler=01d540 en=1 size=1056  
+    m 73 idx= 73 handler=01d9d0 en=1 NOFUNC     
+    m 74 idx= 74 handler=01dc20 en=1 size=474   
+    m 75 idx= 75 handler=01de90 en=1 size=381   
+    m 76 idx= 76 handler=01e0a0 en=1 size=16    
+    m 77 idx= 77 handler=01e0b0 en=1 size=128   
+    m 78 idx= 78 handler=01e130 en=1 NOFUNC     
+    m 79 idx= 79 handler=01e140 en=1 size=706   
+    m 80 idx= 80 handler=01e4f0 en=1 NOFUNC     
+    m 81 idx= 81 handler=01e4f0 en=1 NOFUNC     
+    m 82 idx= 82 handler=01e500 en=1 size=152   
+    m 83 idx= 83 handler=01e5a0 en=1 NOFUNC     
+    m 84 idx= 84 handler=01e5b0 en=1 NOFUNC     
+    m 85 idx= 85 handler=01e5c0 en=1 size=737   
+    m 86 idx= 86 handler=01e980 en=1 NOFUNC     
+    m 87 idx= 87 handler=01e980 en=1 NOFUNC     
+    m 88 idx= 88 handler=01e990 en=1 size=33    
+    m 89 idx= 89 handler=01e9c0 en=1 size=128   
+    m 90 idx= 90 handler=01ea50 en=1 NOFUNC     
+    m 91 idx= 91 handler=01ea60 en=1 size=623   
+    m 92 idx= 92 handler=01ecd0 en=1 size=450   
+    m 93 idx= 93 handler=01eee0 en=1 NOFUNC     
+    m 94 idx= 94 handler=01eef0 en=1 size=16    
+    m 95 idx= 95 handler=01ef00 en=1 size=16    
+    m 96 idx= 96 handler=01f200 en=1 NOFUNC     
+    m 97 idx= 97 handler=01f210 en=1 size=204   
+    m 98 idx= 98 handler=01f2e0 en=1 NOFUNC     
+    m 99 idx= 99 handler=01f660 en=1 NOFUNC     
+    m100 idx=100 handler=01f670 en=1 size=16    
+    m101 idx=101 handler=01f680 en=1 size=16    
+    m102 idx=102 handler=01f690 en=0 NOFUNC     
+    m103 idx=103 handler=01f690 en=0 NOFUNC     
+    m104 idx=104 handler=01f690 en=0 NOFUNC     
+    m105 idx=105 handler=01f690 en=0 NOFUNC     
+    m106 idx=106 handler=01f690 en=0 NOFUNC     
+    m107 idx=107 handler=01f690 en=0 NOFUNC     
+    m108 idx=108 handler=01f6a0 en=0 NOFUNC     
+    m109 idx=109 handler=01f6a0 en=0 NOFUNC     
+    m110 idx=110 handler=01f6a0 en=0 NOFUNC     
+    m111 idx=111 handler=01f6a0 en=0 NOFUNC     
+    m112 idx=112 handler=01f6a0 en=0 NOFUNC     
+    m113 idx=113 handler=01f6a0 en=0 NOFUNC     
+    m114 idx=114 handler=01f6b0 en=0 NOFUNC     
+    m115 idx=115 handler=01f6b0 en=0 NOFUNC     
+    m116 idx=116 handler=01f6b0 en=0 NOFUNC     
+    m117 idx=117 handler=01f6b0 en=0 NOFUNC     
+    m118 idx=118 handler=01f6b0 en=0 NOFUNC     
+    m119 idx=119 handler=01f6b0 en=0 NOFUNC     
+    m120 idx=120 handler=018050 en=1 size=133   
+  table B @094f50: 17 records
+    m  0 idx=  0 handler=0362d0 en=1 size=439   Dragon
+    m  1 idx=  1 handler=036510 en=1 NOFUNC     Vulture
+    m  2 idx=  2 handler=036610 en=1 size=284   Bee
+    m  3 idx=  3 handler=036750 en=1 size=440   Worm
+    m  4 idx=  4 handler=036980 en=1 NOFUNC     Archer
+    m  5 idx=  5 handler=036b30 en=1 size=287   Crab
+    m  6 idx=  6 handler=036c80 en=1 size=418   Kraken
+    m  7 idx=  7 handler=036f00 en=1 size=243   Troll
+    m  8 idx=  8 handler=037000 en=1 size=241   Griffon
+    m  9 idx=  9 handler=037110 en=1 NOFUNC     Skeleton
+    m 10 idx= 10 handler=037260 en=1 size=244   Emu
+    m 11 idx= 11 handler=037370 en=1 size=266   Genie
+    m 12 idx= 12 handler=0374a0 en=1 NOFUNC     Builder
+    m 13 idx= 13 handler=0375e0 en=1 size=325   Townie
+    m 14 idx= 14 handler=037730 en=1 NOFUNC     Trader
+    m 15 idx= 15 handler=037850 en=1 NOFUNC     
+    m 16 idx= 16 handler=037980 en=1 NOFUNC     Wyvern
+
+class 6 (?): rec@094446 tableA=09504c tableB=095078 parent=0943cc idx=7 extra=00000000
+  table A @09504c: 2 records
+    m  0 idx=  0 handler=0303e0 en=1 NOFUNC     
+    m  1 idx=  1 handler=0303e0 en=1 NOFUNC     
+  table B @095078: 2 records
+    m  0 idx=  0 handler=037aa0 en=1 NOFUNC     
+    m  1 idx=  1 handler=037ac0 en=1 NOFUNC     
+
+class 7 (Weather): rec@094458 tableA=0950a4 tableB=0950f8 parent=0943cc idx=8 extra=00000000
+  table A @0950a4: 5 records
+    m  0 idx=  0 handler=04b570 en=1 size=1     
+    m  1 idx=  1 handler=04b570 en=1 size=1     
+    m  2 idx=  2 handler=04b570 en=1 size=1     
+    m  3 idx=  3 handler=04b570 en=1 size=1     
+    m  4 idx=  4 handler=04b570 en=1 size=1     Wind
+  table B @0950f8: 5 records
+    m  0 idx=  0 handler=037ae0 en=1 NOFUNC     
+    m  1 idx=  1 handler=037b00 en=1 NOFUNC     
+    m  2 idx=  2 handler=037b20 en=1 NOFUNC     
+    m  3 idx=  3 handler=037b40 en=1 NOFUNC     
+    m  4 idx=  4 handler=037b60 en=1 NOFUNC     Wind
+
+class 8 (?): rec@09446a tableA=09514c tableB=0951b0 parent=0943cc idx=9 extra=00000000
+  table A @09514c: 6 records
+    m  0 idx=  0 handler=042960 en=1 NOFUNC     
+    m  1 idx=  1 handler=042960 en=1 NOFUNC     
+    m  2 idx=  2 handler=042960 en=1 NOFUNC     
+    m  3 idx=  3 handler=042960 en=1 NOFUNC     
+    m  4 idx=  4 handler=042960 en=1 NOFUNC     
+    m  5 idx=  5 handler=042960 en=1 NOFUNC     
+  table B @0951b0: 6 records
+    m  0 idx=  0 handler=037be0 en=1 NOFUNC     
+    m  1 idx=  1 handler=037c00 en=1 NOFUNC     
+    m  2 idx=  2 handler=037c20 en=1 NOFUNC     
+    m  3 idx=  3 handler=037c40 en=1 NOFUNC     
+    m  4 idx=  4 handler=037c60 en=1 NOFUNC     
+    m  5 idx=  5 handler=037c80 en=1 NOFUNC     
+
+class 9 (?): rec@09447c tableA=095214 tableB=095348 parent=0943cc idx=10 extra=00000000
+  table A @095214: 21 records
+    m  0 idx=  0 handler=044510 en=1 NOFUNC     
+    m  1 idx=  1 handler=0448b0 en=1 size=394   
+    m  2 idx=  2 handler=044a40 en=1 size=14    
+    m  3 idx=  3 handler=044a50 en=1 NOFUNC     
+    m  4 idx=  4 handler=044a40 en=1 size=14    
+    m  5 idx=  5 handler=044a40 en=1 size=14    
+    m  6 idx=  6 handler=044a40 en=1 size=14    
+    m  7 idx=  7 handler=044a90 en=1 size=14    
+    m  8 idx=  8 handler=044aa0 en=1 size=1020  
+    m  9 idx=  9 handler=044fc0 en=1 size=283   
+    m 10 idx= 10 handler=045360 en=1 size=463   
+    m 11 idx= 11 handler=044a40 en=1 size=14    
+    m 12 idx= 12 handler=0457a0 en=1 size=957   
+    m 13 idx= 13 handler=045b60 en=1 size=253   
+    m 14 idx= 14 handler=045c70 en=1 size=29    
+    m 15 idx= 15 handler=044a40 en=1 size=14    
+    m 16 idx= 16 handler=044a40 en=1 size=14    
+    m 17 idx= 17 handler=044a40 en=1 size=14    
+    m 18 idx= 18 handler=045c90 en=1 size=455   
+    m 19 idx= 19 handler=045e60 en=1 size=74    
+    m 20 idx= 20 handler=044a40 en=1 size=14    
+  table B @095348: 20 records
+    m  0 idx=  0 handler=037cb0 en=1 NOFUNC     
+    m  1 idx=  1 handler=037d30 en=1 NOFUNC     
+    m  2 idx=  2 handler=037de0 en=1 NOFUNC     
+    m  3 idx=  3 handler=037e60 en=1 NOFUNC     
+    m  4 idx=  4 handler=037ee0 en=1 NOFUNC     
+    m  5 idx=  5 handler=037f60 en=1 NOFUNC     
+    m  6 idx=  6 handler=037fe0 en=1 NOFUNC     
+    m  7 idx=  7 handler=038060 en=1 NOFUNC     
+    m  8 idx=  8 handler=0380e0 en=1 NOFUNC     
+    m  9 idx=  9 handler=038160 en=1 NOFUNC     
+    m 10 idx= 10 handler=0381e0 en=1 NOFUNC     
+    m 11 idx= 11 handler=038260 en=1 NOFUNC     
+    m 12 idx= 12 handler=0382e0 en=1 NOFUNC     
+    m 13 idx= 13 handler=038360 en=1 NOFUNC     
+    m 14 idx= 14 handler=038440 en=1 NOFUNC     
+    m 15 idx= 15 handler=0384b0 en=1 NOFUNC     
+    m 16 idx= 16 handler=038510 en=1 NOFUNC     
+    m 17 idx= 17 handler=038590 en=1 NOFUNC     
+    m 18 idx= 18 handler=038630 en=1 NOFUNC     
+    m 19 idx= 19 handler=0386b0 en=1 NOFUNC     
+
+class 10 (Effect): rec@09448e tableA=095470 tableB=0957e4 parent=0943cc idx=11 extra=00000000
+  table A @095470: 62 records
+    m  0 idx=  0 handler=0238b0 en=1 size=454   Explosion
+    m  1 idx=  1 handler=023a80 en=1 size=381   Big explosion
+    m  2 idx=  2 handler=023c00 en=1 size=29    
+    m  3 idx=  3 handler=023d40 en=1 NOFUNC     
+    m  4 idx=  4 handler=0242d0 en=1 NOFUNC     
+    m  5 idx=  5 handler=023d60 en=1 size=96    Splash
+    m  6 idx=  6 handler=023c20 en=1 size=261   Fire
+    m  7 idx=  7 handler=023d30 en=1 NOFUNC     
+    m  8 idx=  8 handler=023d30 en=1 NOFUNC     Mini volcano
+    m  9 idx=  9 handler=023dc0 en=1 size=243   Volcano
+    m 10 idx= 10 handler=023ec0 en=1 size=94    
+    m 11 idx= 11 handler=023fc0 en=1 NOFUNC     Crater
+    m 12 idx= 12 handler=0240b0 en=1 size=67    
+    m 13 idx= 13 handler=024100 en=1 size=234   White smoke
+    m 14 idx= 14 handler=0241f0 en=1 size=225   Black smoke
+    m 15 idx= 15 handler=0242e0 en=1 size=193   Earthquake
+    m 16 idx= 16 handler=0243b0 en=1 size=547   
+    m 17 idx= 17 handler=024630 en=1 NOFUNC     Meteor
+    m 18 idx= 18 handler=024810 en=1 size=633   
+    m 19 idx= 19 handler=024a90 en=1 size=385   
+    m 20 idx= 20 handler=024c10 en=1 NOFUNC     
+    m 21 idx= 21 handler=024c10 en=1 NOFUNC     
+    m 22 idx= 22 handler=024c10 en=1 NOFUNC     
+    m 23 idx= 23 handler=024c20 en=1 size=129   Lightning
+    m 24 idx= 24 handler=024ca0 en=1 NOFUNC     Rain of fire
+    m 25 idx= 25 handler=024cb0 en=1 size=83    Steal mana
+    m 26 idx= 26 handler=024d10 en=1 size=67    
+    m 27 idx= 27 handler=024fc0 en=1 NOFUNC     
+    m 28 idx= 28 handler=024eb0 en=1 size=262   Wall
+    m 29 idx= 29 handler=0250b0 en=1 NOFUNC     Path
+    m 30 idx= 30 handler=023d30 en=1 NOFUNC     
+    m 31 idx= 31 handler=023d30 en=1 NOFUNC     Canyon
+    m 32 idx= 32 handler=0251e0 en=1 size=137   
+    m 33 idx= 33 handler=023d30 en=1 NOFUNC     
+    m 34 idx= 34 handler=025270 en=1 size=116   Teleport
+    m 35 idx= 35 handler=025630 en=1 size=33    
+    m 36 idx= 36 handler=0253b0 en=1 NOFUNC     
+    m 37 idx= 37 handler=025550 en=1 size=171   
+    m 38 idx= 38 handler=0257e0 en=1 size=410   
+    m 39 idx=  0 handler=000000 en=0 null       Mana ball
+    m 40 idx= 40 handler=025670 en=1 size=365   
+    m 41 idx= 41 handler=025980 en=1 size=687   
+    m 42 idx= 42 handler=025f10 en=1 NOFUNC     
+    m 43 idx= 43 handler=026b50 en=1 NOFUNC     
+    m 44 idx= 44 handler=026f10 en=1 NOFUNC     
+    m 45 idx= 45 handler=027d20 en=1 NOFUNC     Wizard
+    m 46 idx= 46 handler=027e90 en=0 NOFUNC     
+    m 47 idx=  0 handler=000000 en=0 null       
+    m 48 idx= 48 handler=026680 en=1 size=1230  
+    m 49 idx=  0 handler=000000 en=0 null       
+    m 50 idx=  0 handler=000000 en=0 null       Ridge node
+    m 51 idx= 51 handler=026680 en=1 size=1230  
+    m 52 idx= 52 handler=027710 en=1 size=218   Crab egg
+    m 53 idx= 53 handler=027930 en=1 size=1000  
+    m 54 idx= 54 handler=023d30 en=1 NOFUNC     
+    m 55 idx= 55 handler=0252f0 en=1 size=164   
+    m 56 idx= 56 handler=027ff0 en=1 size=81    
+    m 57 idx= 57 handler=028050 en=1 size=93    
+    m 58 idx= 58 handler=0280d0 en=1 size=406   
+    m 59 idx= 59 handler=028270 en=1 NOFUNC     
+    m 60 idx= 60 handler=028320 en=1 NOFUNC     
+    m 61 idx= 61 handler=0284c0 en=1 NOFUNC     
+  table B @0957e4: 57 records
+    m  0 idx=  0 handler=038730 en=1 NOFUNC     Explosion
+    m  1 idx=  1 handler=0387b0 en=1 NOFUNC     Big explosion
+    m  2 idx=  2 handler=038810 en=1 size=84    
+    m  3 idx=  3 handler=038870 en=1 NOFUNC     
+    m  4 idx=  4 handler=0388e0 en=1 NOFUNC     
+    m  5 idx=  5 handler=038950 en=1 NOFUNC     Splash
+    m  6 idx=  6 handler=0389d0 en=1 size=120   Fire
+    m  7 idx=  7 handler=038a70 en=1 size=158   
+    m  8 idx=  8 handler=038b10 en=1 NOFUNC     Mini volcano
+    m  9 idx=  9 handler=038b70 en=1 NOFUNC     Volcano
+    m 10 idx= 10 handler=038bd0 en=1 NOFUNC     
+    m 11 idx= 11 handler=038c40 en=1 NOFUNC     Crater
+    m 12 idx= 12 handler=038cb0 en=1 NOFUNC     
+    m 13 idx= 13 handler=038d40 en=1 size=152   White smoke
+    m 14 idx= 14 handler=038de0 en=1 size=152   Black smoke
+    m 15 idx= 15 handler=038e80 en=1 size=130   Earthquake
+    m 16 idx= 16 handler=038f60 en=1 size=229   
+    m 17 idx= 17 handler=038f10 en=1 NOFUNC     Meteor
+    m 18 idx= 18 handler=039050 en=1 size=79    
+    m 19 idx= 19 handler=0390a0 en=1 NOFUNC     
+    m 20 idx= 20 handler=037ca0 en=1 NOFUNC     
+    m 21 idx= 21 handler=037ca0 en=1 NOFUNC     
+    m 22 idx= 22 handler=037ca0 en=1 NOFUNC     
+    m 23 idx= 23 handler=039120 en=1 NOFUNC     Lightning
+    m 24 idx= 24 handler=037ca0 en=1 NOFUNC     Rain of fire
+    m 25 idx= 25 handler=0391a0 en=1 NOFUNC     Steal mana
+    m 26 idx= 26 handler=039220 en=1 NOFUNC     
+    m 27 idx= 27 handler=0392a0 en=1 NOFUNC     
+    m 28 idx= 28 handler=039300 en=1 NOFUNC     Wall
+    m 29 idx= 29 handler=0393c0 en=1 size=81    Path
+    m 30 idx= 30 handler=039360 en=1 size=81    
+    m 31 idx= 31 handler=039470 en=1 size=81    Canyon
+    m 32 idx= 32 handler=039420 en=1 size=73    
+    m 33 idx= 33 handler=039770 en=1 size=79    
+    m 34 idx= 34 handler=0395a0 en=1 size=78    Teleport
+    m 35 idx= 35 handler=039670 en=1 NOFUNC     
+    m 36 idx= 36 handler=039680 en=1 NOFUNC     
+    m 37 idx=  0 handler=000000 en=0 null       
+    m 38 idx= 38 handler=039700 en=1 NOFUNC     
+    m 39 idx= 39 handler=039840 en=1 NOFUNC     Mana ball
+    m 40 idx= 40 handler=0398c0 en=1 NOFUNC     
+    m 41 idx= 41 handler=039a00 en=1 size=67    
+    m 42 idx= 42 handler=039a50 en=1 size=71    
+    m 43 idx= 43 handler=039990 en=1 NOFUNC     
+    m 44 idx= 44 handler=039aa0 en=1 NOFUNC     
+    m 45 idx= 45 handler=039930 en=1 NOFUNC     Wizard
+    m 46 idx=  0 handler=000000 en=0 null       
+    m 47 idx=  0 handler=000000 en=0 null       
+    m 48 idx=  0 handler=000000 en=0 null       
+    m 49 idx=  0 handler=000000 en=0 null       
+    m 50 idx= 50 handler=039540 en=1 NOFUNC     Ridge node
+    m 51 idx= 51 handler=0394d0 en=1 size=98    
+    m 52 idx= 52 handler=039b00 en=1 NOFUNC     Crab egg
+    m 53 idx= 53 handler=039b80 en=1 size=139   
+    m 54 idx= 54 handler=039c10 en=1 NOFUNC     
+    m 55 idx= 55 handler=039ca0 en=1 NOFUNC     
+    m 56 idx= 56 handler=039d30 en=1 NOFUNC     
+
+class 11 (Switch): rec@0944a0 tableA=095b10 tableB=095ce0 parent=0943cc idx=12 extra=00000000
+  table A @095b10: 32 records
+    m  0 idx=  0 handler=04a2a0 en=1 NOFUNC     Hidden inside
+    m  1 idx=  1 handler=04a2d0 en=1 NOFUNC     Hidden outside
+    m  2 idx=  2 handler=04a300 en=1 NOFUNC     Hidden inside re
+    m  3 idx=  3 handler=04a350 en=1 size=71    
+    m  4 idx=  4 handler=04a3a0 en=1 size=191   On victory
+    m  5 idx=  5 handler=04a460 en=1 size=46    Death inside
+    m  6 idx=  6 handler=04a490 en=1 NOFUNC     Death outside
+    m  7 idx=  7 handler=04a4c0 en=1 NOFUNC     Death inside re
+    m  8 idx=  8 handler=04a510 en=1 size=71    
+    m  9 idx=  9 handler=04a560 en=1 size=46    Obvious inside
+    m 10 idx= 10 handler=04a590 en=1 NOFUNC     Obvious outside
+    m 11 idx= 11 handler=04a5c0 en=1 NOFUNC     
+    m 12 idx= 12 handler=04a610 en=1 size=71    
+    m 13 idx= 13 handler=04a780 en=1 size=16    Dragon trigger
+    m 14 idx= 14 handler=04a790 en=1 size=16    
+    m 15 idx= 15 handler=04a7a0 en=1 size=16    
+    m 16 idx= 16 handler=04a7b0 en=1 size=16    None trigger
+    m 17 idx= 17 handler=04a7c0 en=1 size=16    
+    m 18 idx= 18 handler=04a7d0 en=1 size=16    Crab trigger
+    m 19 idx= 19 handler=04a7e0 en=1 size=16    Kraken trigger
+    m 20 idx= 20 handler=04a7f0 en=1 size=16    Troll trigger
+    m 21 idx= 21 handler=04a800 en=1 size=16    
+    m 22 idx= 22 handler=04a810 en=1 size=16    
+    m 23 idx= 23 handler=04a820 en=1 size=16    
+    m 24 idx= 24 handler=04a830 en=1 size=16    Genie trigger
+    m 25 idx= 25 handler=04a840 en=1 size=16    
+    m 26 idx= 26 handler=04a850 en=1 size=16    
+    m 27 idx= 27 handler=04a860 en=1 size=16    
+    m 28 idx= 28 handler=04a870 en=1 size=16    
+    m 29 idx= 29 handler=04a880 en=1 size=16    
+    m 30 idx= 30 handler=04a890 en=1 size=17    Creature all
+    m 31 idx= 31 handler=04a8a0 en=1 NOFUNC     
+  table B @095ce0: 32 records
+    m  0 idx=  0 handler=039e10 en=1 NOFUNC     Hidden inside
+    m  1 idx=  1 handler=039e30 en=1 NOFUNC     Hidden outside
+    m  2 idx=  2 handler=039e50 en=1 NOFUNC     Hidden inside re
+    m  3 idx=  3 handler=039e70 en=1 NOFUNC     
+    m  4 idx=  4 handler=039e90 en=1 NOFUNC     On victory
+    m  5 idx=  5 handler=039eb0 en=1 NOFUNC     Death inside
+    m  6 idx=  6 handler=039ed0 en=1 NOFUNC     Death outside
+    m  7 idx=  7 handler=039ef0 en=1 NOFUNC     Death inside re
+    m  8 idx=  8 handler=039f10 en=1 NOFUNC     
+    m  9 idx=  9 handler=039f30 en=1 NOFUNC     Obvious inside
+    m 10 idx= 10 handler=039f50 en=1 NOFUNC     Obvious outside
+    m 11 idx= 11 handler=039f70 en=1 NOFUNC     
+    m 12 idx= 12 handler=039f90 en=1 NOFUNC     
+    m 13 idx= 13 handler=039fb0 en=1 NOFUNC     Dragon trigger
+    m 14 idx= 14 handler=039fd0 en=1 NOFUNC     
+    m 15 idx= 15 handler=039ff0 en=1 NOFUNC     
+    m 16 idx= 16 handler=03a010 en=1 NOFUNC     None trigger
+    m 17 idx= 17 handler=03a030 en=1 NOFUNC     
+    m 18 idx= 18 handler=03a050 en=1 NOFUNC     Crab trigger
+    m 19 idx= 19 handler=03a070 en=1 NOFUNC     Kraken trigger
+    m 20 idx= 20 handler=03a090 en=1 NOFUNC     Troll trigger
+    m 21 idx= 21 handler=03a0b0 en=1 NOFUNC     
+    m 22 idx= 22 handler=03a0d0 en=1 NOFUNC     
+    m 23 idx= 23 handler=03a0f0 en=1 NOFUNC     
+    m 24 idx= 24 handler=03a110 en=1 NOFUNC     Genie trigger
+    m 25 idx= 25 handler=03a130 en=1 NOFUNC     
+    m 26 idx= 26 handler=03a150 en=1 NOFUNC     
+    m 27 idx= 27 handler=03a170 en=1 NOFUNC     
+    m 28 idx= 28 handler=03a190 en=1 NOFUNC     
+    m 29 idx= 29 handler=03a1b0 en=1 NOFUNC     
+    m 30 idx= 30 handler=03a1d0 en=1 NOFUNC     Creature all
+    m 31 idx= 31 handler=03a1f0 en=1 NOFUNC     
+
+class 12 (Spell): rec@0944b2 tableA=095eb0 tableB=0962b0 parent=0943cc idx=13 extra=00000000
+  table A @095eb0: 72 records
+    m  0 idx=  0 handler=047130 en=1 size=444   Fireball
+    m  1 idx=  1 handler=0472f0 en=1 NOFUNC     Heal
+    m  2 idx=  2 handler=047300 en=1 NOFUNC     Alliance
+    m  3 idx=  3 handler=047310 en=1 NOFUNC     Possession
+    m  4 idx=  4 handler=0472f0 en=1 NOFUNC     Shield
+    m  5 idx=  5 handler=047300 en=1 NOFUNC     Beyond sight
+    m  6 idx=  6 handler=047420 en=1 size=352   Earthquake
+    m  7 idx=  7 handler=0472f0 en=1 NOFUNC     Meteor
+    m  8 idx=  8 handler=047300 en=1 NOFUNC     Volcano
+    m  9 idx=  9 handler=0475b0 en=1 NOFUNC     Crater
+    m 10 idx= 10 handler=0472f0 en=1 NOFUNC     Teleport
+    m 11 idx= 11 handler=047300 en=1 NOFUNC     Rubber band
+    m 12 idx= 12 handler=047760 en=1 size=108   Invisible
+    m 13 idx= 13 handler=0472f0 en=1 NOFUNC     Steal mana
+    m 14 idx= 14 handler=047300 en=1 NOFUNC     Rebound
+    m 15 idx= 15 handler=0477d0 en=1 NOFUNC     Lightning
+    m 16 idx= 16 handler=0472f0 en=1 NOFUNC     Castle
+    m 17 idx= 17 handler=047300 en=1 NOFUNC     Skeleton
+    m 18 idx= 18 handler=047840 en=1 size=394   Thunderbolt
+    m 19 idx= 19 handler=0472f0 en=1 NOFUNC     Mana magnet
+    m 20 idx= 20 handler=047300 en=1 NOFUNC     Fire wall
+    m 21 idx= 21 handler=0479f0 en=1 size=383   Reverse speed
+    m 22 idx= 22 handler=0472f0 en=1 NOFUNC     Smart bomb
+    m 23 idx= 23 handler=047300 en=1 NOFUNC     Mini fireball
+    m 24 idx= 24 handler=047b90 en=1 NOFUNC     
+    m 25 idx= 25 handler=0472f0 en=1 NOFUNC     
+    m 26 idx= 26 handler=047300 en=1 NOFUNC     
+    m 27 idx= 27 handler=047d40 en=1 size=394   
+    m 28 idx= 28 handler=0472f0 en=1 NOFUNC     
+    m 29 idx= 29 handler=047300 en=1 NOFUNC     
+    m 30 idx= 30 handler=047ef0 en=1 size=496   
+    m 31 idx= 31 handler=0472f0 en=1 NOFUNC     
+    m 32 idx= 32 handler=047300 en=1 NOFUNC     
+    m 33 idx= 33 handler=0480e0 en=1 size=336   
+    m 34 idx= 34 handler=0472f0 en=1 NOFUNC     
+    m 35 idx= 35 handler=047300 en=1 NOFUNC     
+    m 36 idx= 36 handler=048250 en=1 size=160   
+    m 37 idx= 37 handler=0472f0 en=1 NOFUNC     
+    m 38 idx= 38 handler=047300 en=1 NOFUNC     
+    m 39 idx= 39 handler=0482f0 en=1 size=387   
+    m 40 idx= 40 handler=0472f0 en=1 NOFUNC     
+    m 41 idx= 41 handler=047300 en=1 NOFUNC     
+    m 42 idx= 42 handler=048490 en=1 size=108   
+    m 43 idx= 43 handler=0472f0 en=1 NOFUNC     
+    m 44 idx= 44 handler=047300 en=1 NOFUNC     
+    m 45 idx= 45 handler=048510 en=1 size=383   
+    m 46 idx= 46 handler=0472f0 en=1 NOFUNC     
+    m 47 idx= 47 handler=047300 en=1 NOFUNC     
+    m 48 idx= 48 handler=0486b0 en=1 NOFUNC     
+    m 49 idx= 49 handler=0472f0 en=1 NOFUNC     
+    m 50 idx= 50 handler=047300 en=1 NOFUNC     
+    m 51 idx= 51 handler=0488a0 en=1 NOFUNC     
+    m 52 idx= 52 handler=0472f0 en=1 NOFUNC     
+    m 53 idx= 53 handler=047300 en=1 NOFUNC     
+    m 54 idx= 54 handler=048a70 en=1 size=395   
+    m 55 idx= 55 handler=0472f0 en=1 NOFUNC     
+    m 56 idx= 56 handler=047300 en=1 NOFUNC     
+    m 57 idx= 57 handler=048c20 en=1 NOFUNC     
+    m 58 idx= 58 handler=0472f0 en=1 NOFUNC     
+    m 59 idx= 59 handler=047300 en=1 NOFUNC     
+    m 60 idx= 60 handler=048de0 en=1 NOFUNC     
+    m 61 idx= 61 handler=0472f0 en=1 NOFUNC     
+    m 62 idx= 62 handler=047300 en=1 NOFUNC     
+    m 63 idx= 63 handler=048fa0 en=1 NOFUNC     
+    m 64 idx= 64 handler=0472f0 en=1 NOFUNC     
+    m 65 idx= 65 handler=047300 en=1 NOFUNC     
+    m 66 idx= 66 handler=049140 en=1 size=404   
+    m 67 idx= 67 handler=0472f0 en=1 NOFUNC     
+    m 68 idx= 68 handler=049140 en=1 size=404   
+    m 69 idx= 69 handler=0492e0 en=1 size=444   
+    m 70 idx= 70 handler=0472f0 en=1 NOFUNC     
+    m 71 idx= 71 handler=047300 en=1 NOFUNC     
+  table B @0962b0: 24 records
+    m  0 idx=  0 handler=03a330 en=1 size=33    Fireball
+    m  1 idx=  1 handler=03a390 en=1 size=33    Heal
+    m  2 idx=  2 handler=03a360 en=1 size=36    Alliance
+    m  3 idx=  3 handler=03a2e0 en=1 size=30    Possession
+    m  4 idx=  4 handler=03a450 en=1 size=36    Shield
+    m  5 idx=  5 handler=03a5d0 en=1 size=33    Beyond sight
+    m  6 idx=  6 handler=03a3f0 en=1 size=39    Earthquake
+    m  7 idx=  7 handler=03a480 en=1 size=39    Meteor
+    m  8 idx=  8 handler=03a630 en=1 size=39    Volcano
+    m  9 idx=  9 handler=03a5a0 en=1 size=39    Crater
+    m 10 idx= 10 handler=03a3c0 en=1 size=36    Teleport
+    m 11 idx= 11 handler=03a510 en=1 size=36    Rubber band
+    m 12 idx= 12 handler=03a570 en=1 size=39    Invisible
+    m 13 idx= 13 handler=03a540 en=1 size=36    Steal mana
+    m 14 idx= 14 handler=03a4b0 en=1 size=36    Rebound
+    m 15 idx= 15 handler=03a4e0 en=1 size=39    Lightning
+    m 16 idx= 16 handler=03a300 en=1 NOFUNC     Castle
+    m 17 idx= 17 handler=03a660 en=1 size=36    Skeleton
+    m 18 idx= 18 handler=03a600 en=1 size=39    Thunderbolt
+    m 19 idx= 19 handler=03a420 en=1 size=36    Mana magnet
+    m 20 idx= 20 handler=03a690 en=1 size=39    Fire wall
+    m 21 idx= 21 handler=03a6c0 en=1 size=36    Reverse speed
+    m 22 idx= 22 handler=03a6f0 en=1 size=39    Smart bomb
+    m 23 idx= 23 handler=03a720 en=1 size=36    Mini fireball
+
+class 13 (?): rec@0944c4 tableA=096410 tableB=096458 parent=000000 idx=0 extra=00000000
+  table A @096410: 4 records
+    m  0 idx=  0 handler=03ea90 en=1 NOFUNC     
+    m  1 idx=  1 handler=03ea90 en=1 NOFUNC     
+    m  2 idx=  2 handler=03ea90 en=1 NOFUNC     
+    m  3 idx=  3 handler=03ea90 en=1 NOFUNC     
+  table B @096458: 4 records
+    m  0 idx=  0 handler=03a750 en=1 NOFUNC     
+    m  1 idx=  1 handler=03a780 en=1 NOFUNC     
+    m  2 idx=  2 handler=03a7b0 en=1 NOFUNC     
+    m  3 idx=  3 handler=03a7e0 en=1 NOFUNC     

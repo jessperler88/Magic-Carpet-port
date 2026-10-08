@@ -1,0 +1,819 @@
+[
+{
+"state": 6,
+"wait": 40,
+"op": "dump",
+"a": 1
+},
+{
+"state": "any",
+"wait": 5,
+"op": "move",
+"a": 378,
+"b": 106
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 30,
+"op": "dump",
+"a": 2
+},
+{
+"state": "any",
+"wait": 5,
+"op": "move",
+"a": 148,
+"b": 106
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 30,
+"op": "dump",
+"a": 3
+},
+{
+"state": "any",
+"wait": 5,
+"op": "move",
+"a": 572,
+"b": 240
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": 1,
+"wait": 40,
+"op": "dump",
+"a": 4
+},
+{
+"state": 1,
+"wait": 5,
+"op": "move",
+"a": 382,
+"b": 144
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 30,
+"op": "dump",
+"a": 5
+},
+{
+"state": "any",
+"wait": 5,
+"op": "move",
+"a": 382,
+"b": 144
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 5,
+"op": "move",
+"a": 382,
+"b": 144
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 5,
+"op": "move",
+"a": 382,
+"b": 144
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 5,
+"op": "move",
+"a": 382,
+"b": 144
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 30,
+"op": "dump",
+"a": 6
+},
+{
+"state": "any",
+"wait": 5,
+"op": "move",
+"a": 570,
+"b": 252
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": 9,
+"wait": 20,
+"op": "dump",
+"a": 7
+},
+{
+"state": 8,
+"wait": 10,
+"op": "dump",
+"a": 8
+},
+{
+"state": 2,
+"wait": 80,
+"op": "dump",
+"a": 10
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 260,
+"b": 352
+},
+{
+"state": "any",
+"wait": 30,
+"op": "dump",
+"a": 11
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 54,
+"b": 132
+},
+{
+"state": "any",
+"wait": 30,
+"op": "dump",
+"a": 12
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 240,
+"b": 96
+},
+{
+"state": "any",
+"wait": 30,
+"op": "dump",
+"a": 13
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 490,
+"b": 36
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 40,
+"op": "dump",
+"a": 14
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 510,
+"b": 176
+},
+{
+"state": "any",
+"wait": 30,
+"op": "dump",
+"a": 15
+},
+{
+"state": "any",
+"wait": 2,
+"op": "rdown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "rup"
+},
+{
+"state": "any",
+"wait": 40,
+"op": "dump",
+"a": 16
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 480,
+"b": 106
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 40,
+"op": "dump",
+"a": 17
+},
+{
+"state": "any",
+"wait": 2,
+"op": "rdown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "rup"
+},
+{
+"state": "any",
+"wait": 40,
+"op": "dump",
+"a": 18
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 112,
+"b": 324
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 150,
+"op": "dump",
+"a": 19
+},
+{
+"state": "any",
+"wait": 4,
+"op": "kdown",
+"a": 28
+},
+{
+"state": "any",
+"wait": 2,
+"op": "kup",
+"a": 28
+},
+{
+"state": "any",
+"wait": 10,
+"op": "kdown",
+"a": 28
+},
+{
+"state": "any",
+"wait": 2,
+"op": "kup",
+"a": 28
+},
+{
+"state": "any",
+"wait": 60,
+"op": "dump",
+"a": 20
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 260,
+"b": 352
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 150,
+"op": "dump",
+"a": 21
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 488,
+"b": 218
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 60,
+"op": "dump",
+"a": 22
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 480,
+"b": 106
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 40,
+"op": "dump",
+"a": 23
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 490,
+"b": 36
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 150,
+"op": "dump",
+"a": 24
+},
+{
+"state": "any",
+"wait": 4,
+"op": "kdown",
+"a": 28
+},
+{
+"state": "any",
+"wait": 2,
+"op": "kup",
+"a": 28
+},
+{
+"state": "any",
+"wait": 40,
+"op": "dump",
+"a": 25
+},
+{
+"state": "any",
+"wait": 4,
+"op": "kdown",
+"a": 28
+},
+{
+"state": "any",
+"wait": 2,
+"op": "kup",
+"a": 28
+},
+{
+"state": "any",
+"wait": 80,
+"op": "dump",
+"a": 26
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 490,
+"b": 36
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 40,
+"op": "dump",
+"a": 27
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 490,
+"b": 36
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 150,
+"op": "dump",
+"a": 28
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 488,
+"b": 218
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 60,
+"op": "dump",
+"a": 29
+},
+{
+"state": "any",
+"wait": 2,
+"op": "rdown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "rup"
+},
+{
+"state": "any",
+"wait": 20,
+"op": "move",
+"a": 54,
+"b": 132
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": 5,
+"wait": 300,
+"op": "kdown",
+"a": 23
+},
+{
+"state": 5,
+"wait": 2,
+"op": "kup",
+"a": 23
+},
+{
+"state": 5,
+"wait": 20,
+"op": "kdown",
+"a": 19
+},
+{
+"state": 5,
+"wait": 2,
+"op": "kup",
+"a": 19
+},
+{
+"state": 5,
+"wait": 20,
+"op": "kdown",
+"a": 30
+},
+{
+"state": 5,
+"wait": 2,
+"op": "kup",
+"a": 30
+},
+{
+"state": 5,
+"wait": 20,
+"op": "kdown",
+"a": 20
+},
+{
+"state": 5,
+"wait": 2,
+"op": "kup",
+"a": 20
+},
+{
+"state": 5,
+"wait": 20,
+"op": "kdown",
+"a": 20
+},
+{
+"state": 5,
+"wait": 2,
+"op": "kup",
+"a": 20
+},
+{
+"state": 5,
+"wait": 20,
+"op": "kdown",
+"a": 21
+},
+{
+"state": 5,
+"wait": 2,
+"op": "kup",
+"a": 21
+},
+{
+"state": 5,
+"wait": 20,
+"op": "kdown",
+"a": 28
+},
+{
+"state": 5,
+"wait": 2,
+"op": "kup",
+"a": 28
+},
+{
+"state": 5,
+"wait": 40,
+"op": "kdown",
+"a": 42
+},
+{
+"state": 5,
+"wait": 4,
+"op": "kdown",
+"a": 46
+},
+{
+"state": 5,
+"wait": 2,
+"op": "kup",
+"a": 46
+},
+{
+"state": 5,
+"wait": 4,
+"op": "kup",
+"a": 42
+},
+{
+"state": 5,
+"wait": 60,
+"op": "kdown",
+"a": 57
+},
+{
+"state": 5,
+"wait": 2,
+"op": "kup",
+"a": 57
+},
+{
+"state": "any",
+"wait": 30000,
+"op": "dump",
+"a": 40
+},
+{
+"state": "any",
+"wait": 4,
+"op": "kdown",
+"a": 57
+},
+{
+"state": "any",
+"wait": 2,
+"op": "kup",
+"a": 57
+},
+{
+"state": 2,
+"wait": 80,
+"op": "dump",
+"a": 30
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 240,
+"b": 96
+},
+{
+"state": "any",
+"wait": 30,
+"op": "dump",
+"a": 31
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 54,
+"b": 132
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 150,
+"op": "dump",
+"a": 32
+},
+{
+"state": "any",
+"wait": 2,
+"op": "move",
+"a": 488,
+"b": 218
+},
+{
+"state": "any",
+"wait": 2,
+"op": "ldown"
+},
+{
+"state": "any",
+"wait": 2,
+"op": "lup"
+},
+{
+"state": "any",
+"wait": 60,
+"op": "dump",
+"a": 33
+}
+]

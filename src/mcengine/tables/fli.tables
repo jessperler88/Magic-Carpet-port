@@ -1,0 +1,12 @@
+# FLI cue scripts of carpet.exe (cue_script_step_17d80): 7-byte records {u16 frame, char op, i16 arg,
+# u16 unused}, consumed while record.frame == the frame counter DAT_0012eac0. Each table ends with the
+# first record the interpreter can never match (frame below the previous one or 0xffff), which is
+# the next code-segment data; it is part of the table so the original's look-ahead read is exact.
+fli_cue_scroll    u8 0x516cc 14   # intro\scroll.dat (save-slot / confirm / text dialogs): 2 records
+fli_cue_levelose  u8 0x51710 42   # intro\levelose.dat: 6 records
+fli_cue_intel     u8 0x51734 28   # intro\intel.dat: 4 records
+fli_cue_intro     u8 0x5174c 882  # intro\intro.dat: 126 records (the CD intro: 2944 frames, speech banks 1..4, 12, subtitles 0..16)
+fli_cue_title01   u8 0x51ab8 112  # intro\title-01.dat: 16 records
+fli_cue_levelwin  u8 0x51b28 42   # intro\levelw1.dat and levelw2.dat: 6 records
+fli_cue_logo      u8 0x51b70 28   # intro\logo.dat: 4 records
+fli_cue_outro     u8 0x51b88 56   # intro\outro.dat: 8 records

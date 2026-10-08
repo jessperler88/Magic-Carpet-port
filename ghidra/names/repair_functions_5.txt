@@ -1,0 +1,5 @@
+# round-3 additions: real entries found by agent G
+0x000284d0   # DAC entry 0 = blue asm routine (was 0x284cf, one byte early)
+0x0004d140   # ui_draw_icon scaled variant hidden inside ui_draw_icon_4d0dd
+0x0006622c   # BIOS int 16h keyboard poll used by input_bios_read_key_ascii_5bff8
+0x00065a95   # crt strtol entry (agent H)

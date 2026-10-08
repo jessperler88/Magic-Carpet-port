@@ -1,0 +1,19 @@
+# God mode: the wizard survives damage while it is on, dies without it.
+# (After tick 110: the spawn's own invulnerability, 100 ticks, has run out - it would hide the test.)
+name god mode
+level 1
+
+120 god on
+122 assert_god me on
+125 damage 50000                # five times the wizard's health
+130 assert_alive me
+130 assert_health me == max
+130 assert_mana me == max
+
+135 god off
+137 assert_god me off
+150 damage 4000
+154 assert_alive me
+154 assert_health me < 10000
+160 damage 50000
+165 assert_dead me

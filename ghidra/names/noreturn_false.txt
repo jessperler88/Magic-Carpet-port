@@ -1,0 +1,7 @@
+# functions falsely marked no-return by the Discovered analyzer (all return normally)
+0x00035560
+0x00010bc0
+0x00049720
+0x00035080
+0x00035240
+0x0003e6e0

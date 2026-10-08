@@ -1,0 +1,146 @@
+// `mcport <dir> rts ...` and the JSON dumps (rts_run.h). Round 10 task A.
+#define _CRT_SECURE_NO_WARNINGS
+#include "rts_run.h"
+#include "mode_level.h"
+#include "mode_dump.h"
+#include "game.h"
+#include "mclog.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <filesystem>
+
+namespace {
+long        s_dump_every = 0;
+std::string s_dump_dir;
+bool        s_dump_final = false;
+long        s_quit_after = 0;
+long        s_last_tick = -1;       // the last ticks_run rts_after_tick saw (the final dump's number)
+long        s_last_dump = -1;       // ticks_run of the last dump written (no duplicate final dump)
+std::string (*s_extra)() = nullptr;
+
+bool write_dump(const std::string &path, long ticks_run) {
+    const std::string extra = s_extra ? s_extra() : std::string();
+    return mode_dump_write(path.c_str(), ticks_run, extra.empty() ? nullptr : extra.c_str());
+}
+
+std::string dump_path(const char *name) {
+    if (s_dump_dir.empty()) return name;
+    std::error_code ec;
+    std::filesystem::create_directories(s_dump_dir, ec);
+    return (std::filesystem::path(s_dump_dir) / name).string();
+}
+} // namespace
+
+void dump_configure(long every, const char *dir, bool final_dump) {
+    s_dump_every = every > 0 ? every : 0;
+    s_dump_dir = dir ? dir : "";
+    s_dump_final = final_dump;
+}
+
+void dump_configure_from_env() {
+    if (const char *e = std::getenv("MC_DUMP_EVERY")) s_dump_every = std::atol(e) > 0 ? std::atol(e) : 0;
+    if (const char *e = std::getenv("MC_DUMP_DIR")) s_dump_dir = e;
+    if (const char *e = std::getenv("MC_DUMP_FINAL")) s_dump_final = std::atoi(e) != 0;
+}
+
+bool dump_enabled() { return s_dump_every > 0 || s_dump_final; }
+void dump_set_extra(std::string (*fn)()) { s_extra = fn; }
+
+std::string dump_now(long ticks_run) {
+    char name[64];
+    std::snprintf(name, sizeof name, "dump_%ld.json", ticks_run);
+    const std::string path = dump_path(name);
+    if (!write_dump(path, ticks_run)) mclog(MCLOG_WARN, "dump: cannot write %s", path.c_str());
+    std::string line;
+    mode_dump_line(&line, ticks_run);
+    mclog_str(MCLOG_INFO, line.c_str());
+    std::fflush(stdout);
+    s_last_dump = ticks_run;
+    return path;
+}
+
+void dump_after_tick(long ticks_run) {
+    if (s_dump_every > 0 && ticks_run > 0 && ticks_run % s_dump_every == 0) dump_now(ticks_run);
+}
+
+void dump_final(long ticks_run) {
+    if (!s_dump_final || ticks_run < 0) return;
+    if (s_last_dump == ticks_run) return;           // the periodic dump of this tick is already there
+    const std::string path = dump_path("dump_final.json");
+    if (!write_dump(path, ticks_run)) mclog(MCLOG_WARN, "dump: cannot write %s", path.c_str());
+    std::string line;
+    mode_dump_line(&line, ticks_run);
+    mclog(MCLOG_INFO, "%s final", line.c_str());
+    std::fflush(stdout);
+    s_last_dump = ticks_run;
+}
+
+bool rts_parse_args(int argc, char **argv, int first, ModeParams *out, std::string *err) {
+    ModeParams p;
+    p.seed = 1;
+    p.world_size = 256;
+    p.bots = 3;
+    p.humans = 1;
+    p.flags = MODE_PARAM_DEBUG;
+    dump_configure_from_env();
+    s_quit_after = 0;
+    for (int i = first; i < argc; i++) {
+        const char *a = argv[i];
+        auto value = [&](uint32_t *dst) {
+            if (i + 1 >= argc) { *err = std::string(a) + " needs a value"; return false; }
+            char *end = nullptr;
+            const unsigned long v = std::strtoul(argv[++i], &end, 0);
+            if (!end || *end) { *err = std::string(a) + ": not a number: " + argv[i]; return false; }
+            *dst = (uint32_t)v;
+            return true;
+        };
+        uint32_t v = 0;
+        if (!std::strcmp(a, "--seed")) { if (!value(&p.seed)) return false; }
+        else if (!std::strcmp(a, "--size")) { if (!value(&p.world_size)) return false; }
+        else if (!std::strcmp(a, "--bots")) { if (!value(&p.bots)) return false; }
+        else if (!std::strcmp(a, "--map")) { if (!value(&p.map)) return false; }
+        else if (!std::strcmp(a, "--reseed")) p.flags |= MODE_PARAM_RESEED;
+        else if (!std::strcmp(a, "--debug")) p.flags |= MODE_PARAM_DEBUG;
+        else if (!std::strcmp(a, "--no-debug")) p.flags &= ~MODE_PARAM_DEBUG;
+        else if (!std::strcmp(a, "--ticks")) { if (!value(&v)) return false; s_quit_after = (long)v; }
+        else if (!std::strcmp(a, "--dump-every")) { if (!value(&v)) return false; s_dump_every = (long)v; }
+        else if (!std::strcmp(a, "--dump-final")) s_dump_final = true;
+        else if (!std::strcmp(a, "--dump-dir")) {
+            if (i + 1 >= argc) { *err = "--dump-dir needs a directory"; return false; }
+            s_dump_dir = argv[++i];
+        }
+        else { *err = std::string("unknown rts option ") + a; return false; }
+    }
+    if (p.world_size != 256) { *err = "only --size 256 until round 11"; return false; }
+    if (p.map != 0 && (p.map < 50 || p.map > 69)) { *err = "--map takes a multiplayer level 50..69"; return false; }
+    if (p.bots > 7) p.bots = 7;
+    *out = p;
+    return true;
+}
+
+long rts_quit_after_ticks() { return s_quit_after; }
+
+bool rts_begin(const char *game_dir, const ModeParams &params) {
+    if (!mode_start_run(game_dir, GAME_MODE_CONQUEST, params)) return false;
+    if (!game_level_begin(MODE_LEVEL_INDEX)) { mode_stop_run(); return false; }
+    s_last_tick = -1;
+    s_last_dump = -1;
+    mclog(MCLOG_INFO, "rts: mode %s seed %u size %u bots %u map %u%s%s", mode_name(g_mode.mode), (unsigned)params.seed,
+          (unsigned)params.world_size, (unsigned)params.bots, (unsigned)g_mode.template_level,
+          (params.flags & MODE_PARAM_RESEED) ? " (reseeded)" : "", (params.flags & MODE_PARAM_DEBUG) ? " debug" : "");
+    if (dump_enabled())
+        mclog(MCLOG_INFO, "rts: dumps every %ld ticks%s into %s", s_dump_every, s_dump_final ? " + final" : "",
+              s_dump_dir.empty() ? "the current directory" : s_dump_dir.c_str());
+    return true;
+}
+
+void rts_after_tick(long ticks_run) {
+    s_last_tick = ticks_run;
+    dump_after_tick(ticks_run);
+}
+
+void rts_end() {
+    if (mode_run_active()) dump_final(s_last_tick);
+    mode_stop_run();
+}

@@ -1,0 +1,3 @@
+# Constructor tables extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_mana_ball_thresholds   i32   0x93910   7   # DAT_00093910: mana-ball size thresholds (mana <= threshold[i] -> size i, else 7), read by mana_ball_update_sprite_25e20

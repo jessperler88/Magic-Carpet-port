@@ -1,0 +1,175 @@
+# Port round 6 (task C): scripted local player, level 44 (kraken, crab, emu, type 15, wyvern; 3 AI
+# wizards; water). Castle north of the start and three upgrades, every spell id aimed at an AI
+# wizard's castle (class 3 type 2) and at the wizards themselves, strafing / speed keys, long
+# possession phases so the balloons carry mana home. Format: src/tests/reference_player_test.cpp.
+level 44
+movie 30044
+stop 8000
+
+10 cheat 1
+12 cheat 2
+20 left 16
+20-60 face 17280 1000
+60 cast left
+100-8000 respawn
+# speed / strafe keys
+80-120 keys 1
+120-160 keys 4
+160-200 keys 8
+200-240 keys 2
+250 cheat 2
+300 cast left
+# every spell at the nearest enemy castle, from about 16 cells away
+400-2400 face_class 3 2 4096
+400 cheat 2
+410 left 0
+430 cast left
+460 left 1
+470-480 cast left
+500 left 2
+520 cast left
+560 left 3
+580 cast left
+620 left 4
+640 cast left
+680 left 5
+700 cast left
+740 left 6
+760 cast left
+800 cheat 2
+820 left 7
+840 cast left
+880 left 8
+900 cast left
+940 left 9
+960 cast left
+1000 left 10
+1020 cast left
+1060 left 11
+1080 cast left
+1120 left 12
+1140 cast left
+1200 cheat 2
+1220 left 13
+1240 cast left
+1280 left 14
+1300 cast left
+1340 left 15
+1360 cast left
+1400 left 17
+1420 cast left
+1460 left 18
+1480 cast left
+1520 left 19
+1540 cast left
+1600 cheat 2
+1620 left 20
+1640 cast left
+1680 left 21
+1700 cast left
+1740 left 22
+1760 cast left
+1800 left 23
+1820-1830 cast left
+1900 left 0
+1920-1930 cast left
+2000 cheat 2
+2020 left 16
+2040 cast left
+2100 left 7
+2120 cast left
+2200 left 8
+2220 cast left
+# possession of mana balls; the balloons collect them
+2400-3600 face_class 10 39
+2410 right 3
+2420 cast right
+2480 cast right
+2540 cast right
+2600 cast right
+2660 cast right
+2720 cast right
+2780 cast right
+2840 cast right
+2900 cast right
+2960 cast right
+3020 cast right
+3080 cast right
+3140 cast right
+3200 cast right
+3260 cast right
+3320 cast right
+3380 cast right
+3440 cast right
+3500 cast right
+3560 cast right
+3600 cheat 2
+3620 left 16
+3640 cast left
+# the wizards themselves
+3700-5600 face_class 3 1 3072
+3700 cheat 1
+3702 cheat 2
+3720 left 0
+3722 right 15
+3740-3750 cast left
+3800 cast right
+3860 left 11
+3880 cast left
+3940 left 13
+3960 cast left
+4000 cheat 2
+4020 left 21
+4040 cast left
+4100 left 2
+4120 cast left
+4200 left 0
+4220-4230 cast left
+4300 cast right
+4400 cheat 2
+4420 left 18
+4440 cast left
+4500 left 20
+4520 cast left
+4600 left 23
+4620-4640 cast left
+4700 left 17
+4720 cast left
+4800 cheat 2
+4820 left 10
+4840 cast left
+4900 left 9
+4920 cast left
+5000 left 6
+5020 cast left
+5100 left 0
+5120-5130 cast left
+5200 cast right
+5300-5310 cast left
+5400 cast right
+5600-7000 face_class 10 39
+5600 cheat 1
+5602 cheat 2
+5610 right 3
+5620 cast right
+5700 cast right
+5780 cast right
+5860 cast right
+5940 cast right
+6020 cast right
+6100 cast right
+6180 cast right
+6260 cast right
+6340 cast right
+6420 cast right
+6500 cast right
+6600 cheat 2
+6620 left 16
+6640 cast left
+7000-8000 face_class 5 -1 2048
+7000 left 0
+7020-7030 cast left
+7200-7210 cast left
+7400-7410 cast left
+7600-7610 cast left
+7800-7810 cast left

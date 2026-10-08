@@ -1,0 +1,6 @@
+# Landscape renderer constants extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_eye_offset_default     i32  0x93b1c  1   # DAT_00093b1c: stereo eye offset added to width/2 (0 in mono; render_view sets +-5 / +-pitch/40 for the stereo paths)
+g_slope_smooth_default   i32  0x93f7c  2   # DAT_00093f7c / DAT_00093f80: initial terrain-slope camera offsets (render_view_2f6e0 low-pass state)
+g_sprite_mode_lit        u8   0x93f48  6   # DAT_00093f48: shade group -> pixel mode (lit things); used by the Thing renderer, kept here with its fogged twin
+g_sprite_mode_fogged     u8   0x93f4e  6   # DAT_00093f4e: shade group -> pixel mode (fogged things)

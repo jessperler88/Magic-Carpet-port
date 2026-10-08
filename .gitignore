@@ -1,0 +1,30 @@
+# ---- never in the repository: Bullfrog's game and anything derived from it ----
+# The retail game (your own copy goes here, or point CMake's MC_GAME_DIR / the tools at it)
+/MagicCarpet/
+# Everything decoded / dumped from the game data, reference dumps of the original, MC2 / GOG extracts
+/extracted/
+# Ghidra database, decompiler output, string dumps, FID databases, logs
+/ghidra/project/
+/ghidra/export/*
+!/ghidra/export/carpet_functions.csv
+/ghidra/export_prev/
+/ghidra/fid/
+/ghidra/*.log
+/ghidra/*.err
+# Tables extracted from carpet.exe: generated into the build tree at configure time (src/CMakeLists.txt)
+/src/mcengine/gen/
+# Third-party notes whose licence is unknown (see docs/README for where to find them)
+/docs/reference/
+
+# ---- build outputs and local files ----
+/build/
+/build_*/
+/out/
+*.log
+*.ppm
+*.pyc
+__pycache__/
+.vs/
+.vscode/
+CMakeUserPresets.json
+mcport.ini

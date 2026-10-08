@@ -1,0 +1,3 @@
+# Thing core tables extracted from carpet.exe (see tools/port/gen_exe_tables.py).
+# name  ctype  addr  count  # comment
+g_draw_type_frames   u8   0x94344  37   # DAT_00094344: SpriteDesc.draw_type -> Thing.draw_type (last animation frame), read by thing_set_sprite_35240

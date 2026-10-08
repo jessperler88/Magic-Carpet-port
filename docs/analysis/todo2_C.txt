@@ -1,0 +1,105 @@
+# Region C: 0x3c000-0x4c000. Unnamed functions >= 32 bytes: 88 (20249 bytes)
+# address,size,callers,callees
+0x0003c1d1,32,0,1
+0x0003c310,76,1,3
+0x0003c4f0,76,1,3
+0x0003d100,93,0,4
+0x0003d5f0,33,2,0
+0x0003d7ce,359,0,2
+0x0003daeb,38,0,1
+0x0003dc10,166,1,0
+0x0003e4b0,170,3,0
+0x0003e5f0,62,1,1
+0x0003e630,115,0,0
+0x0003e72e,64,0,0
+0x0003e860,51,1,0
+0x0003e8f0,59,1,0
+0x0003e9a0,131,0,1
+0x0003ef10,761,1,0
+0x0003f210,41,5,0
+0x0003f240,114,1,1
+0x0003f2c0,114,1,1
+0x0003f360,1745,2,12
+0x0003fa40,432,1,7
+0x0003fc00,1598,2,11
+0x00040240,124,3,1
+0x000404b9,296,0,0
+0x0004099c,65,0,0
+0x000409e0,161,1,3
+0x00040a81,39,0,0
+0x00040b70,755,2,6
+0x00040e70,629,1,1
+0x000410f0,406,1,1
+0x00041290,115,1,1
+0x00041310,139,6,0
+0x00041404,159,0,4
+0x000414b6,39,1,2
+0x00041610,84,1,1
+0x00041670,84,1,1
+0x00041720,600,2,6
+0x000419a0,1363,2,6
+0x00041f00,247,1,4
+0x00042170,101,1,0
+0x00042200,321,3,1
+0x00042370,237,1,0
+0x00042460,192,1,0
+0x000425d1,135,0,2
+0x0004265c,260,0,6
+0x000439ec,132,0,0
+0x00043a70,276,0,0
+0x00043bc8,253,0,5
+0x00043ee0,69,1,4
+0x00043ff0,163,1,3
+0x00044150,950,2,15
+0x000451fb,325,0,4
+0x00045530,612,1,12
+0x00046470,311,1,6
+0x000465b0,255,1,4
+0x000466af,424,0,7
+0x00046857,114,0,1
+0x00046ae0,683,2,5
+0x00046d8b,55,0,0
+0x00046dd0,71,1,1
+0x00046e17,49,0,0
+0x00047584,34,0,0
+0x00049c40,94,1,1
+0x00049ccc,53,0,1
+0x00049d10,55,0,3
+0x00049d50,37,1,1
+0x00049dc2,49,0,1
+0x00049de0,86,2,2
+0x00049e40,86,1,2
+0x00049e96,72,0,0
+0x00049ede,40,0,0
+0x00049f0c,42,0,0
+0x00049f3c,38,0,0
+0x00049ff0,55,0,1
+0x0004a16e,289,0,2
+0x0004a660,288,18,3
+0x0004aa81,210,0,3
+0x0004ab60,86,0,1
+0x0004ad60,32,0,0
+0x0004b4a0,47,0,1
+0x0004b4d0,45,2,1
+0x0004bbf0,137,2,6
+0x0004bc80,112,1,4
+0x0004bcf0,32,1,1
+0x0004bd10,180,1,3
+0x0004bee0,127,1,1
+0x0004bf60,65,1,0
+0x0004bfb0,235,1,6
+
+# Existing names in this range marked uncertain (13): re-read and confirm or correct
+0x0003e080,player_log_position_3e080,UNCERTAIN: Appends thing x
+0x00042010,castle_mana_tick_42010,UNCERTAIN: castle (+0x1a>0) moves 10% of +0x88 to balloon; updates home pos (+0x96) (partially read)
+0x00043db0,scenery_stone_update_43db0,UNCERTAIN: class 2 state 3 Standing stone (not read)
+0x00043de0,scenery_dolmen_update_43de0,UNCERTAIN: class 2 state 6 (not read)
+0x00043e60,scenery_badstone_update_43e60,UNCERTAIN: class 2 state 9 (not read)
+0x00046960,creature_sound_timer_46960,UNCERTAIN: countdown +0x3a (propagated along +0x36 chain); when 0: if dist to listener < 0x2400000 set +0x30=sqrt(dist) and reload 0x10
+0x00047760,spell_shield_update_47760,UNCERTAIN: class 12 state 12 = spell 4 phase 0 (not read)
+0x00047840,spell_earthquake_update_47840,UNCERTAIN: state 18 = spell 6 (not read)
+0x000479f0,spell_meteor_update_479f0,UNCERTAIN: state 21 = spell 7 (not read)
+0x00047d40,spell_crater_update_47d40,UNCERTAIN: state 27 = spell 9 (not read)
+0x00048490,spell_rebound_update_48490,UNCERTAIN: state 42 = spell 14 (not read)
+0x00048510,spell_lightning_update_48510,UNCERTAIN: state 45 = spell 15 (not read)
+0x000492e0,spell_mini_fireball_update_492e0,UNCERTAIN: state 69 = spell 23 (not read)

@@ -1,0 +1,24 @@
+# round 4: functions that start on padding bytes in front of the real (data-referenced or called) entry;
+# none is referenced by code or by a handler-table pointer (checked against code_ptr_targets.txt and carpet_calls.csv)
+0x00026f0e
+0x0003411a
+0x00035457
+0x00035685
+0x00035b3c
+0x00035bbc
+0x00035e5e
+0x00035f8e
+0x0003618e
+0x0003650e
+0x0003749e
+0x0003772e
+0x0003784e
+0x00037b5e
+0x0003894e
+0x00038b6c
+0x00038c3e
+0x00038f0e
+0x000392fe
+0x0003953e
+0x0003983e
+0x0003992e
